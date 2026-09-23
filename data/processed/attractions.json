@@ -1,0 +1,121 @@
+{
+  "_meta": {
+    "schema_version": "0.1.0",
+    "data_type": "sample",
+    "note": "示例数据（sample data），仅用于开发与测试流程打通。name / description 为通用介绍性文字。涉及真实世界事实的字段一律留空，不做编造：reservation_required、entry_method、source_url 固定为 null；passport_booking_status 固定为 \"unknown\"。接入官方数据源后再行填充。",
+    "field_conventions": {
+      "reservation_required": "bool | null，null 表示尚未核实",
+      "passport_booking_status": "枚举字符串：supported | not_supported | unknown",
+      "entry_method": "string | null，null 表示尚未核实",
+      "source_url": "string | null，null 表示尚无已核实的信息来源"
+    },
+    "created_at": "2026-09-23",
+    "updated_at": "2026-09-23"
+  },
+  "attractions": [
+    {
+      "attraction_id": "beijing-forbidden-city",
+      "city_id": "beijing",
+      "name": "故宫博物院",
+      "description": "位于北京中轴线中心的明清两代皇家宫殿建筑群，是中国现存规模最大的古代宫殿建筑群之一。",
+      "reservation_required": null,
+      "passport_booking_status": "unknown",
+      "entry_method": null,
+      "alternative_attraction_ids": [],
+      "source_url": null,
+      "updated_at": "2026-09-23"
+    },
+    {
+      "attraction_id": "beijing-tiananmen-square",
+      "city_id": "beijing",
+      "name": "天安门广场",
+      "description": "位于北京市中心的城市广场，北侧为天安门城楼，广场及周边分布着人民英雄纪念碑等建筑。",
+      "reservation_required": null,
+      "passport_booking_status": "unknown",
+      "entry_method": null,
+      "alternative_attraction_ids": [],
+      "source_url": null,
+      "updated_at": "2026-09-23"
+    },
+    {
+      "attraction_id": "beijing-mutianyu-great-wall",
+      "city_id": "beijing",
+      "name": "慕田峪长城",
+      "description": "位于北京怀柔区的长城段落，周边植被覆盖率较高，相较其他段落游客密度较低。",
+      "reservation_required": null,
+      "passport_booking_status": "unknown",
+      "entry_method": null,
+      "alternative_attraction_ids": [
+        "beijing-badaling-great-wall"
+      ],
+      "source_url": null,
+      "updated_at": "2026-09-23"
+    },
+    {
+      "attraction_id": "beijing-badaling-great-wall",
+      "city_id": "beijing",
+      "name": "八达岭长城",
+      "description": "位于北京延庆区的长城段落，是长城中较早向公众开放、交通接驳较为便利的段落之一。",
+      "reservation_required": null,
+      "passport_booking_status": "unknown",
+      "entry_method": null,
+      "alternative_attraction_ids": [
+        "beijing-mutianyu-great-wall"
+      ],
+      "source_url": null,
+      "updated_at": "2026-09-23"
+    },
+    {
+      "attraction_id": "shanghai-the-bund",
+      "city_id": "shanghai",
+      "name": "外滩",
+      "description": "位于黄浦江西岸的历史街区，以近代各国风格建筑群和沿江观景步道闻名。",
+      "reservation_required": null,
+      "passport_booking_status": "unknown",
+      "entry_method": null,
+      "alternative_attraction_ids": [],
+      "source_url": null,
+      "updated_at": "2026-09-23"
+    },
+    {
+      "attraction_id": "shanghai-yu-garden",
+      "city_id": "shanghai",
+      "name": "豫园",
+      "description": "位于上海市老城厢的古典园林，周边为豫园商城传统商业街区。",
+      "reservation_required": null,
+      "passport_booking_status": "unknown",
+      "entry_method": null,
+      "alternative_attraction_ids": [],
+      "source_url": null,
+      "updated_at": "2026-09-23"
+    },
+    {
+      "attraction_id": "xian-terracotta-army",
+      "city_id": "xian",
+      "name": "秦始皇兵马俑博物馆",
+      "description": "位于西安市临潼区，展出秦始皇陵陪葬坑出土的陶质兵马俑。",
+      "reservation_required": null,
+      "passport_booking_status": "unknown",
+      "entry_method": null,
+      "alternative_attraction_ids": [
+        "xian-city-wall"
+      ],
+      "source_url": null,
+      "updated_at": "2026-09-23"
+    },
+    {
+      "attraction_id": "xian-city-wall",
+      "city_id": "xian",
+      "name": "西安城墙",
+      "description": "环绕西安老城区的明代城墙，保存较为完整，可沿城墙顶部步行或骑行。",
+      "reservation_required": null,
+      "passport_booking_status": "unknown",
+      "entry_method": null,
+      "alternative_attraction_ids": [
+        "xian-terracotta-army"
+      ],
+      "source_url": null,
+      "updated_at": "2026-09-23"
+    }
+  ]
+}

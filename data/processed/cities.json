@@ -1,0 +1,80 @@
+{
+  "_meta": {
+    "schema_version": "0.1.0",
+    "data_type": "sample",
+    "note": "示例数据（sample data），仅用于开发与测试流程打通。description / transport / tips 为通用说明性文字，不代表任何真实的预订、预约或票价信息。",
+    "created_at": "2026-09-23",
+    "updated_at": "2026-09-23"
+  },
+  "cities": [
+    {
+      "city_id": "beijing",
+      "city_name": "北京",
+      "description": "中国首都，历史文化名城，拥有故宫、长城等世界知名景点，是入境游客到访率较高的城市之一。",
+      "transport": "地铁与公交网络覆盖主要景点；机场、火车站均有轨道交通或机场大巴接驳；市内可使用出租车与网约车。",
+      "tips": [
+        "本条为示例数据，出行前请通过官方渠道核实最新信息。",
+        "热门景点通常需要提前预约，具体规则请以景区官方公布为准。",
+        "入境旅客建议随身携带护照，部分场所可能需要查验。"
+      ],
+      "app_ids": [
+        "wechat",
+        "alipay",
+        "amap",
+        "didi",
+        "trip-com"
+      ],
+      "attraction_ids": [
+        "beijing-forbidden-city",
+        "beijing-tiananmen-square",
+        "beijing-mutianyu-great-wall",
+        "beijing-badaling-great-wall"
+      ]
+    },
+    {
+      "city_id": "shanghai",
+      "city_name": "上海",
+      "description": "中国最大的经济中心城市，外滩与陆家嘴隔黄浦江相望，兼具近代建筑群与现代化城市天际线。",
+      "transport": "地铁网络密集，可直达机场与主要商圈；跨黄浦江可使用地铁、轮渡或隧道公交。",
+      "tips": [
+        "本条为示例数据，出行前请通过官方渠道核实最新信息。",
+        "外滩等沿江区域在节假日人流密集，建议错峰前往。",
+        "入境旅客建议随身携带护照，部分场所可能需要查验。"
+      ],
+      "app_ids": [
+        "wechat",
+        "alipay",
+        "amap",
+        "didi",
+        "trip-com"
+      ],
+      "attraction_ids": [
+        "shanghai-the-bund",
+        "shanghai-yu-garden"
+      ]
+    },
+    {
+      "city_id": "xian",
+      "city_name": "西安",
+      "description": "中国西北地区的历史文化名城，以秦始皇兵马俑和保存较为完整的古代城墙闻名。",
+      "transport": "市区地铁可覆盖主要景点与火车站；前往兵马俑可乘坐旅游专线或城际列车。",
+      "tips": [
+        "本条为示例数据，出行前请通过官方渠道核实最新信息。",
+        "兵马俑等热门景点通常需要提前预约，具体规则请以景区官方公布为准。",
+        "入境旅客建议随身携带护照，部分场所可能需要查验。"
+      ],
+      "app_ids": [
+        "wechat",
+        "alipay",
+        "amap",
+        "didi",
+        "trip-com",
+        "baidu-translate"
+      ],
+      "attraction_ids": [
+        "xian-terracotta-army",
+        "xian-city-wall"
+      ]
+    }
+  ]
+}

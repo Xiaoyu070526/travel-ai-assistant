@@ -1,0 +1,80 @@
+{
+  "_meta": {
+    "schema_version": "0.1.0",
+    "data_type": "sample",
+    "note": "示例数据（sample data），仅用于开发与测试流程打通。description 为通用功能介绍。download_links 中的链接一律为 null，未做编造，需人工核实后再填充。",
+    "field_conventions": {
+      "download_links": "object，键为 ios / android / official_website，值为 string | null；null 表示链接尚未核实"
+    },
+    "created_at": "2026-09-23",
+    "updated_at": "2026-09-23"
+  },
+  "apps": [
+    {
+      "app_id": "wechat",
+      "name": "微信（WeChat）",
+      "category": "通讯社交",
+      "description": "常用的即时通讯应用，支持文字、语音与视频通话，并可通过小程序获取多种日常服务。",
+      "download_links": {
+        "ios": null,
+        "android": null,
+        "official_website": null
+      }
+    },
+    {
+      "app_id": "alipay",
+      "name": "支付宝（Alipay）",
+      "category": "支付",
+      "description": "常用的移动支付应用，支持扫码支付，并提供交通出行、生活缴费等服务入口。",
+      "download_links": {
+        "ios": null,
+        "android": null,
+        "official_website": null
+      }
+    },
+    {
+      "app_id": "amap",
+      "name": "高德地图（Amap）",
+      "category": "地图导航",
+      "description": "提供地点查询、公交地铁换乘方案以及驾车、步行、骑行导航。",
+      "download_links": {
+        "ios": null,
+        "android": null,
+        "official_website": null
+      }
+    },
+    {
+      "app_id": "didi",
+      "name": "滴滴出行（DiDi）",
+      "category": "出行打车",
+      "description": "网约车与出租车叫车应用，覆盖国内多个城市，支持多种车型选择。",
+      "download_links": {
+        "ios": null,
+        "android": null,
+        "official_website": null
+      }
+    },
+    {
+      "app_id": "trip-com",
+      "name": "Trip.com（携程国际版）",
+      "category": "旅行预订",
+      "description": "面向国际旅客的旅行服务平台，提供酒店、机票、火车票等品类的查询与预订入口。",
+      "download_links": {
+        "ios": null,
+        "android": null,
+        "official_website": null
+      }
+    },
+    {
+      "app_id": "baidu-translate",
+      "name": "百度翻译",
+      "category": "翻译",
+      "description": "支持文本、语音与拍照翻译，覆盖多种语言，可用于旅行中的语言沟通场景。",
+      "download_links": {
+        "ios": null,
+        "android": null,
+        "official_website": null
+      }
+    }
+  ]
+}
