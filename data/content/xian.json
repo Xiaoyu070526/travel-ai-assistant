@@ -1,0 +1,284 @@
+{
+  "city": {
+    "name": "西安",
+    "name_en": "Xi'an",
+    "description": "中国四大古都之一，十三朝古都，丝绸之路起点。兵马俑、大雁塔、古城墙等历史遗迹见证中华文明五千年。",
+    "highlights": [
+      "兵马俑是世界第八大奇迹，必看",
+      "完整保存的明代古城墙可骑行环游",
+      "回民街汇聚西北特色小吃",
+      "大唐不夜城夜间灯光秀是网红打卡地"
+    ],
+    "transport": {
+      "airport": "西安咸阳国际机场(XIY)",
+      "airport_to_city": "机场大巴约60分钟 / 地铁14号线约50分钟 / 打车约120元",
+      "city_transport": "地铁+公交+共享单车，支付宝乘车码可用",
+      "tips": [
+        "机场到市区较远（约40公里），建议选地铁14号线",
+        "地铁支持支付宝扫码",
+        "古城墙内道路较窄，高峰期易堵车",
+        "到兵马俑建议在火车站东广场乘游5路(306路)"
+      ]
+    },
+    "notes": [
+      "兵马俑必须提前预约，旺季一票难求",
+      "古城墙南门(永宁门)是主要入口，保存最完整",
+      "陕西历史博物馆免费但需预约，非常难约",
+      "回民街主街偏商业化，建议去旁边的大皮院、洒金桥",
+      "夏季炎热，兵马俑博物馆内无空调，备好饮用水"
+    ],
+    "apps": [
+      {
+        "name": "支付宝",
+        "purpose": "支付、乘车码、景点预约",
+        "download": "https://www.alipay.com",
+        "required": true
+      },
+      {
+        "name": "高德地图",
+        "purpose": "导航、公交查询",
+        "download": "https://mobile.amap.com",
+        "required": true
+      },
+      {
+        "name": "携程",
+        "purpose": "兵马俑/博物馆预约",
+        "download": "https://www.ctrip.com",
+        "required": false
+      },
+      {
+        "name": "西安地铁",
+        "purpose": "西安地铁线路查询",
+        "download": "App Store",
+        "required": false
+      }
+    ],
+    "updated_at": "2026-09-27",
+    "essentials": {
+      "sim_data": "西安咸阳国际机场到达层可购本地 SIM（护照实名）；更推荐行前购买中国 eSIM（Airalo / Holafly），落地即用。",
+      "payment": "支付宝 / 微信绑外卡后通用；地铁、公交支持支付宝乘车码。兵马俑等景区现场购票支持现金与扫码。绑卡失败可用 Tour Pass 或现金兜底。",
+      "hotel_booking": "老城区（钟楼 / 回民街）民宿多，务必确认外宾接待资质；国际连锁酒店集中在高新与曲江片区。在携程 / Booking 筛选「可接待外宾」标签预订。",
+      "ride_hailing": "滴滴 / 高德打车支持外卡；回民街等老城区部分路段车流受限，建议走到主路叫车。出租车起步价低，现金或扫码均可。",
+      "police_registration": "酒店前台凭护照代办公安住宿登记；民宿须确认经营者登记资质。",
+      "public_transport": "地铁：自助售票机多数支持护照购票；高铁：12306 护照购票、人工窗口取票。机场大巴 25 元直达钟楼，比打车划算。"
+    }
+  },
+  "attractions": [
+    {
+      "id": "bingmayong",
+      "name": "兵马俑",
+      "name_en": "Terracotta Army",
+      "category": "世界遗产/博物馆",
+      "description": "秦始皇陵陪葬坑，世界第八大奇迹， UNESCO世界遗产，出土陶俑8000余件",
+      "passport": {
+        "bookable_online": true,
+        "platform": "兵马俑官方 / 秦始皇帝陵博物院公众号 / 携程 / 美团",
+        "passport_accepted": true,
+        "requires_chinese_phone": false,
+        "advance_booking_days": 3,
+        "price_cny": 120,
+        "price_notes": "旺季120元/淡季80元，16岁以下免费"
+      },
+      "entry": {
+        "location": "西安市临潼区秦陵北路",
+        "nearest_metro": "无直达地铁，建议地铁9号线华清池站转公交/打车",
+        "hours": "08:30-17:00（旺季）/ 08:30-16:30（淡季）",
+        "entry_method": "凭护照原件+预约码/购票凭证入园",
+        "tips": [
+          "必须从1号坑→3号坑→2号坑顺序参观，不走回头路",
+          "建议请官方讲解员（90元）或租电子导览（30元）",
+          "博物馆内无空调，夏季非常闷热",
+          "避开周末和节假日，人非常多"
+        ]
+      },
+      "alternatives": [
+        {
+          "name": "华清池",
+          "reason": "与兵马俑同线，唐代皇家温泉，长恨歌演出值得一看"
+        },
+        {
+          "name": "陕西历史博物馆",
+          "reason": "免费，收藏37万件文物，但预约极难"
+        }
+      ],
+      "sources": [
+        "https://www.bmy.com.cn",
+        "https://www.qinlingmuseum.com"
+      ],
+      "status": "✅ 可订",
+      "updated_at": "2026-09-27"
+    },
+    {
+      "id": "guchengqiang",
+      "name": "古城墙",
+      "name_en": "City Wall",
+      "category": "古迹/户外",
+      "description": "中国现存最完整的古代城垣，明代建筑，周长13.7公里，可骑行环游",
+      "passport": {
+        "bookable_online": true,
+        "platform": "西安城墙官方公众号 / 携程 / 现场购票",
+        "passport_accepted": true,
+        "requires_chinese_phone": false,
+        "advance_booking_days": 0,
+        "price_cny": 54,
+        "price_notes": "成人54元，自行车租赁45元/3小时"
+      },
+      "entry": {
+        "location": "西安市碑林区南大街2号（永宁门）",
+        "nearest_metro": "永宁门站(2号线) 直达南门",
+        "hours": "08:00-22:00（南门）/ 08:00-18:00（其他门）",
+        "entry_method": "凭护照原件+购票凭证从任一城门登城",
+        "tips": [
+          "南门(永宁门)最壮观，有吊桥和闸楼",
+          "建议租自行车骑行（13.7公里全程约1.5小时）",
+          "傍晚登城可看日落+夜景，最美",
+          "城墙上无遮挡，夏季注意防晒"
+        ]
+      },
+      "alternatives": [
+        {
+          "name": "钟楼/鼓楼",
+          "reason": "城墙中心地标，联票50元，夜景更漂亮"
+        },
+        {
+          "name": "大明宫遗址公园",
+          "reason": "唐代皇宫遗址，免费区域很大，适合散步"
+        }
+      ],
+      "sources": [
+        "https://www.xacitywall.com"
+      ],
+      "status": "✅ 可订",
+      "updated_at": "2026-09-27"
+    },
+    {
+      "id": "dayanta",
+      "name": "大雁塔",
+      "name_en": "Giant Wild Goose Pagoda",
+      "category": "古迹/佛教",
+      "description": "唐代玄奘法师译经之地，西安标志性建筑，周边大唐不夜城是夜间网红街区",
+      "passport": {
+        "bookable_online": true,
+        "platform": "大慈恩寺官方 / 携程 / 现场",
+        "passport_accepted": true,
+        "requires_chinese_phone": false,
+        "advance_booking_days": 0,
+        "price_cny": 40,
+        "price_notes": "大慈恩寺40元，登大雁塔另收25元"
+      },
+      "entry": {
+        "location": "西安市雁塔区雁塔路南段11号",
+        "nearest_metro": "大雁塔站(3/4号线)",
+        "hours": "08:00-17:00（大慈恩寺）/ 08:00-16:30（登塔）",
+        "entry_method": "凭护照原件+购票凭证入园",
+        "tips": [
+          "建议下午游览大慈恩寺，傍晚出来正好逛大唐不夜城",
+          "大唐不夜城夜间有音乐喷泉（19:00/21:00）和街头表演",
+          "大雁塔北广场是拍摄大雁塔全景的最佳位置",
+          "周边大悦城、威斯汀等商场有餐饮"
+        ]
+      },
+      "alternatives": [
+        {
+          "name": "小雁塔",
+          "reason": "同样唐代古塔， free admission，旁边是西安博物院"
+        },
+        {
+          "name": "大唐芙蓉园",
+          "reason": "仿唐皇家园林，夜景演出《梦回大唐》值得一看"
+        }
+      ],
+      "sources": [
+        "https://www.xadayanta.com"
+      ],
+      "status": "✅ 可订",
+      "updated_at": "2026-09-27"
+    },
+    {
+      "id": "huiminjie",
+      "name": "回民街",
+      "name_en": "Muslim Quarter",
+      "category": "美食/文化",
+      "description": "西安最著名的美食文化街区，汇聚肉夹馍、羊肉泡馍、凉皮等西北特色小吃",
+      "passport": {
+        "bookable_online": false,
+        "platform": "无需预订",
+        "passport_accepted": true,
+        "requires_chinese_phone": false,
+        "advance_booking_days": 0,
+        "price_cny": 0,
+        "price_notes": "免费（餐饮自费）"
+      },
+      "entry": {
+        "location": "西安市莲湖区北院门",
+        "nearest_metro": "钟楼站(2号线) 步行5分钟",
+        "hours": "全天开放（店铺一般营业至23:00）",
+        "entry_method": "直接步行进入",
+        "tips": [
+          "主街(北院门)偏商业化，建议去旁边的大皮院、洒金桥",
+          "必吃：肉夹馍、羊肉泡馍、凉皮、biangbiang面、柿子饼",
+          "老米家、老孙家泡馍比较有名",
+          "注意：回民街不吃猪肉，尊重当地习俗"
+        ]
+      },
+      "alternatives": [
+        {
+          "name": "永兴坊",
+          "reason": "非遗美食街区，更整洁，有摔碗酒网红打卡"
+        },
+        {
+          "name": "洒金桥",
+          "reason": "本地人去的更多，价格比回民街主街便宜"
+        }
+      ],
+      "sources": [
+        "https://www.xiantravel.cn"
+      ],
+      "status": "✅ 可订",
+      "updated_at": "2026-09-27"
+    },
+    {
+      "id": "shanxi",
+      "name": "陕西历史博物馆",
+      "name_en": "Shaanxi History Museum",
+      "category": "博物馆",
+      "description": "中国第一座现代化国家级博物馆，收藏37万件文物，国宝级文物众多",
+      "passport": {
+        "bookable_online": true,
+        "platform": "陕西历史博物馆官方公众号 / 携程（代预约）",
+        "passport_accepted": true,
+        "requires_chinese_phone": true,
+        "advance_booking_days": 7,
+        "price_cny": 0,
+        "price_notes": "免费（特展收费）"
+      },
+      "entry": {
+        "location": "西安市雁塔区小寨东路91号",
+        "nearest_metro": "小寨站(2/3号线) 步行10分钟",
+        "hours": "08:30-18:00（旺季）/ 09:00-17:30（淡季），周一闭馆",
+        "entry_method": "凭护照原件+预约码入场",
+        "tips": [
+          "预约极难！建议提前7天放票当晚蹲守",
+          "如果没有约到，可购买特展票（30元）入馆",
+          "建议租语音导览（30元）或请讲解员",
+          "必看文物：镶金兽首玛瑙杯、鎏金舞马衔杯纹银壶"
+        ]
+      },
+      "alternatives": [
+        {
+          "name": "西安博物院",
+          "reason": "免费，小雁塔在内，人也少很多"
+        },
+        {
+          "name": "碑林博物馆",
+          "reason": "书法爱好者必去，收藏历代碑刻，门票65元"
+        }
+      ],
+      "sources": [
+        "https://www.sxhm.com"
+      ],
+      "status": "⚠️ 需人工",
+      "updated_at": "2026-09-27"
+    }
+  ]
+}

@@ -1,15 +1,16 @@
-"""配置读取（Day 6-7）。
+"""配置管理：加载 .env 与 API Key（Day 1-5 + Day 6-7 合并）。
 
-所有运行时配置一律从环境变量或项目根目录的 ``.env`` 文件读取，
-**绝不硬编码任何密钥**。
+- 队友 Day 1-5：``Config`` dataclass + ``load_config()`` + ``api_keys_ready()``
+  （供多页面 app.py / tests/test_env.py 使用），读取 Qwen 与高德 Key。
+- Day 6-7：DeepSeek Anthropic-compatible 配置的 getter（供 llm_client 使用）。
 
-读取函数每次调用都会重新读取 ``os.environ``，不缓存结果，
-便于测试时用 ``mock.patch.dict(os.environ, ...)`` 覆盖，也便于运行时热更新。
+所有运行时配置一律从环境变量或项目根目录的 ``.env`` 文件读取，绝不硬编码密钥。
 """
 
 from __future__ import annotations
 
 import os
+from dataclasses import dataclass
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -20,8 +21,39 @@ PROJECT_ROOT: Path = Path(__file__).resolve().parents[2]
 #: 默认读取的 .env 文件路径
 ENV_FILE: Path = PROJECT_ROOT / ".env"
 
+
+def load_env(env_file: str | Path | None = None) -> None:
+    """加载 ``.env``（幂等，不会覆盖已存在的环境变量）。"""
+    load_dotenv(env_file or ENV_FILE)
+
+
 # --------------------------------------------------------------------------- #
-# 默认值（均可被对应环境变量覆盖）
+# 队友 Day 1-5：Config 数据类（Qwen + 高德）
+# --------------------------------------------------------------------------- #
+
+@dataclass
+class Config:
+    """队友 Day 1-5 的配置对象。"""
+
+    dashscope_api_key: str = ""
+    amap_map_key: str = ""
+
+    def api_keys_ready(self) -> bool:
+        """Qwen 与高德 Key 都已配置时返回 True。"""
+        return bool(self.dashscope_api_key and self.amap_map_key)
+
+
+def load_config() -> Config:
+    """加载项目根目录 .env 中的 Qwen / 高德配置（队友入口）。"""
+    load_env()
+    return Config(
+        dashscope_api_key=os.getenv("DASHSCOPE_API_KEY", "").strip(),
+        amap_map_key=os.getenv("AMAP_MAP_KEY", "").strip(),
+    )
+
+
+# --------------------------------------------------------------------------- #
+# Day 6-7：DeepSeek Anthropic-compatible 配置
 # --------------------------------------------------------------------------- #
 
 DEFAULT_BASE_URL = "https://api.deepseek.com/anthropic"
@@ -29,21 +61,12 @@ DEFAULT_MODEL = "deepseek-flash"
 DEFAULT_TIMEOUT_SECONDS = 60.0
 DEFAULT_MAX_RETRIES = 3
 
-# --------------------------------------------------------------------------- #
-# 环境变量名
-# --------------------------------------------------------------------------- #
-
 ENV_BASE_URL = "ANTHROPIC_BASE_URL"
 ENV_AUTH_TOKEN = "ANTHROPIC_AUTH_TOKEN"
 ENV_API_KEY = "ANTHROPIC_API_KEY"  # 兼容别名
 ENV_MODEL = "ANTHROPIC_MODEL"
 ENV_TIMEOUT = "ANTHROPIC_TIMEOUT"
 ENV_MAX_RETRIES = "ANTHROPIC_MAX_RETRIES"
-
-
-def load_env(env_file: str | Path | None = None) -> None:
-    """加载 ``.env``（幂等，不会覆盖已存在的环境变量）。"""
-    load_dotenv(env_file or ENV_FILE)
 
 
 def get_base_url() -> str:
@@ -85,6 +108,42 @@ def get_max_retries() -> int:
         return int(raw)
     except ValueError:
         return DEFAULT_MAX_RETRIES
+
+
+# --------------------------------------------------------------------------- #
+# Qwen（阿里云 DashScope / 通义千问）
+# --------------------------------------------------------------------------- #
+
+ENV_QWEN_API_KEY = "DASHSCOPE_API_KEY"  # 阿里云 DashScope 官方变量名
+ENV_QWEN_API_KEY_ALIAS = "QWEN_API_KEY"  # 兼容别名
+ENV_QWEN_MODEL = "QWEN_MODEL"
+
+DEFAULT_QWEN_MODEL = "qwen-turbo"
+
+
+def get_qwen_api_key() -> str | None:
+    """返回 Qwen（DashScope）API Key，未配置返回 ``None``。"""
+    return os.getenv(ENV_QWEN_API_KEY) or os.getenv(ENV_QWEN_API_KEY_ALIAS)
+
+
+def get_qwen_model() -> str:
+    """返回 Qwen 模型名，默认 ``qwen-turbo``。"""
+    return os.getenv(ENV_QWEN_MODEL) or DEFAULT_QWEN_MODEL
+
+
+# --------------------------------------------------------------------------- #
+# 高德地图（Amap）—— 统一使用 AMAP_MAP_KEY
+# --------------------------------------------------------------------------- #
+
+ENV_AMAP_API_KEY = "AMAP_MAP_KEY"
+
+
+def get_amap_api_key() -> str | None:
+    """返回高德地图 Web 服务 API Key，未配置返回 ``None``。
+
+    统一使用队友 Day 1-5 的 ``AMAP_MAP_KEY``（不再使用 ``AMAP_API_KEY``）。
+    """
+    return os.getenv(ENV_AMAP_API_KEY)
 
 
 # 导入即加载一次 .env，使后续 ``os.getenv`` 能直接读到其中的配置。

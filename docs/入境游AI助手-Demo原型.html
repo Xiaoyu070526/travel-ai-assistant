@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI入境旅游搭子 · Demo 交互原型（按团队 Demo剧本）</title>
+<style>
+  :root{
+    --bg:#f5f7fa; --card:#ffffff; --ink:#1f2733; --sub:#6b7685;
+    --brand:#1a73e8; --brand2:#0b57d0; --line:#e6ebf1;
+    --green:#1e9e5a; --amber:#d98a00; --red:#d23b3b; --chip:#eef3fb;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;background:var(--bg);color:var(--ink)}
+  .topbar{background:linear-gradient(110deg,var(--brand),var(--brand2));color:#fff;padding:14px 22px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:20}
+  .topbar .logo{font-size:18px;font-weight:700}
+  .topbar .tag{font-size:12px;opacity:.9;background:rgba(255,255,255,.18);padding:3px 9px;border-radius:20px}
+  .topbar .who{margin-left:auto;font-size:12px;opacity:.92}
+  .tabs{display:flex;gap:6px;background:#fff;border-bottom:1px solid var(--line);padding:8px 14px;position:sticky;top:52px;z-index:15;flex-wrap:wrap}
+  .tab{padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;color:var(--sub);border:1px solid transparent}
+  .tab.active{background:var(--chip);color:var(--brand2);font-weight:600;border-color:#cfe0fb}
+  .wrap{max-width:980px;margin:18px auto;padding:0 16px}
+  .panel{display:none}
+  .panel.active{display:block}
+  .chat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 1px 3px rgba(20,40,80,.04)}
+  .msg{display:flex;gap:10px;margin:10px 0;align-items:flex-start}
+  .bubble{padding:10px 14px;border-radius:12px;font-size:14px;line-height:1.6;max-width:82%}
+  .ai .bubble{background:var(--chip);border:1px solid #dbe7fb}
+  .me{justify-content:flex-end}
+  .me .bubble{background:var(--brand);color:#fff}
+  .avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:13px;color:#fff;flex:0 0 auto}
+  .avatar.ai{background:var(--brand2)}
+  .avatar.me{background:#555}
+  .hint{font-size:12px;color:var(--sub);margin:8px 0 4px}
+  .form{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .field{background:#fafbfc;border:1px solid var(--line);border-radius:10px;padding:9px 11px}
+  .field label{display:block;font-size:11px;color:var(--sub);margin-bottom:4px}
+  .field .v{font-size:14px;font-weight:600}
+  .btn{margin-top:12px;background:var(--brand);color:#fff;border:0;border-radius:10px;padding:10px 18px;font-size:14px;cursor:pointer;font-weight:600}
+  .btn.ghost{background:#fff;color:var(--brand2);border:1px solid #cfe0fb}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .hidden{display:none}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}.form{grid-template-columns:1fr}}
+  .card{border:1px solid var(--line);border-radius:12px;padding:13px 14px;background:#fff}
+  .card h4{margin:0 0 6px;font-size:15px}
+  .card .meta{font-size:12px;color:var(--sub);line-height:1.5}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;color:#fff;margin-left:6px;vertical-align:middle}
+  .tag.ok{background:var(--green)} .tag.warn{background:var(--amber)} .tag.no{background:var(--red)}
+  .approw{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .app{background:var(--chip);border:1px solid #dbe7fb;border-radius:8px;padding:5px 10px;font-size:12px;color:var(--brand2)}
+  .spot{border:1px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;transition:.15s;background:#fff}
+  .spot:hover{border-color:var(--brand);box-shadow:0 2px 8px rgba(26,115,232,.12)}
+  .spot .name{font-weight:600;font-size:14px}
+  .guide{margin-top:14px;border:1px solid #d6ecd9;background:#f3fbf5;border-radius:12px;padding:14px}
+  .guide h3{margin:0 0 8px;color:var(--green);font-size:15px}
+  .step{display:flex;gap:9px;margin:8px 0;align:flex-start}
+  .step .n{flex:0 0 22px;height:22px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
+  .step .t{font-size:13px;line-height:1.55}
+  .mini{font-size:12px;color:var(--sub);margin-top:6px}
+  .steps1-2{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .pill{background:#fff;border:1px solid var(--line);border-radius:20px;padding:6px 12px;font-size:12px;cursor:pointer}
+  .pill.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .footer{font-size:11px;color:var(--sub);text-align:center;margin:22px 0 30px;line-height:1.6}
+  .kbd{background:#eef1f5;border:1px solid #dde3ea;border-radius:6px;padding:1px 6px;font-size:12px}
+  .callout{border-left:3px solid var(--brand);background:#f4f8ff;padding:9px 12px;font-size:12px;color:var(--sub);margin-top:12px;border-radius:0 8px 8px 0}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo">🧳 AI入境旅游搭子</div>
+  <div class="tag">Streamlit 架构 · 交互预览</div>
+  <div class="who">团队作品 · 入境游 AI 助手 Demo 原型</div>
+</div>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" data-p="p1">① 身份采集</div>
+  <div class="tab" data-p="p2">② 城市推荐（北京·5景）</div>
+  <div class="tab" data-p="p3">③ 选景点出攻略（故宫）</div>
+  <div class="tab" data-p="p4">④ 途中兜底（绑卡失败）</div>
+</div>
+
+<div class="wrap">
+
+  <!-- 场景1 身份采集 -->
+  <div class="panel active" id="p1">
+    <div class="chat">
+      <div class="msg ai"><div class="avatar ai">AI</div><div class="bubble">👋 Welcome！为了给你定制专属的来华旅行方案，先问三个问题：<br>① 你的<b>国籍</b>？ ② <b>预计到达日期</b>？ ③ <b>中文水平</b>？</div></div>
+      <div class="form">
+        <div class="field"><label>国籍</label><div class="v" id="f-country">🇺🇸 美国</div></div>
+        <div class="field"><label>预计到达日期</label><div class="v" id="f-date">下周一（2026-09-28）</div></div>
+        <div class="field"><label>中文水平</label><div class="v" id="f-lang">不会中文</div></div>
+        <div class="field"><label>旅行目的</label><div class="v" id="f-reason">旅游</div></div>
+      </div>
+      <button class="btn" id="gen1">生成我的专属方案 →</button>
+      <div id="welcome" class="hidden">
+        <div class="msg ai" style="margin-top:14px"><div class="avatar ai">AI</div><div class="bubble">Hi <b>Michael</b>！确认信息：🇺🇸 美国游客 · 9/28 抵达北京 · 不会中文。<br>我已将你的画像存入会话（session），后续所有推荐都基于这些信息，并默认你<b>没有微信 / 支付宝账号</b>。下面进入城市推荐 👇</div></div>
+        <button class="btn ghost" onclick="goto(2)">跳到场景② 城市推荐 →</button>
+      </div>
+      <div class="callout">对应团队 Demo剧本·场景1：表单可填写 → session 存储 → 后续所有输出基于这些信息（个性化从第一个问题开始）。</div>
+    </div>
+  </div>
+
+  <!-- 场景2 城市推荐 -->
+  <div class="panel" id="p2">
+    <div class="chat">
+      <div class="msg me"><div class="avatar me">M</div><div class="bubble">帮我推荐北京怎么玩</div></div>
+      <div class="msg ai"><div class="avatar ai">AI</div><div class="bubble">好的 Michael！根据你的画像（不会中文、无国内支付账号），为你定制北京落地指南 👇</div></div>
+
+      <div class="card" style="margin-top:12px">
+        <h4>🏙️ 北京简介</h4>
+        <div class="meta">中国首都，历史文化与现代化交融。秋季（9-10月）气候宜人，是访华最佳季节之一。故宫、长城、天坛、颐和园为核心人文景点。</div>
+      </div>
+
+      <div class="card">
+        <h4>🚇 交通建议</h4>
+        <div class="meta">地铁最可靠，但需先装 <b>高德地图 / 百度地图</b> 查路线；打车用 <b>滴滴</b>（需绑定支付方式）。<b>注意</b>：Google Maps 在中国大陆不可用，请提前换成本土地图 App。</div>
+      </div>
+
+      <div class="card">
+        <h4>📶 注意事项（WiFi / SIM）</h4>
+        <div class="meta">境外 SIM 来华数据漫游贵且不稳定的；建议：① 行前在 <b>Airalo / Holafly</b> 购中国 eSIM 并装好；② 或落地后在机场便利店买本地 SIM（需护照实名）。<b>严禁使用不明来源的私人 VPN</b>（违规）。</div>
+      </div>
+
+      <div class="approw">
+        <span class="app">🗺️ 高德地图</span><span class="app">💬 微信</span><span class="app">💰 支付宝（外卡绑定）</span>
+        <span class="app">🚕 滴滴</span><span class="app">🌐 翻译 App</span><span class="app">📱 Airalo eSIM</span>
+      </div>
+
+      <div class="hint" style="margin-top:14px">📍 5 个推荐景点（每个带<b>护照可行性标签</b> ✅可订 / ⚠️需人工 / ❌不可）：</div>
+      <div class="grid" id="spots2"></div>
+
+      <div class="callout">对应团队 Demo剧本·场景2 + Day4-5「护照可行性标签」：每个景点前面加 ✅/⚠️/❌ 校验标签，<b>这是我们的核心差异化</b>（竞品不校验护照可行性）。</div>
+      <button class="btn ghost" onclick="goto(3)">跳到场景③ 选「故宫」出攻略 →</button>
+    </div>
+  </div>
+
+  <!-- 场景3 选景点出攻略 -->
+  <div class="panel" id="p3">
+    <div class="chat">
+      <div class="msg me"><div class="avatar me">M</div><div class="bubble">我想去故宫</div></div>
+      <div class="msg ai"><div class="avatar ai">AI</div><div class="bubble">没问题！已为你生成<b>结构化攻略卡片</b>（不是纯文字堆砌）👇</div></div>
+
+      <div class="guide">
+        <h3>🎫 故宫 · 护照购票状态</h3>
+        <div class="step"><div class="n">✅</div><div class="t"><b>你的护照可以在线买票</b>：故宫官网 / 携程均支持外籍护照在线预约购票（实名制，填护照号）。</div></div>
+        <div class="step"><div class="n">⚠️</div><div class="t"><b>入园需走人工核验通道</b>：持护照的游客暂不走自助闸机，需在门口人工窗口核验，建议预留 15 分钟。</div></div>
+
+        <h3 style="margin-top:10px">🪜 分步购票指引</h3>
+        <div class="step"><div class="n">1</div><div class="t">打开携程 / 故宫博物院官网，选择日期与「上午 / 下午」场。</div></div>
+        <div class="step"><div class="n">2</div><div class="t">证件类型选「护照」，填写护照号与英文名（与护照一致）。</div></div>
+        <div class="step"><div class="n">3</div><div class="t">支付：用<b>已绑外卡的支付宝 / 国际信用卡</b>；若绑卡失败见场景④。</div></div>
+        <div class="step"><div class="n">4</div><div class="t">保存二维码，<b>走人工核验通道</b>入园。</div></div>
+
+        <h3 style="margin-top:10px">🚇 出行路线 / 时间</h3>
+        <div class="step"><div class="n">→</div><div class="t">地铁 1 号线「天安门东」站 B 口出，步行约 5 分钟到午门（唯一入口）。建议 8:30 前到，避开人流。</div></div>
+
+        <h3 style="margin-top:10px">🔁 备选景点（若故宫约满）</h3>
+        <div class="step"><div class="n">·</div><div class="t">天坛（✅ 护照可在线购）｜颐和园（✅）｜798 艺术区（无需预约，❌不可 不适用，直接去）。</div></div>
+
+        <h3 style="margin-top:10px">🆘 应急话术（中文，可指给工作人员看）</h3>
+        <div class="step"><div class="n">话</div><div class="t">「我有外国护照，需要人工通道。」｜「厕所在哪里？」→ 截图存相册，关键时刻直接展示。</div></div>
+        <div class="mini">📚 校验逻辑：关键词「故宫+护照+买票」→ 命中知识库（来源：故宫官网 2026-09 / 携程政策）→ LLM 翻译为自然语言。每条含 <b>source + updated_at</b>，未收录则明说「建议去官网确认」，绝不编造。</div>
+      </div>
+
+      <div class="callout">对应团队 Demo剧本·场景3 + Day6-7「攻略卡片渲染」：结构化输出（买票+出行+备选+应急话术），别堆纯文本。这正是 Day4-5「能订吗」校验逻辑的落地。</div>
+    </div>
+  </div>
+
+  <!-- 场景4 途中兜底 -->
+  <div class="panel" id="p4">
+    <div class="chat">
+      <div class="msg me"><div class="avatar me">M</div><div class="bubble">支付宝绑卡失败了怎么办 😣</div></div>
+      <div class="msg ai"><div class="avatar ai">AI</div><div class="bubble">别急，这是高频痛点（问卷中 <b>外卡设置移动支付 75.4%</b> 最担忧）。给你 1-2-3 步补救方案 👇</div></div>
+
+      <div class="guide">
+        <h3>🔧 支付宝绑外卡失败 · 补救方案</h3>
+        <div class="step"><div class="n">1</div><div class="t"><b>诊断失败原因</b>：多为 ① 银行卡未开通「境外线上支付」；② 证件姓名与卡面不一致；③ 网络/VPN 干扰。先核对卡是否支持境外线上交易。</div></div>
+        <div class="step"><div class="n">2</div><div class="t"><b>备选绑卡方式</b>：换 Visa/Mastercard 重试；或直接开 <b>Alipay Tour Pass</b>（绑外卡→预付钱包，护照+人脸核验，上限 ¥2000，约 3% 手续费，不能 P2P 转账）。</div></div>
+        <div class="step"><div class="n">3</div><div class="t"><b>实在不行</b>：去附近支持外卡的便利店 / 星巴克 / 大型商超消费；现金仍被多数商户接受，机场可取现。</div></div>
+        <div class="mini">💡 进阶：入境前在 Trip.com / 银行 App 预演绑卡；把「已绑卡」设为落地第一天 Checklist 的首项。</div>
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <h4>💬 常驻对话入口</h4>
+        <div class="meta">任何途中问题（支付失败 / 酒店拒外宾 / 找不到路 / 网络异常）都可随时提问 —— 不是静态攻略，是<b>动态对话</b>。输入你的问题，AI 即时给 1-2-3 步方案。</div>
+        <div class="steps1-2" style="margin-top:10px">
+          <span class="pill" onclick="quickQ(this,'酒店说不能接外籍护照怎么办')">酒店拒外宾</span>
+          <span class="pill" onclick="quickQ(this,'地铁怎么用护照买票')">护照买地铁票</span>
+          <span class="pill" onclick="quickQ(this,'网络断了怎么办')">网络异常</span>
+        </div>
+        <div id="quickA" class="mini hidden" style="margin-top:10px;background:#f4f8ff;padding:9px 11px;border-radius:8px"></div>
+      </div>
+
+      <div class="callout">对应团队 Demo剧本·场景4（加分项）：对话入口常驻，可随时提问；不是静态攻略，是动态对话。Day11-12「亮点只挑 1 个」——护照可行性标签即我们的单一亮点。</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    📌 演示原型（Streamlit 架构交互预览，规则引擎 + 本地知识库 Mock，未接真实 LLM / 携程 API）。<br>
+    MVP 范围：1 城 × 5 景（北京）。数据支撑：55 份问卷 + Nermine 深访；73.3% 愿付费。<br>
+    ⚠️ 免责声明：信息仅供参考，以官方最新为准；每条知识库记录含 source + updated_at。
+  </div>
+</div>
+
+<script>
+// ===== 知识库（景点字段：是否需中国平台预约 / 护照能否在线购票 / 入园方式 / 备选 / 来源 / 更新时间）=====
+const SPOTS = [
+  {name:"故宫",      needCN:true,  passport:true,  gate:"人工核验通道", alt:"天坛 / 颐和园", tag:"ok",   label:"✅ 可订", desc:"官网/携程支持护照在线预约，入园走人工通道"},
+  {name:"长城(八达岭)", needCN:true, passport:true,  gate:"现场/线上",    alt:"慕田峪",       tag:"warn", label:"⚠️ 需人工", desc:"部分票种需现场购票或人工核验，建议线上提前订"},
+  {name:"天坛",      needCN:false, passport:true,  gate:"自助/线上",   alt:"颐和园",       tag:"ok",   label:"✅ 可订", desc:"护照可在线购票，联票更划算"},
+  {name:"颐和园",    needCN:false, passport:true,  gate:"自助/线上",   alt:"天坛",         tag:"ok",   label:"✅ 可订", desc:"护照可在线购票，建议买联票"},
+  {name:"798艺术区", needCN:false, passport:null,  gate:"免预约",      alt:"南锣鼓巷",     tag:"no",   label:"❌ 无需预约", desc:"开放街区，直接去，无需购票"}
+];
+
+function renderSpots(){
+  const box=document.getElementById('spots2');
+  box.innerHTML='';
+  SPOTS.forEach(s=>{
+    const el=document.createElement('div');
+    el.className='spot';
+    el.innerHTML=`<div class="name">${s.name}<span class="tag ${s.tag}">${s.label}</span></div>
+      <div class="meta">${s.desc}<br>入园：${s.gate}｜备选：${s.alt}</div>`;
+    el.onclick=()=>goto(3);
+    box.appendChild(el);
+  });
+}
+renderSpots();
+
+// ===== tab 切换 =====
+const tabs=document.getElementById('tabs').querySelectorAll('.tab');
+tabs.forEach(t=>t.onclick=()=>goto(parseInt(t.dataset.p.slice(1))));
+function goto(n){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p'+n).classList.add('active');
+  tabs.forEach(t=>t.classList.toggle('active', parseInt(t.dataset.p.slice(1))===n));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ===== 场景1 生成 =====
+document.getElementById('gen1').onclick=()=>{
+  document.getElementById('welcome').classList.remove('hidden');
+};
+
+// ===== 场景4 快捷提问 =====
+const QA={
+  "酒店说不能接外籍护照怎么办":"① 确认该酒店是否在外籍接待名单（部分民宿/小旅馆无资质）；② 在携程筛选「可接待外国护照」标签重新预订；③ 若已入住被拒，联系携程客服或拨打 12345 市民热线。",
+  "地铁怎么用护照买票":"① 地铁站自助机多数支持护照购票（选「护照」证件类型）；② 也可下载「亿通行 / 北京一卡通」App 绑定国际卡；③ 大站设人工窗口，找不到机器直接问工作人员。",
+  "网络断了怎么办":"① 开启手机蜂窝数据（eSIM/本地SIM）；② 找商家 WiFi（需手机验证码，可能收不到→用护照实名卡）；③ 关键离线信息（攻略卡片、应急话术截图）提前存相册。"
+};
+function quickQ(el,q){
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  const a=document.getElementById('quickA');
+  a.classList.remove('hidden');
+  a.textContent='🤖 '+q+' → '+QA[q];
+}
+</script>
+</body>
+</html>

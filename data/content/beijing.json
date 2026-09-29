@@ -1,0 +1,293 @@
+{
+  "city": {
+    "name": "北京",
+    "name_en": "Beijing",
+    "description": "中国首都，拥有3000多年建城史、800多年建都史。故宫、长城、天坛等世界文化遗产云集，是现代与传统交融的国际都市。",
+    "highlights": [
+      "世界文化遗产密度最高的城市之一",
+      "故宫、长城、天坛、颐和园等7处世界遗产",
+      "国际化程度高，主要景区配备英文服务",
+      "地铁网络发达，机场快线直达市区"
+    ],
+    "transport": {
+      "airport": "首都国际机场(PEK) / 大兴国际机场(PKX)",
+      "airport_to_city": "机场快线/地铁约30-60分钟，打车约120-200元",
+      "city_transport": "地铁+公交覆盖全市，建议办理交通卡或使用支付宝乘车码",
+      "tips": [
+        "机场有英文标识和人工服务窗口",
+        "地铁支持支付宝扫码进站",
+        "高峰期(7:30-9:30, 17:30-19:30)地铁非常拥挤"
+      ]
+    },
+    "notes": [
+      "大部分景点需提前预约，旺季(4-10月)建议提前3-7天",
+      "护照可直接作为有效证件使用",
+      "部分景区仅支持中国手机号接收验证码，建议提前准备",
+      "北京空气质量偶有波动，敏感人群建议备口罩",
+      "冬季(11-3月)气温较低，需备厚外套"
+    ],
+    "apps": [
+      {
+        "name": "支付宝",
+        "purpose": "扫码支付、乘车码、景点预约",
+        "download": "https://www.alipay.com",
+        "required": true
+      },
+      {
+        "name": "高德地图",
+        "purpose": "导航、公交查询、景点位置",
+        "download": "https://mobile.amap.com",
+        "required": true
+      },
+      {
+        "name": "携程旅行",
+        "purpose": "景点门票预订、酒店预订",
+        "download": "https://www.ctrip.com",
+        "required": false
+      },
+      {
+        "name": "百度翻译",
+        "purpose": "中文翻译、拍照翻译菜单",
+        "download": "https://fanyi.baidu.com",
+        "required": false
+      },
+      {
+        "name": "MetroMan",
+        "purpose": "地铁线路查询（英文）",
+        "download": "App Store / Google Play",
+        "required": false
+      }
+    ],
+    "updated_at": "2026-09-27",
+    "essentials": {
+      "sim_data": "行前在 Airalo / Holafly 购买中国 eSIM 并安装好（下飞机即有网）；或落地后在首都/大兴机场到达层购买本地 SIM（需护照实名）。境外数据漫游贵且不稳定，不建议依赖。",
+      "payment": "支付宝 / 微信均可绑定 Visa/Mastercard 外卡，建议入境前提前绑定并试付；绑卡失败见「途中求助」页的兜底方案（Alipay Tour Pass 预付卡 / 现金 / 机场 ATM 取现）。便利店、星巴克、大型商超普遍接受外卡或现金。",
+      "hotel_booking": "在携程 / Booking 等平台筛选「可接待外宾」标签；国际连锁酒店普遍接待外籍客人。部分民宿 / 小旅馆无外宾接待资质，预订前务必确认——这是问卷中高频痛点（酒店拒外宾，均值 4.17/5）。",
+      "ride_hailing": "滴滴 App（含英文界面）绑定外卡后可叫车；高德地图也支持打车。为防司机中途取消，建议线上叫车而非路边招手。",
+      "police_registration": "入住常规酒店时，前台会凭护照代为办理公安住宿登记，无需自行前往派出所；住民宿时需确认经营者具备外宾接待与登记资质。",
+      "public_transport": "地铁：站内自助售票机多数支持护照购单程票；或下载「亿通行 / 北京一卡通」App 绑定国际卡扫码进站。高铁 / 火车：用护照在 12306 或车站窗口购票，取票走人工窗口（问卷痛点均值 4.17/5）。"
+    }
+  },
+  "attractions": [
+    {
+      "id": "gugong",
+      "name": "故宫",
+      "name_en": "Forbidden City",
+      "category": "宫殿/博物馆",
+      "description": "明清两代皇宫，世界现存最大木结构古建筑群， UNESCO世界遗产",
+      "passport": {
+        "bookable_online": true,
+        "platform": "故宫官网 / 携程 (Ctrip) / 支付宝小程序",
+        "passport_accepted": true,
+        "requires_chinese_phone": true,
+        "advance_booking_days": 7,
+        "price_cny": 60,
+        "price_notes": "旺季60元/淡季40元，珍宝馆/钟表馆另收10元"
+      },
+      "entry": {
+        "location": "北京市东城区景山前街4号",
+        "nearest_metro": "天安门东站(1号线) / 天安门西站(1号线)",
+        "hours": "08:30-17:00（旺季）/ 08:30-16:30（淡季），周一闭馆",
+        "entry_method": "凭护照原件+预约二维码从午门（南门）入场",
+        "tips": [
+          "必须从午门入，神武门（北门）出，单向游览",
+          "建议预留3-4小时",
+          "珍宝馆和钟表馆值得额外购票",
+          "语音导览器20元，支持多语言"
+        ]
+      },
+      "alternatives": [
+        {
+          "name": "景山公园",
+          "reason": "故宫北门正对面，可俯瞰故宫全景，门票仅2元，无需预约"
+        },
+        {
+          "name": "太庙（劳动人民文化宫）",
+          "reason": "与故宫一墙之隔，明代建筑，人少安静，门票2元"
+        }
+      ],
+      "sources": [
+        "https://www.dpm.org.cn (故宫官网)",
+        "https://www.ctrip.com (携程预订)"
+      ],
+      "status": "✅ 可订",
+      "updated_at": "2026-09-27"
+    },
+    {
+      "id": "badaling",
+      "name": "八达岭长城",
+      "name_en": "Great Wall (Badaling)",
+      "category": "古迹/户外",
+      "description": "万里长城最具代表性的一段，世界文化遗产，距市区约70公里",
+      "passport": {
+        "bookable_online": true,
+        "platform": "八达岭官网 / 携程 / 支付宝",
+        "passport_accepted": true,
+        "requires_chinese_phone": false,
+        "advance_booking_days": 1,
+        "price_cny": 40,
+        "price_notes": "旺季40元/淡季35元，缆车往返140元"
+      },
+      "entry": {
+        "location": "北京市延庆区G6京藏高速58号出口",
+        "nearest_metro": "无直达地铁，建议高铁(清河站→八达岭长城站，约20分钟)",
+        "hours": "06:30-16:30（旺季）/ 07:00-16:00（淡季）",
+        "entry_method": "凭护照原件+预约码从登城口入场",
+        "tips": [
+          "高铁是最便捷方式，班次密集",
+          "北线（北八楼）更陡更壮观，南线相对平缓",
+          "建议早7:30前抵达避开人流",
+          "缆车和滑车可节省体力"
+        ]
+      },
+      "alternatives": [
+        {
+          "name": "慕田峪长城",
+          "reason": "外国人更爱去，商业化成熟，有缆车，人少景美"
+        },
+        {
+          "name": "居庸关长城",
+          "reason": "离市区更近，游客更少，适合半日游"
+        }
+      ],
+      "sources": [
+        "https://www.badaling.cn (八达岭官网)",
+        "https://www.12306.cn (高铁订票)"
+      ],
+      "status": "✅ 可订",
+      "updated_at": "2026-09-27"
+    },
+    {
+      "id": "tiantan",
+      "name": "天坛",
+      "name_en": "Temple of Heaven",
+      "category": "古迹/宗教",
+      "description": "明清两代皇帝祭天场所，世界文化遗产，建筑声学奇迹",
+      "passport": {
+        "bookable_online": true,
+        "platform": "天坛公园官网 / 畅游公园公众号 / 携程",
+        "passport_accepted": true,
+        "requires_chinese_phone": false,
+        "advance_booking_days": 1,
+        "price_cny": 34,
+        "price_notes": "联票34元（含祈年殿、回音壁、圜丘），大门票10元"
+      },
+      "entry": {
+        "location": "北京市东城区天坛东里甲1号",
+        "nearest_metro": "天坛东门站(5号线) / 桥湾站(7号线)",
+        "hours": "06:00-22:00（公园）/ 08:00-17:30（景点，周一闭馆）",
+        "entry_method": "凭护照原件+预约码入园",
+        "tips": [
+          "建议购买联票，只看大门票会错过核心建筑",
+          "祈年殿周五/周六及节假日晚间亮灯，夜景绝美",
+          "回音壁体验声学奇迹，需两人配合",
+          "早晨有很多本地人晨练，氛围独特"
+        ]
+      },
+      "alternatives": [
+        {
+          "name": "地坛公园",
+          "reason": "天坛的'地' counterpart，清代祭地场所，门票仅2元"
+        },
+        {
+          "name": "日坛/月坛",
+          "reason": "更小众的祭祀遗址，免费或低价，适合安静散步"
+        }
+      ],
+      "sources": [
+        "https://www.tiantanpark.com",
+        "https://www.beijing.gov.cn"
+      ],
+      "status": "✅ 可订",
+      "updated_at": "2026-09-27"
+    },
+    {
+      "id": "yiheyuan",
+      "name": "颐和园",
+      "name_en": "Summer Palace",
+      "category": "园林/湖泊",
+      "description": "中国现存最大皇家园林，世界文化遗产，昆明湖与万寿山构成经典景观",
+      "passport": {
+        "bookable_online": true,
+        "platform": "颐和园官网 / 畅游公园 / 携程",
+        "passport_accepted": true,
+        "requires_chinese_phone": false,
+        "advance_booking_days": 1,
+        "price_cny": 30,
+        "price_notes": "旺季30元/淡季20元，联票60元（含德和园、文昌院等）"
+      },
+      "entry": {
+        "location": "北京市海淀区新建宫门路19号",
+        "nearest_metro": "北宫门站(4号线) / 西苑站(4号线)",
+        "hours": "06:00-20:00（旺季）/ 06:30-19:00（淡季）",
+        "entry_method": "凭护照原件+预约码入园",
+        "tips": [
+          "建议从北宫门入→爬万寿山→昆明湖→东宫门出",
+          "游船是游览昆明湖的最佳方式",
+          "长廊(728米)上有超过14000幅彩绘，值得细看",
+          "佛香阁需额外购票，可俯瞰全园"
+        ]
+      },
+      "alternatives": [
+        {
+          "name": "圆明园",
+          "reason": "与颐和园相邻，西洋楼遗址著名，门票仅10元"
+        },
+        {
+          "name": "北海公园",
+          "reason": "北京市中心最古老的皇家园林，门票5元，白塔是地标"
+        }
+      ],
+      "sources": [
+        "https://www.summerpalace-china.com",
+        "https://www.beijing.gov.cn"
+      ],
+      "status": "✅ 可订",
+      "updated_at": "2026-09-27"
+    },
+    {
+      "id": "yuanmingyuan",
+      "name": "圆明园",
+      "name_en": "Old Summer Palace",
+      "category": "遗址/园林",
+      "description": "清代皇家园林，'万园之园'，西洋楼遗址见证历史",
+      "passport": {
+        "bookable_online": true,
+        "platform": "圆明园遗址公园官网 / 畅游公园 / 现场购票",
+        "passport_accepted": true,
+        "requires_chinese_phone": false,
+        "advance_booking_days": 0,
+        "price_cny": 25,
+        "price_notes": "大门票10元，西洋楼遗址区15元，联票25元"
+      },
+      "entry": {
+        "location": "北京市海淀区清华西路28号",
+        "nearest_metro": "圆明园站(4号线) / 北京大学东门站(4号线)",
+        "hours": "07:00-19:00（旺季）/ 07:00-17:30（淡季）",
+        "entry_method": "现场护照购票或在线预约入园",
+        "tips": [
+          "西洋楼遗址区是核心景点，需单独检票",
+          "建议租语音导览（20元）了解历史背景",
+          "与颐和园可安排同一天游览（相距约2公里）",
+          "大水法遗址是拍照打卡点"
+        ]
+      },
+      "alternatives": [
+        {
+          "name": "颐和园",
+          "reason": "保存完好的皇家园林，自然景观更丰富"
+        },
+        {
+          "name": "恭王府",
+          "reason": "清代最大王府，'一座恭王府，半部清代史'，门票40元"
+        }
+      ],
+      "sources": [
+        "https://www.yuanmingyuanpark.com",
+        "https://www.beijing.gov.cn"
+      ],
+      "status": "✅ 可订",
+      "updated_at": "2026-09-27"
+    }
+  ]
+}

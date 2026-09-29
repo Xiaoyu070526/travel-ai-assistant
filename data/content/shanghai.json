@@ -1,0 +1,283 @@
+{
+  "city": {
+    "name": "上海",
+    "name_en": "Shanghai",
+    "description": "中国最大的经济中心和国际化大都市，外滩万国建筑群与陆家嘴摩天大楼隔江相望，传统石库门与现代艺术交融。",
+    "highlights": [
+      "中国最国际化的城市，外语友好度最高",
+      "外滩+陆家嘴天际线是全球标志性景观",
+      "地铁网络覆盖全市，支持支付宝/微信",
+      "机场双枢纽（浦东PVG + 虹桥SHA）"
+    ],
+    "transport": {
+      "airport": "浦东国际机场(PVG) / 虹桥国际机场(SHA)",
+      "airport_to_city": "磁悬浮(浦东) 8分钟到市区 / 地铁2号线直达",
+      "city_transport": "地铁+公交全覆盖，支持支付宝乘车码",
+      "tips": [
+        "虹桥机场离市区更近，优先选虹桥",
+        "磁悬浮（浦东）持当日机票可享折扣",
+        "地铁支持支付宝/微信扫码，无需实体卡",
+        "高峰期地铁1/2号线非常拥挤"
+      ]
+    },
+    "notes": [
+      "大部分景点无需预约，但上海博物馆等需提前约",
+      "外滩亮灯时间：夏季19:00，冬季18:00",
+      "部分餐厅只接受微信/支付宝，信用卡覆盖率低",
+      "春秋季节（3-5月、9-11月）气候最佳",
+      "浦东机场到市区较远，预留充足时间"
+    ],
+    "apps": [
+      {
+        "name": "支付宝",
+        "purpose": "扫码支付、乘车码、景点预约",
+        "download": "https://www.alipay.com",
+        "required": true
+      },
+      {
+        "name": "高德地图",
+        "purpose": "导航、地铁查询",
+        "download": "https://mobile.amap.com",
+        "required": true
+      },
+      {
+        "name": "携程",
+        "purpose": "景点门票、酒店预订",
+        "download": "https://www.ctrip.com",
+        "required": false
+      },
+      {
+        "name": "大众点评",
+        "purpose": "餐厅推荐、排队取号",
+        "download": "https://www.dianping.com",
+        "required": false
+      }
+    ],
+    "updated_at": "2026-09-27",
+    "essentials": {
+      "sim_data": "行前在 Airalo / Holafly 购买中国 eSIM；或落地后在浦东/虹桥机场到达层购买本地 SIM（需护照实名）。机场与地铁内均有免费 WiFi（部分需手机号验证码）。",
+      "payment": "支付宝 / 微信绑定 Visa/Mastercard 外卡后即可扫码支付，地铁可用支付宝「出行」乘车码；绑卡失败可用 Alipay Tour Pass 预付卡兜底，机场 ATM 可取现，现金全城通用。",
+      "hotel_booking": "市中心国际连锁酒店密集，外宾接待成熟；在携程 / Booking 筛选「可接待外宾」后预订。注意旺季（进博会、节假日）外宾房源紧张，建议提前 7 天以上。",
+      "ride_hailing": "滴滴 / 高德打车均支持外卡绑定的英文界面；出租车可现金或扫码。浦东机场→市区约 45-60 分钟，深夜航班建议提前预约接机。",
+      "police_registration": "酒店前台凭护照代办公安住宿登记；民宿 / 公寓须确认经营者有外宾登记资质。",
+      "public_transport": "地铁：支付宝「出行」扫码或自助机护照购票；磁悬浮（浦东机场→龙阳路）支持护照购票、8 分钟直达。高铁：12306 护照购票、人工窗口取票。"
+    }
+  },
+  "attractions": [
+    {
+      "id": "waitan",
+      "name": "外滩",
+      "name_en": "The Bund",
+      "category": "地标/观光",
+      "description": "上海标志性景观，万国建筑群与陆家嘴摩天大楼隔江相望",
+      "passport": {
+        "bookable_online": false,
+        "platform": "无需预订",
+        "passport_accepted": true,
+        "requires_chinese_phone": false,
+        "advance_booking_days": 0,
+        "price_cny": 0,
+        "price_notes": "免费"
+      },
+      "entry": {
+        "location": "上海市黄浦区中山东一路",
+        "nearest_metro": "南京东路站(2/10号线) / 外滩站",
+        "hours": "全天开放",
+        "entry_method": "直接步行进入，无需门票",
+        "tips": [
+          "建议傍晚去，先看日景再等亮灯",
+          "亮灯时间夏季19:00/冬季18:00",
+          "江边步道很长，从外白渡桥走到十六铺码头约2公里",
+          "游船可从外滩码头出发，夜景绝美"
+        ]
+      },
+      "alternatives": [
+        {
+          "name": "北外滩",
+          "reason": "人更少，同样可以看到陆家嘴全景，适合拍照"
+        },
+        {
+          "name": "陆家嘴滨江大道",
+          "reason": "从对岸看外滩建筑群，视角独特，免费"
+        }
+      ],
+      "sources": [
+        "https://www.shanghai.gov.cn"
+      ],
+      "status": "✅ 可订",
+      "updated_at": "2026-09-27"
+    },
+    {
+      "id": "dongfangmingzhu",
+      "name": "东方明珠",
+      "name_en": "Oriental Pearl Tower",
+      "category": "地标/观光",
+      "description": "上海标志性电视塔，468米高，观景台俯瞰全城",
+      "passport": {
+        "bookable_online": true,
+        "platform": "携程 / 美团 / 官方小程序",
+        "passport_accepted": true,
+        "requires_chinese_phone": false,
+        "advance_booking_days": 1,
+        "price_cny": 199,
+        "price_notes": "二球联票199元，三球联票220元"
+      },
+      "entry": {
+        "location": "上海市浦东新区世纪大道1号",
+        "nearest_metro": "陆家嘴站(2号线) 1号口出",
+        "hours": "08:30-21:30",
+        "entry_method": "凭护照原件+预约码/购票凭证入场",
+        "tips": [
+          "建议傍晚登塔，可同时看日景和夜景",
+          "透明观光廊（259米）是网红打卡点",
+          "塔下上海城市历史发展陈列馆值得一看",
+          "节假日排队严重，建议工作日前往"
+        ]
+      },
+      "alternatives": [
+        {
+          "name": "上海中心大厦",
+          "reason": "中国第一高楼（632米），观景台更高，视野更好"
+        },
+        {
+          "name": "环球金融中心",
+          "reason": "100层观光厅，有著名的'开瓶器'造型"
+        }
+      ],
+      "sources": [
+        "https://www.orientalpearltower.com"
+      ],
+      "status": "✅ 可订",
+      "updated_at": "2026-09-27"
+    },
+    {
+      "id": "chenghuangmiao",
+      "name": "城隍庙/豫园",
+      "name_en": "City God Temple / Yu Garden",
+      "category": "古迹/园林",
+      "description": "明代私家园林，江南古典园林代表，周边是著名的小吃街和购物区",
+      "passport": {
+        "bookable_online": true,
+        "platform": "豫园官方 / 携程 / 现场购票",
+        "passport_accepted": true,
+        "requires_chinese_phone": false,
+        "advance_booking_days": 0,
+        "price_cny": 40,
+        "price_notes": "豫园40元，城隍庙10元"
+      },
+      "entry": {
+        "location": "上海市黄浦区安仁街137号",
+        "nearest_metro": "豫园站(10/14号线)",
+        "hours": "09:00-16:30（豫园）/ 08:30-16:30（城隍庙）",
+        "entry_method": "现场护照购票或在线预约",
+        "tips": [
+          "豫园和城隍庙是分开的两个景点，可买联票",
+          "九曲桥是经典拍照点，但节假日人很多",
+          "周边小吃街（如南翔馒头店）非常有名",
+          "建议上午游览园林，中午在周边吃饭"
+        ]
+      },
+      "alternatives": [
+        {
+          "name": "田子坊",
+          "reason": "石库门里弄的创意街区，免费，适合散步和拍照"
+        },
+        {
+          "name": "新天地",
+          "reason": "时尚休闲区，石库门建筑改造，餐饮酒吧聚集"
+        }
+      ],
+      "sources": [
+        "https://www.yugarden.com.cn"
+      ],
+      "status": "✅ 可订",
+      "updated_at": "2026-09-27"
+    },
+    {
+      "id": "disney",
+      "name": "上海迪士尼",
+      "name_en": "Shanghai Disney Resort",
+      "category": "主题乐园",
+      "description": "中国大陆首座迪士尼主题乐园，包含七大主题园区",
+      "passport": {
+        "bookable_online": true,
+        "platform": "迪士尼官方App / 携程 / 飞猪",
+        "passport_accepted": true,
+        "requires_chinese_phone": true,
+        "advance_booking_days": 3,
+        "price_cny": 475,
+        "price_notes": "常规日475元，高峰日719元，假期日799元"
+      },
+      "entry": {
+        "location": "上海市浦东新区川沙新镇",
+        "nearest_metro": "迪士尼站(11号线) 终点站",
+        "hours": "08:30-21:30（具体以官方公布为准）",
+        "entry_method": "凭护照原件+预约码/购票凭证+人脸识别入园",
+        "tips": [
+          "必须下载迪士尼官方App查看排队时间和演出时间",
+          "建议开园前30分钟到达排队",
+          "热门项目（飞跃地平线、创极速光轮）排队2小时+，建议买早享卡",
+          "烟火秀20:00/21:15，提前1小时占位"
+        ]
+      },
+      "alternatives": [
+        {
+          "name": "欢乐谷",
+          "reason": "大型主题乐园，刺激的过山车项目多，门票更便宜"
+        },
+        {
+          "name": "海昌海洋公园",
+          "reason": "海洋主题，适合亲子，有虎鲸表演"
+        }
+      ],
+      "sources": [
+        "https://www.shanghaidisneyresort.com"
+      ],
+      "status": "⚠️ 需人工",
+      "updated_at": "2026-09-27"
+    },
+    {
+      "id": "shibohui",
+      "name": "中华艺术宫",
+      "name_en": "China Art Museum",
+      "category": "博物馆/艺术",
+      "description": "2010世博会中国馆改建，收藏近现代中国艺术珍品，镇馆之宝《清明上河图》动态版",
+      "passport": {
+        "bookable_online": true,
+        "platform": "官方公众号 / 携程 / 现场",
+        "passport_accepted": true,
+        "requires_chinese_phone": false,
+        "advance_booking_days": 0,
+        "price_cny": 0,
+        "price_notes": "免费（特展收费，清明上河图动态版20元）"
+      },
+      "entry": {
+        "location": "上海市浦东新区上南路205号",
+        "nearest_metro": "中华艺术宫站(8号线)",
+        "hours": "10:00-18:00（周一闭馆，17:00停止入场）",
+        "entry_method": "现场护照入场，无需预约",
+        "tips": [
+          "清明上河图动态版必看，20元非常值得",
+          "建筑本身（大红色倒梯形）是拍照打卡点",
+          "展览内容以近现代中国画为主，可预留2小时",
+          "周边有世博源购物中心可吃饭"
+        ]
+      },
+      "alternatives": [
+        {
+          "name": "上海博物馆",
+          "reason": "中国古代艺术珍品，免费开放但需预约"
+        },
+        {
+          "name": "龙美术馆",
+          "reason": "当代艺术，建筑本身由废弃码头改建，很有设计感"
+        }
+      ],
+      "sources": [
+        "https://www.cnam.org.cn"
+      ],
+      "status": "✅ 可订",
+      "updated_at": "2026-09-27"
+    }
+  ]
+}
