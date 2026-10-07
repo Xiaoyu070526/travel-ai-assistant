@@ -33,6 +33,7 @@ from src.components.cards import (
 from src.api.llm_client import LLMClient, generate_guide
 from src.utils.passport_check import check_passport_bookability
 from src.utils.faq_kb import match_faq
+from src.utils.errors import APIResponseError
 from src.utils.i18n import (
     SUPPORTED_LANGUAGES,
     language_display_name,
@@ -392,23 +393,36 @@ def _ask_faq(question: str, identity: dict) -> None:
 # =============================================================================
 
 def _generate_checklist(city_data: dict, identity: dict) -> None:
-    """调用 LLM 生成行前准备清单（原型 Day 新增能力：行前 Checklist）"""
+    """调用 DeepSeek 生成行前准备清单；空结果重试一次后友好提示，不伪造内容。"""
     lang = _get_lang()
-    try:
-        city_name = city_data["city"]["name"]
-        prompt = ARRIVAL_CHECKLIST_PROMPT.format(
-            nationality=identity.get("nationality", "Foreign traveler"),
-            arrival_date=identity.get("arrival_date", "unknown"),
-            chinese_level=identity.get("chinese_level", "None"),
-            output_language=output_language(lang),
-            city=city_name,
-            city_data=format_city_data(city_data),
-        )
-        checklist = _deepseek_text(prompt)
-        st.success(t("city_checklist_done", lang))
-        st.markdown(checklist)
-    except Exception as e:
-        st.error(t("chat_llm_fail", lang, error=e))
+    city_name = city_data["city"]["name"]
+    prompt = ARRIVAL_CHECKLIST_PROMPT.format(
+        nationality=identity.get("nationality", "Foreign traveler"),
+        arrival_date=identity.get("arrival_date", "unknown"),
+        chinese_level=identity.get("chinese_level", "None"),
+        output_language=output_language(lang),
+        city=city_name,
+        city_data=format_city_data(city_data),
+    )
+
+    checklist = ""
+    for _ in range(2):  # API 返回空内容时重试一次
+        try:
+            checklist = _deepseek_text(prompt)
+            if checklist.strip():
+                break
+        except APIResponseError:
+            checklist = ""  # 空响应 / 无法解析，重试
+        except Exception as e:
+            st.error(t("chat_llm_fail", lang, error=e))
+            return
+
+    if not checklist.strip():
+        st.warning(t("city_checklist_empty", lang))
+        return
+
+    st.success(t("city_checklist_done", lang))
+    st.markdown(checklist)
 
 
 def _generate_guide(attr: dict, identity: dict) -> str | None:

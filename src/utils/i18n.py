@@ -152,6 +152,10 @@ UI_TEXT: dict[str, dict[str, str]] = {
         "zh": "你的行前准备清单已生成：",
         "en": "Here is your Before-Arrival Checklist:",
     },
+    "city_checklist_empty": {
+        "zh": "AI 暂时没有生成内容，请稍后重试。",
+        "en": "AI returned no content. Please try again.",
+    },
     "city_attractions_title": {
         "zh": "🏛️ 推荐景点",
         "en": "🏛️ Recommended Attractions",
