@@ -37,10 +37,12 @@ CITY_RECOMMENDATION_PROMPT = """你是一位专业的中国入境旅游顾问。
 - 中文水平：{chinese_level}
 - 目标城市：{city}
 
+输出语言：{output_language}（正文用该语言输出，景点中文名保留，可附英文名）
+
 城市知识库信息：
 {city_data}
 
-请输出以下内容（用中文，但保留景点英文名便于游客识别）：
+请输出以下内容：
 
 1. 城市一句话简介
 2. 交通建议（机场→市区、市内交通）
@@ -68,6 +70,8 @@ GUIDE_GENERATION_PROMPT = """你是一位专业的中国入境旅游顾问。请
 游客信息：
 - 国籍：{nationality}
 - 中文水平：{chinese_level}
+
+输出语言：{output_language}（正文用该语言输出，景点中文名保留，可附英文名）
 
 目标景点：{attraction_name} ({attraction_name_en})
 景点信息：
@@ -123,6 +127,8 @@ FALLBACK_PROMPT = """你是一位专业的中国入境旅游顾问。游客遇�
 - 中文水平：{chinese_level}
 - 当前城市：{city}
 
+输出语言：{output_language}（正文用该语言输出；若游客完全不会中文，必须避免中文回答）
+
 问题：{question}
 
 以下是知识库中已核实的相关高频问题参考（如与问题相关可直接采用，不相关则忽略）：
@@ -147,6 +153,8 @@ ARRIVAL_CHECKLIST_PROMPT = """你是一位专业的中国入境旅游顾问。�
 - 国籍：{nationality}
 - 到达日期：{arrival_date}
 - 中文水平：{chinese_level}
+
+输出语言：{output_language}（正文用该语言输出，景点中文名保留，可附英文名）
 
 目标城市：{city}
 城市信息：

@@ -3,7 +3,7 @@
 Demo 场景：
 1. 身份采集（国籍/到达日期/中文水平）
 2. 城市推荐（城市简介 + 5景点带护照可行性标签）
-3. 选景点 → 生成结构化攻略卡片（Day 6-7 DeepSeek / 队友 Qwen 双通道）
+3. 选景点 → 生成结构化攻略卡片（Day 6-7 DeepSeek）
 4. 途中兜底（FAQ对话）
 """
 
@@ -30,10 +30,16 @@ from src.components.cards import (
     render_guide_result,
     render_quick_questions,
 )
-from src.api.qwen import chat
-from src.api.llm_client import generate_guide
+from src.api.llm_client import LLMClient, generate_guide
 from src.utils.passport_check import check_passport_bookability
 from src.utils.faq_kb import match_faq
+from src.utils.i18n import (
+    SUPPORTED_LANGUAGES,
+    language_display_name,
+    output_language,
+    faq_answer,
+    t,
+)
 from src.prompts.templates import (
     ARRIVAL_CHECKLIST_PROMPT,
     GUIDE_GENERATION_PROMPT,
@@ -63,26 +69,70 @@ def init_session():
             st.session_state[k] = v
 
 
+def _get_lang() -> str:
+    """获取当前界面的语言偏好（identity.language，未设置默认 en）。"""
+    return (st.session_state.identity or {}).get("language", "en")
+
+
+def _deepseek_text(prompt: str) -> str:
+    """调用 DeepSeek 生成自由文本（FAQ 兜底 / 行前 Checklist / 文字攻略）。
+
+    替代原通义千问 ``chat``。失败时抛出底层异常，由调用方 try/except 统一兜底。
+    """
+    system = "你是一名专业、谨慎的中国入境旅游助手，请用简洁、清晰、可执行的语言回答。"
+    return LLMClient().complete(system=system, user=prompt)
+
+
 # =============================================================================
 # 页面 1：身份采集
 # =============================================================================
 
 def page_identity():
-    st.header("👋 欢迎！让我们了解你的旅行计划")
-    st.write("为了给你定制专属的来华旅行方案，请回答以下几个问题：")
+    st.header(t("identity_greeting", _get_lang()))
+    st.write(t("identity_sub", _get_lang()))
 
     with st.form("identity_form"):
-        nationality = st.text_input("1. 你的国籍是？", placeholder="例如：美国、英国、日本")
-        arrival_date = st.text_input("2. 预计到达日期？", placeholder="例如：下周一、2026-10-01")
+        language = st.selectbox(
+            t("identity_lang_label", _get_lang()),
+            list(SUPPORTED_LANGUAGES),
+            format_func=language_display_name,
+        )
+        nationality = st.text_input(
+            t("identity_q_nationality", language),
+            placeholder=t("identity_q_nationality_ph", language),
+        )
+        arrival_date = st.text_input(
+            t("identity_q_arrival", language),
+            placeholder=t("identity_q_arrival_ph", language),
+        )
         chinese_level = st.selectbox(
-            "3. 你的中文水平？",
+            t("identity_q_chinese", language),
             ["完全不会", "基础（能听懂简单词汇）", "会话级（日常交流）", "流利"],
+            format_func=lambda x: t(
+                {
+                    "完全不会": "cl_none",
+                    "基础（能听懂简单词汇）": "cl_basic",
+                    "会话级（日常交流）": "cl_conversational",
+                    "流利": "cl_fluent",
+                }.get(x, "cl_none"),
+                language,
+            ),
         )
         purpose = st.selectbox(
-            "4. 旅行目的？",
+            t("identity_q_purpose", language),
             ["旅游", "商务", "探亲访友", "留学/学习", "其他"],
+            format_func=lambda x: t(
+                {
+                    "旅游": "purpose_tourism",
+                    "商务": "purpose_business",
+                    "探亲访友": "purpose_visit",
+                    "留学/学习": "purpose_study",
+                    "其他": "purpose_other",
+                }.get(x, "purpose_other"),
+                language,
+            ),
         )
-        submitted = st.form_submit_button("✅ 确认，开始规划行程")
+        submitted = st.form_submit_button(t("identity_submit", language))
 
     if submitted and nationality and arrival_date:
         st.session_state.identity = {
@@ -90,12 +140,13 @@ def page_identity():
             "arrival_date": arrival_date,
             "chinese_level": chinese_level,
             "purpose": purpose,
+            "language": language,
         }
         # 身份采集完成后，展示行前准备 Checklist（新增大模型能力）
         st.session_state.page = "city"
         st.rerun()
     elif submitted:
-        st.warning("请填写完整信息后再提交。")
+        st.warning(t("identity_warning", _get_lang()))
 
 
 # =============================================================================
@@ -104,17 +155,21 @@ def page_identity():
 
 def page_city():
     identity = st.session_state.identity
-    st.header(f"🗺️ {identity.get('nationality', '游客')}朋友，想去哪里玩？")
-    st.caption(f"到达日期：{identity.get('arrival_date', '未定')} | 中文水平：{identity.get('chinese_level', '未定')}")
+    lang = _get_lang()
+    st.header(t("city_header_fmt", lang, nationality=identity.get("nationality", "Friend")))
+    st.caption(
+        t("city_caption_fmt", lang, arrival=identity.get("arrival_date", "-"),
+          level=identity.get("chinese_level", "-"))
+    )
 
     # 城市选择
     cities = list_cities()
     if not cities:
-        st.error("暂无城市数据，请联系管理员添加知识库。")
+        st.error(t("city_no_data", lang))
         return
 
     city_choice = st.selectbox(
-        "选择一个城市",
+        t("city_select", lang),
         cities,
         format_func=lambda x: x.capitalize(),
     )
@@ -130,28 +185,28 @@ def page_city():
         return
 
     # 城市概览
-    render_city_overview(city_data)
+    render_city_overview(city_data, lang=lang)
 
     # 落地必备指南（调研痛点驱动）
-    render_essentials(city_data)
+    render_essentials(city_data, lang=lang)
 
     # 行前准备 Checklist（调研 Q15：行前准备清单价值 3.73）
     st.divider()
-    if st.button("🧳 生成我的行前准备 Checklist", type="secondary"):
-        with st.spinner("正在生成行前清单..."):
+    if st.button(t("city_checklist_btn", lang), type="secondary"):
+        with st.spinner(t("city_checklist_spinner", lang)):
             _generate_checklist(city_data, identity)
 
     # 景点推荐
-    st.subheader("🏛️ 推荐景点")
-    st.info("每个景点显示护照可行性标签：✅可订 / ⚠️需人工 / ❌不可")
+    st.subheader(t("city_attractions_title", lang))
+    st.info(t("city_attractions_info", lang))
 
     for attr in city_data["attractions"]:
-        render_attraction_card(attr, show_guide_button=True)
+        render_attraction_card(attr, show_guide_button=True, lang=lang)
 
     # 兜底问答入口
     st.divider()
-    with st.expander("💬 有问题？随时问我"):
-        question = st.text_input("输入你的问题", placeholder="例如：支付宝绑卡失败了怎么办？")
+    with st.expander(t("city_faq_title", lang)):
+        question = st.text_input(t("city_faq_ph", lang), placeholder=t("city_faq_ph", lang))
         if question:
             _handle_faq(question, identity)
 
@@ -163,13 +218,14 @@ def page_city():
 def page_guide():
     identity = st.session_state.identity
     attr = st.session_state.selected_attraction
+    lang = _get_lang()
 
     if not attr:
         st.session_state.page = "city"
         st.rerun()
         return
 
-    st.header(f"📍 {attr['name']} 详细攻略")
+    st.header(t("guide_header_fmt", lang, name=attr["name"]))
 
     # 基础信息卡片
     cols = st.columns([2, 1])
@@ -182,9 +238,9 @@ def page_guide():
         st.markdown(f"<h2 style='color:{status_color};text-align:center;'>{status}</h2>", unsafe_allow_html=True)
 
     # 护照校验动态判断
-    st.subheader("🔍 预订可行性诊断")
+    st.subheader(t("guide_bookability", lang))
     has_phone = identity.get("has_chinese_phone", False)
-    if st.checkbox("我有中国手机号（可用于接收验证码）", value=has_phone, key="has_phone"):
+    if st.checkbox(t("guide_phone_checkbox", lang), value=has_phone, key="has_phone"):
         identity["has_chinese_phone"] = True
     else:
         identity["has_chinese_phone"] = False
@@ -203,66 +259,67 @@ def page_guide():
         check_color = {"✅ 可订": "green", "⚠️ 需人工": "orange", "❌ 不可": "red"}.get(check_status, "gray")
         st.markdown(f"<h1 style='color:{check_color};text-align:center;'>{check_status}</h1>", unsafe_allow_html=True)
     with check_cols[1]:
-        st.write(f"**判断依据：** {check_result['reason']}")
-        st.info(f"**建议操作：** {check_result['action']}")
+        st.write(t("guide_basis", lang, reason=check_result['reason']))
+        st.info(t("guide_action", lang, action=check_result['action']))
         st.caption(f"{check_result['details']}")
 
     # 护照预订信息
-    st.subheader("🛂 护照预订信息")
+    st.subheader(t("guide_passport_info", lang))
     p = attr["passport"]
     info_cols = st.columns(4)
-    info_cols[0].metric("在线预订", "✅ 是" if p["bookable_online"] else "❌ 否")
-    info_cols[1].metric("接受护照", "✅ 是" if p["passport_accepted"] else "❌ 否")
-    info_cols[2].metric("需中国手机号", "是" if p["requires_chinese_phone"] else "否")
-    info_cols[3].metric("门票", f"¥{p['price_cny']}")
+    info_cols[0].metric(t("guide_online", lang), "✅ 是" if p["bookable_online"] else "❌ 否")
+    info_cols[1].metric(t("guide_passport_ok", lang), "✅ 是" if p["passport_accepted"] else "❌ 否")
+    info_cols[2].metric(t("guide_cn_phone", lang), "是" if p["requires_chinese_phone"] else "否")
+    info_cols[3].metric(t("guide_ticket_price", lang), f"¥{p['price_cny']}")
 
-    st.write(f"**预订平台：** {p['platform']}")
-    st.write(f"**建议提前：** {p['advance_booking_days']} 天预订")
-    st.write(f"**价格说明：** {p['price_notes']}")
+    st.write(t("guide_platform_fmt", lang, platform=p['platform']))
+    st.write(t("guide_advance_fmt", lang, days=p['advance_booking_days']))
+    st.write(t("guide_price_notes_fmt", lang, notes=p['price_notes']))
 
     # 入园信息
-    st.subheader("📍 入园信息")
+    st.subheader(t("guide_entry_info", lang))
     e = attr["entry"]
-    st.write(f"**地址：** {e['location']}")
-    st.write(f"**最近地铁：** {e['nearest_metro']}")
-    st.write(f"**开放时间：** {e['hours']}")
-    st.write(f"**入园方式：** {e['entry_method']}")
+    st.write(t("guide_address_fmt", lang, addr=e['location']))
+    st.write(t("guide_metro_fmt", lang, metro=e['nearest_metro']))
+    st.write(t("guide_hours_fmt", lang, hours=e['hours']))
+    st.write(t("guide_entry_fmt", lang, entry=e['entry_method']))
 
-    st.info("**实用提示：**")
+    st.info(t("guide_tips", lang))
     for tip in e["tips"]:
         st.write(f"- {tip}")
 
     # 备选景点
     if attr.get("alternatives"):
-        st.subheader("🔄 备选景点")
+        st.subheader(t("guide_alternatives", lang))
         for alt in attr["alternatives"]:
             st.write(f"**{alt['name']}：** {alt['reason']}")
 
     # 数据来源标注（原型要求：每条知识库含 source + updated_at，不编造）
     if attr.get("sources"):
         st.divider()
-        st.caption("📚 **信息来源：** " + "；".join(attr["sources"]))
+        st.caption(t("guide_sources", lang) + "；".join(attr["sources"]))
         if attr.get("updated_at"):
-            st.caption(f"🕒 数据更新时间：{attr['updated_at']}（信息仅供参考，以官方最新为准）")
+            st.caption(t("guide_updated_fmt", lang, time=attr["updated_at"]))
 
     # AI 生成攻略（Day 6-7：DeepSeek 结构化攻略，失败自动 fallback）
     st.divider()
-    if st.button("🤖 让 AI 生成完整攻略", type="primary"):
-        with st.spinner("正在生成攻略..."):
+    st.subheader(t("guide_ai_section", lang))
+    if st.button(t("guide_deepseek_btn", lang), type="primary"):
+        with st.spinner("Generating..."):
             _generate_deepseek_guide(attr, identity)
 
-    # 备用：通义千问文字版攻略（队友 Day 1-5 原能力，保留）
-    if st.button("🈯 用通义千问生成文字版攻略"):
-        with st.spinner("正在生成攻略..."):
+    # 结构化攻略卡片（DeepSeek 文字版第二通道）
+    if st.button(t("guide_deepseek_card_btn", lang)):
+        with st.spinner("Generating..."):
             guide = _generate_guide(attr, identity)
             if guide:
-                st.success("攻略生成完成！")
+                st.success("Guide ready!")
                 st.markdown(guide)
             else:
-                st.error("攻略生成失败，请检查 API 配置。")
+                st.error("Guide generation failed. Check API config.")
 
     # 返回按钮
-    if st.button("← 返回景点列表"):
+    if st.button(t("guide_back_btn", lang)):
         st.session_state.selected_attraction = None
         st.session_state.page = "city"
         st.rerun()
@@ -274,11 +331,12 @@ def page_guide():
 
 def page_chat():
     identity = st.session_state.identity
-    st.header("🆘 途中求助")
-    st.caption("任何途中问题（支付失败 / 酒店拒外宾 / 找不到路 / 网络异常）都可随时提问 —— 不是静态攻略，是动态对话。")
+    lang = _get_lang()
+    st.header(t("chat_title", lang))
+    st.caption(t("chat_caption", lang))
 
     # 快捷提问按钮（本地 FAQ 知识库）
-    render_quick_questions(on_click=lambda q: _ask_faq(q, identity))
+    render_quick_questions(on_click=lambda q: _ask_faq(q, identity), lang=lang)
 
     st.divider()
 
@@ -289,37 +347,43 @@ def page_chat():
             st.markdown(msg["content"])
 
     # 输入框
-    user_input = st.chat_input("输入你的问题，例如：支付宝绑卡失败了怎么办？")
+    user_input = st.chat_input(t("chat_input", lang))
     if user_input:
         _ask_faq(user_input, identity)
 
 
 def _ask_faq(question: str, identity: dict) -> None:
     """处理途中提问：优先本地 FAQ 知识库，未命中走 LLM"""
+    lang = _get_lang()
     # 记录用户问题
     st.session_state.chat_history.append({"role": "user", "content": question})
 
     # 本地知识库优先（稳定、无 API 依赖）
     hit = match_faq(question)
     if hit:
-        answer = f"🤖 **{hit['question']}**\n\n{hit['answer']}"
+        en_answer = faq_answer(hit["id"], lang)
+        if en_answer:
+            answer = f"🤖 **{hit['question']}**\n\n{en_answer}"
+        else:
+            answer = f"🤖 **{hit['question']}**\n\n{hit['answer']}"
         st.session_state.chat_history.append({"role": "assistant", "content": answer})
         return
 
     # 本地未命中 → LLM 兜底
     try:
         prompt = FALLBACK_PROMPT.format(
-            nationality=identity.get("nationality", "外国游客"),
-            chinese_level=identity.get("chinese_level", "完全不会"),
-            city=st.session_state.selected_city or "北京",
+            nationality=identity.get("nationality", "Foreign traveler"),
+            chinese_level=identity.get("chinese_level", "None"),
+            city=st.session_state.selected_city or "Beijing",
+            output_language=output_language(lang),
             question=question,
             faq_reference="（暂无本地知识库命中，请基于常识给出稳妥建议，不编造具体政策）",
         )
-        answer = chat(prompt, model="qwen-turbo")
+        answer = _deepseek_text(prompt)
         st.session_state.chat_history.append({"role": "assistant", "content": answer})
     except Exception as e:
         st.session_state.chat_history.append(
-            {"role": "assistant", "content": f"⚠️ 调用 AI 失败：{e}。请稍后重试，或直接提问酒店/平台客服。"}
+            {"role": "assistant", "content": t("chat_llm_fail", lang, error=e)}
         )
 
 
@@ -329,35 +393,39 @@ def _ask_faq(question: str, identity: dict) -> None:
 
 def _generate_checklist(city_data: dict, identity: dict) -> None:
     """调用 LLM 生成行前准备清单（原型 Day 新增能力：行前 Checklist）"""
+    lang = _get_lang()
     try:
         city_name = city_data["city"]["name"]
         prompt = ARRIVAL_CHECKLIST_PROMPT.format(
-            nationality=identity.get("nationality", "外国游客"),
-            arrival_date=identity.get("arrival_date", "未定"),
-            chinese_level=identity.get("chinese_level", "完全不会"),
+            nationality=identity.get("nationality", "Foreign traveler"),
+            arrival_date=identity.get("arrival_date", "unknown"),
+            chinese_level=identity.get("chinese_level", "None"),
+            output_language=output_language(lang),
             city=city_name,
             city_data=format_city_data(city_data),
         )
-        checklist = chat(prompt, model="qwen-turbo")
-        st.success("你的行前准备清单已生成：")
+        checklist = _deepseek_text(prompt)
+        st.success(t("city_checklist_done", lang))
         st.markdown(checklist)
     except Exception as e:
-        st.error(f"生成清单失败: {e}")
+        st.error(t("chat_llm_fail", lang, error=e))
 
 
 def _generate_guide(attr: dict, identity: dict) -> str | None:
-    """调用通义千问生成文字版攻略（队友 Day 1-5 原能力，保留）"""
+    """调用 DeepSeek 生成文字版结构化攻略卡片（原通义千问通道已切换）。"""
+    lang = _get_lang()
     try:
         prompt = GUIDE_GENERATION_PROMPT.format(
-            nationality=identity.get("nationality", "外国游客"),
-            chinese_level=identity.get("chinese_level", "完全不会"),
+            nationality=identity.get("nationality", "Foreign traveler"),
+            chinese_level=identity.get("chinese_level", "None"),
+            output_language=output_language(lang),
             attraction_name=attr["name"],
             attraction_name_en=attr["name_en"],
             attraction_data=format_attraction_data(attr),
         )
-        return chat(prompt, model="qwen-turbo")
+        return _deepseek_text(prompt)
     except Exception as e:
-        st.error(f"调用 LLM 失败: {e}")
+        st.error(t("chat_llm_fail", lang, error=e))
         return None
 
 
@@ -416,10 +484,13 @@ def _build_guide_context(attr: dict, identity: dict, city_choice: str) -> dict:
     if city_data and city_data.get("city", {}).get("name"):
         city_name = city_data["city"]["name"]
 
+    lang = identity.get("language") or "en"
     return {
         "nationality": identity.get("nationality") or "unknown",
         "arrival_date": identity.get("arrival_date") or "unknown",
         "chinese_level": _map_chinese_level(identity.get("chinese_level")),
+        "language": lang,
+        "output_language": output_language(lang),
         "city": city_name,
         "attraction": attr,
         "passport_booking_status": passport_booking_status,
@@ -440,69 +511,89 @@ def _generate_deepseek_guide(attr: dict, identity: dict) -> None:
     city_choice = st.session_state.selected_city or "beijing"
     context = _build_guide_context(attr, identity, city_choice)
     result = generate_guide(context)
-    render_guide_result(result)
+    id_lang = _get_lang()
+    render_guide_result(result, lang=id_lang)
 
 
 def _handle_faq(question: str, identity: dict) -> None:
     """处理兜底问答：本地 FAQ 知识库优先，未命中走 LLM"""
+    lang = _get_lang()
+
     # 本地知识库优先（稳定、无 API 依赖）
     hit = match_faq(question)
     if hit:
-        st.write("**AI：**")
-        st.markdown(f"**{hit['question']}**\n\n{hit['answer']}")
+        en_answer = faq_answer(hit["id"], lang)
+        if en_answer:
+            st.write("**AI：**")
+            st.markdown(f"**{hit['question']}**\n\n{en_answer}")
+        else:
+            st.write("**AI：**")
+            st.markdown(f"**{hit['question']}**\n\n{hit['answer']}")
         return
     try:
         prompt = FALLBACK_PROMPT.format(
-            nationality=identity.get("nationality", "外国游客"),
-            chinese_level=identity.get("chinese_level", "完全不会"),
-            city=st.session_state.selected_city or "北京",
+            nationality=identity.get("nationality", "Foreign traveler"),
+            chinese_level=identity.get("chinese_level", "None"),
+            city=st.session_state.selected_city or "Beijing",
+            output_language=output_language(lang),
             question=question,
             faq_reference="（暂无本地知识库命中，请基于常识给出稳妥建议，不编造具体政策）",
         )
-        answer = chat(prompt, model="qwen-turbo")
+        answer = _deepseek_text(prompt)
         st.write("**AI：**")
         st.write(answer)
     except Exception as e:
-        st.error(f"调用 LLM 失败: {e}")
+        st.error(t("chat_llm_fail", lang, error=e))
 
 
 # =============================================================================
 # 主入口
 # =============================================================================
 
+def render_footer(lang: str) -> None:
+    """页面底部合规与免责声明（Day 8-9：合规/来源标注/隐私说明）。"""
+    st.divider()
+    with st.container():
+        st.markdown(f"#### {t('footer_disclaimer_title', lang)}")
+        st.caption(t("footer_disclaimer_body", lang))
+        st.caption(t("footer_source_note", lang))
+        st.caption(t("footer_privacy", lang))
+
+
 def main():
     st.set_page_config(
-        page_title="🧳 AI入境旅游搭子",
+        page_title="AI China Travel Buddy",
         page_icon="🧳",
         layout="wide",
     )
 
     init_session()
     config = load_config()
+    lang = _get_lang()
 
     # 顶部导航
-    st.sidebar.title("🧳 AI入境旅游搭子")
-    st.sidebar.caption("智能旅行规划助手")
+    st.sidebar.title(t("app_title", lang))
+    st.sidebar.caption(t("app_slogan", lang))
 
     # API 状态
-    status = "✅ 已配置" if config.api_keys_ready() else "⚠️ 未配置 .env"
-    st.sidebar.info(f"API 配置状态：{status}")
+    status = t("sidebar_api_ready", lang) if config.api_keys_ready() else t("sidebar_api_missing", lang)
+    st.sidebar.info(f"API: {status}")
 
     # 导航按钮
-    if st.sidebar.button("🏠 身份采集"):
+    if st.sidebar.button(t("sidebar_nav_identity", lang)):
         st.session_state.page = "identity"
         st.rerun()
-    if st.sidebar.button("🗺️ 城市推荐"):
+    if st.sidebar.button(t("sidebar_nav_city", lang)):
         st.session_state.page = "city"
         st.rerun()
-    if st.sidebar.button("🆘 途中求助"):
+    if st.sidebar.button(t("sidebar_nav_chat", lang)):
         st.session_state.page = "chat"
         st.rerun()
 
     # 当前身份展示
     if st.session_state.identity:
         st.sidebar.divider()
-        st.sidebar.write("**当前游客信息：**")
+        st.sidebar.write(t("sidebar_identity", lang))
         for k, v in st.session_state.identity.items():
             st.sidebar.write(f"- {k}: {v}")
 
@@ -518,6 +609,9 @@ def main():
         page_chat()
     else:
         page_identity()
+
+    # 页面底部合规与免责声明（Day 8-9）
+    render_footer(lang)
 
 
 if __name__ == "__main__":

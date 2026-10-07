@@ -100,7 +100,7 @@ FAQ_KB: list[dict] = [
     },
     {
         "id": "train_ticket",
-        "keywords": ["火车", "高铁", "12306", "机票", "航班", "train", "flight", "票"],
+        "keywords": ["火车", "高铁", "12306", "机票", "航班", "train", "flight", "high-speed", "ticket", "票"],
         "question": "高铁/火车票怎么用护照买",
         "answer": (
             "① 12306 App / 官网支持护照注册购票（证件类型选「护照」）；\n"
@@ -154,8 +154,21 @@ def match_faq(question: str) -> Optional[dict]:
     return None
 
 
-def quick_questions() -> list[str]:
-    """返回快捷提问列表（用于 UI 展示）"""
+def quick_questions(lang: str = "zh") -> list[str]:
+    """返回快捷提问列表（用于 UI 展示）
+
+    Args:
+        lang: 界面语言（en 时返回英文问题；其余返回中文问题）。
+    """
+    if lang == "en":
+        return [
+            "Hotel refuses foreign passport, what to do?",
+            "How to buy metro ticket with passport?",
+            "No network / SIM card issues?",
+            "Alipay card binding failed?",
+            "Police registration for accommodation?",
+            "How to buy train ticket with passport?",
+        ]
     return [
         "酒店说不能接外籍护照怎么办",
         "地铁怎么用护照买票",

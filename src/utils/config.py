@@ -1,7 +1,7 @@
 """配置管理：加载 .env 与 API Key（Day 1-5 + Day 6-7 合并）。
 
-- 队友 Day 1-5：``Config`` dataclass + ``load_config()`` + ``api_keys_ready()``
-  （供多页面 app.py / tests/test_env.py 使用），读取 Qwen 与高德 Key。
+- ``Config`` dataclass + ``load_config()`` + ``api_keys_ready()``
+  （供多页面 app.py / tests/test_env.py 使用），读取 DeepSeek 与高德 Key。
 - Day 6-7：DeepSeek Anthropic-compatible 配置的 getter（供 llm_client 使用）。
 
 所有运行时配置一律从环境变量或项目根目录的 ``.env`` 文件读取，绝不硬编码密钥。
@@ -28,26 +28,24 @@ def load_env(env_file: str | Path | None = None) -> None:
 
 
 # --------------------------------------------------------------------------- #
-# 队友 Day 1-5：Config 数据类（Qwen + 高德）
+# Config 数据类（DeepSeek + 高德）
 # --------------------------------------------------------------------------- #
 
 @dataclass
 class Config:
-    """队友 Day 1-5 的配置对象。"""
+    """应用配置对象（高德 Key；DeepSeek 通过下方 getter 读取）。"""
 
-    dashscope_api_key: str = ""
     amap_map_key: str = ""
 
     def api_keys_ready(self) -> bool:
-        """Qwen 与高德 Key 都已配置时返回 True。"""
-        return bool(self.dashscope_api_key and self.amap_map_key)
+        """DeepSeek（ANTHROPIC_AUTH_TOKEN）已配置时返回 True。"""
+        return bool(get_auth_token())
 
 
 def load_config() -> Config:
-    """加载项目根目录 .env 中的 Qwen / 高德配置（队友入口）。"""
+    """加载项目根目录 .env 中的高德配置（DeepSeek 走下方 getter）。"""
     load_env()
     return Config(
-        dashscope_api_key=os.getenv("DASHSCOPE_API_KEY", "").strip(),
         amap_map_key=os.getenv("AMAP_MAP_KEY", "").strip(),
     )
 
@@ -108,27 +106,6 @@ def get_max_retries() -> int:
         return int(raw)
     except ValueError:
         return DEFAULT_MAX_RETRIES
-
-
-# --------------------------------------------------------------------------- #
-# Qwen（阿里云 DashScope / 通义千问）
-# --------------------------------------------------------------------------- #
-
-ENV_QWEN_API_KEY = "DASHSCOPE_API_KEY"  # 阿里云 DashScope 官方变量名
-ENV_QWEN_API_KEY_ALIAS = "QWEN_API_KEY"  # 兼容别名
-ENV_QWEN_MODEL = "QWEN_MODEL"
-
-DEFAULT_QWEN_MODEL = "qwen-turbo"
-
-
-def get_qwen_api_key() -> str | None:
-    """返回 Qwen（DashScope）API Key，未配置返回 ``None``。"""
-    return os.getenv(ENV_QWEN_API_KEY) or os.getenv(ENV_QWEN_API_KEY_ALIAS)
-
-
-def get_qwen_model() -> str:
-    """返回 Qwen 模型名，默认 ``qwen-turbo``。"""
-    return os.getenv(ENV_QWEN_MODEL) or DEFAULT_QWEN_MODEL
 
 
 # --------------------------------------------------------------------------- #
