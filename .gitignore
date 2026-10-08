@@ -30,6 +30,8 @@ htmlcov/
 # 日志与数据
 logs/
 data/raw/
+# 本地聊天记录（含用户输入，绝不提交到仓库）
+data/chat_history.json
 *.bundle
 *.log
 .DS_Store
