@@ -394,6 +394,12 @@ UI_TEXT: dict[str, dict[str, str]] = {
         "en": "🔒 Privacy: the identity info you enter is used only within this session "
         "to personalize content; it is not stored or used for any other purpose.",
     },
+    "chat_persist_note": {
+        "zh": "💾 对话已保存在你本机，刷新或切换页面都不会丢失；可随时点「清空对话」。",
+        "en": "💾 Your conversation is saved on this device — refreshing or switching pages won't lose it. Clear anytime via 'Clear conversation'.",
+    },
+    "chat_clear": {"zh": "🗑️ 清空对话", "en": "🗑️ Clear conversation"},
+    "chat_cleared": {"zh": "对话已清空。", "en": "Conversation cleared."},
 
     # ---- 侧边栏 ----
     "sidebar_identity": {
@@ -850,6 +856,10 @@ UI_TEXT_JA: dict[str, str] = {
     "footer_disclaimer_body": "本ツールの情報は参考用であり、いかなる約束や法的助言を構成するものではありません。チケット・予約・入場・支払いなどの重要な情報は、必ず公式の最新情報をご確認ください。AI生成コンテンツには誤りが含まれる場合があります。公式チャネルでご確認ください。",
     "footer_source_note": "情報源：各ナレッジベース項目に出典リンクと更新日が記載されています。各ページの「情報源」をご覧ください。",
     "footer_privacy": "🔒 プライバシー：入力された身元情報は、本セッション内でパーソナライズされたコンテンツ生成にのみ使用され、保存・他用途利用はされません。",
+    # ---- 聊天对话持久化 ----
+    "chat_persist_note": "💾 会話はこの端末に保存されます。画面を更新・切り替えても失われません。「会話を消去」でいつでもクリアできます。",
+    "chat_clear": "🗑️ 会話を消去",
+    "chat_cleared": "会話を消去しました。",
     # ---- 侧边栏 ----
     "sidebar_identity": "**現在の旅行者情報：**",
     "sidebar_api_ready": "✅ 設定済み",
