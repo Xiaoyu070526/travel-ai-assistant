@@ -62,6 +62,16 @@ from src.prompts.templates import (
     format_attraction_data,
     format_city_data,
 )
+from src.utils.chat_history import ChatHistoryStore, build_conversation_block
+
+#: 对话持久化单例（刷新 / 切换页面后保留聊天记录，默认存 data/chat_history.json）
+chat_store = ChatHistoryStore()
+
+
+def _persist_chat() -> None:
+    """把当前聊天历史落盘，刷新 / 跳转后不丢失。失败已被 store 内部吞掉。"""
+    chat_store.save(st.session_state.chat_history)
+
 
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 
@@ -82,7 +92,6 @@ def init_session():
         "identity": {},
         "selected_city": None,
         "selected_attraction": None,
-        "chat_history": [],
         "faq_answered": False,
         "travel_plan": None,
         "plan_pdf": None,
@@ -94,6 +103,10 @@ def init_session():
     for k, v in defaults.items():
         if k not in st.session_state:
             st.session_state[k] = v
+    # 聊天历史从本地文件恢复（保留对话，应对后续行程追问）；
+    # 首次运行文件不存在时返回空列表，等价于原来的内存态。
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = chat_store.load()
 
 
 def _get_lang() -> str:
@@ -754,6 +767,17 @@ def page_chat():
 
     st.divider()
 
+    # 对话持久化提示 + 清空入口
+    col_note, col_clear = st.columns([5, 1])
+    with col_note:
+        st.caption(t("chat_persist_note", lang))
+    with col_clear:
+        if st.button(t("chat_clear", lang), type="secondary", key="chat_clear_btn"):
+            st.session_state.chat_history = []
+            chat_store.clear()
+            st.success(t("chat_cleared", lang))
+            st.rerun()
+
     # 对话历史
     for msg in st.session_state.chat_history:
         role = "user" if msg["role"] == "user" else "assistant"
@@ -768,10 +792,19 @@ def page_chat():
 
 
 def _ask_faq(question: str, identity: dict) -> None:
-    """处理途中提问：优先本地 FAQ 知识库，未命中走 LLM"""
+    """处理途中提问：优先本地 FAQ 知识库，未命中走 LLM。
+
+    对话会保留到 ``st.session_state.chat_history`` 并落盘（刷新不丢），
+    LLM 兜底时把「当前问题之前」的历史作为上下文注入，便于回答后续行程追问。
+    """
     lang = _get_lang()
-    # 记录用户问题
+    # 上下文用「当前问题之前」的历史，避免与下方 {question} 重复
+    prior_history = list(st.session_state.chat_history)
+    conversation_block = build_conversation_block(prior_history)
+
+    # 记录用户问题并落盘
     st.session_state.chat_history.append({"role": "user", "content": question})
+    _persist_chat()
 
     # 本地知识库优先（稳定、无 API 依赖）
     hit = match_faq(question)
@@ -782,9 +815,10 @@ def _ask_faq(question: str, identity: dict) -> None:
         else:
             answer = f"🤖 **{question_label(hit, lang)}**\n\n{hit['answer']}"
         st.session_state.chat_history.append({"role": "assistant", "content": answer})
+        _persist_chat()
         return
 
-    # 本地未命中 → LLM 兜底
+    # 本地未命中 → LLM 兜底（带对话上下文）
     try:
         prompt = FALLBACK_PROMPT.format(
             nationality=identity.get("nationality", "Foreign traveler"),
@@ -793,13 +827,16 @@ def _ask_faq(question: str, identity: dict) -> None:
             output_language=output_language(lang),
             question=question,
             faq_reference="（暂无本地知识库命中，请基于常识给出稳妥建议，不编造具体政策）",
+            conversation=conversation_block,
         )
         answer = _deepseek_text(prompt)
         st.session_state.chat_history.append({"role": "assistant", "content": answer})
+        _persist_chat()
     except Exception as e:
         st.session_state.chat_history.append(
             {"role": "assistant", "content": t("chat_llm_fail", lang, error=e)}
         )
+        _persist_chat()
 
 
 # =============================================================================
@@ -973,6 +1010,7 @@ def _handle_faq(question: str, identity: dict) -> None:
             output_language=output_language(lang),
             question=question,
             faq_reference="（暂无本地知识库命中，请基于常识给出稳妥建议，不编造具体政策）",
+            conversation=build_conversation_block(st.session_state.chat_history),
         )
         answer = _deepseek_text(prompt)
         st.write(t("ai_label", lang))
