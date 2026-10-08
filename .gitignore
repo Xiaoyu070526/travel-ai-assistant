@@ -33,3 +33,7 @@ data/raw/
 *.bundle
 *.log
 .DS_Store
+
+# Generated travel-plan PDF samples and rendering intermediates
+output/pdf/
+tmp/pdfs/
