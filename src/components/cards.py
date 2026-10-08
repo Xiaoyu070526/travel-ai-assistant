@@ -1,7 +1,7 @@
 """Streamlit 组件：攻略卡片渲染（Day 1-5 + Day 6-7 合并）。
 
-- 队友 Day 1-5：render_attraction_card / render_guide_card /
-  render_city_overview / render_essentials / render_quick_questions
+- 队友 Day 1-5：render_attraction_card / render_city_overview /
+  render_essentials / render_quick_questions
 - Day 6-7：render_guide_result（渲染 DeepSeek 结构化攻略 JSON）
 """
 
@@ -9,7 +9,8 @@ from typing import Any
 
 import streamlit as st
 
-from src.utils.i18n import t
+from src.utils.i18n import status_label, t
+from src.utils.content_loader import display_name
 
 
 def render_attraction_card(attr: dict, show_guide_button: bool = True, lang: str = "en") -> None:
@@ -23,11 +24,11 @@ def render_attraction_card(attr: dict, show_guide_button: bool = True, lang: str
     with st.container():
         cols = st.columns([3, 1])
         with cols[0]:
-            st.subheader(f"{attr['name']} ({attr['name_en']})")
+            st.subheader(display_name(attr, lang))
             st.caption(f"{attr['category']} · {attr['description'][:60]}...")
         with cols[1]:
             st.markdown(
-                f"<span style='color:{status_color};font-size:20px;font-weight:bold;'>{attr['status']}</span>",
+                f"<span style='color:{status_color};font-size:20px;font-weight:bold;'>{status_label(attr['status'], lang)}</span>",
                 unsafe_allow_html=True,
             )
 
@@ -57,49 +58,11 @@ def render_attraction_card(attr: dict, show_guide_button: bool = True, lang: str
         st.divider()
 
 
-def render_guide_card(guide_data: dict) -> None:
-    """渲染结构化攻略卡片（队友 Day 1-5 旧 schema，保留）"""
-    st.header(f"📍 {guide_data['attraction_name']} 攻略")
-
-    # 护照预订指南
-    with st.expander("🛂 护照预订指南", expanded=True):
-        passport = guide_data["passport_guide"]
-        st.write(f"**在线预订：** {passport['bookable']}")
-        st.write(f"**预订平台：** {passport['platform']}")
-        st.write(f"**接受护照：** {passport['passport_accepted']}")
-        st.write(f"**需中国手机号：** {passport['requires_phone']}")
-        st.write(f"**建议提前：** {passport['advance_days']}天")
-        st.write(f"**门票价格：** {passport['price']}")
-
-    # 分步购票指引
-    with st.expander("🎫 分步购票指引"):
-        for i, step in enumerate(guide_data["booking_steps"], 1):
-            st.write(f"**Step {i}：** {step}")
-
-    # 出行路线
-    with st.expander("🚇 出行路线"):
-        route = guide_data["route"]
-        st.write(f"**交通方式：** {route['transport']}")
-        st.write(f"**地铁线路：** {route['metro']}")
-        st.write(f"**预计用时：** {route['duration']}")
-        st.write(f"**最佳出发：** {route['best_time']}")
-
-    # 备选方案
-    with st.expander("🔄 备选方案"):
-        for alt in guide_data["alternatives"]:
-            st.write(f"**{alt['name']}：** {alt['reason']}")
-
-    # 应急话术
-    with st.expander("🆘 应急话术"):
-        for phrase in guide_data["emergency_phrases"]:
-            st.write(f"{phrase['cn']} / *{phrase['en']}*")
-
-
 def render_city_overview(city_data: dict, lang: str = "en") -> None:
     """渲染城市概览卡片"""
     city = city_data["city"]
 
-    st.header(t("card_city_hdr", lang, name=city["name"], name_en=city["name_en"]))
+    st.header(t("card_city_hdr", lang, name=display_name(city, lang)))
     st.write(city["description"])
 
     # 亮点
@@ -125,7 +88,7 @@ def render_city_overview(city_data: dict, lang: str = "en") -> None:
     app_cols = st.columns(len(city["apps"]))
     for i, app in enumerate(city["apps"]):
         with app_cols[i]:
-            req_badge = t("card_required", lang) if app["required"] else t("card_optional", lang)
+            req_badge = t("card_required", lang) if app.get("required", False) else t("card_optional", lang)
             st.write(f"**{app['name']}**")
             st.caption(f"{app['purpose']}")
             st.caption(req_badge)
@@ -141,11 +104,7 @@ def render_essentials(city_data: dict, lang: str = "en") -> None:
         return
 
     st.subheader(t("card_essentials_title", lang))
-    st.caption(
-        "Based on 《Foreign Visitors Pain-Point Survey》: "
-        "SIM 4.27 / Payment 4.20 / Hotel 4.17 / Passport ticket 4.17 / "
-        "Taxi 4.17 / Police registration 3.93"
-    )
+    st.caption(t("card_essentials_caption", lang))
 
     sections = [
         (t("card_sim", lang), ess.get("sim_data", "")),

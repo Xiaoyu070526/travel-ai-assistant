@@ -161,6 +161,64 @@ class TestResponseParsing(unittest.TestCase):
         self.assertEqual(client.complete("system", "user"), "hello")
 
 
+class TestCompleteMaxTokens(unittest.TestCase):
+    """Day 9：行程规划等复杂任务需要更大的输出 token 上限。"""
+
+    @mock.patch("requests.post")
+    def test_default_max_tokens_unchanged(self, mock_post):
+        client = LLMClient(auth_token=SECRET, max_retries=0)
+        mock_post.return_value = _text_response("hi")
+        client.complete("system", "user")
+        self.assertEqual(mock_post.call_args.kwargs["json"]["max_tokens"], llm_client.MAX_TOKENS)
+
+    @mock.patch("requests.post")
+    def test_custom_max_tokens_is_forwarded(self, mock_post):
+        client = LLMClient(auth_token=SECRET, max_retries=0)
+        mock_post.return_value = _text_response("hi")
+        client.complete("system", "user", max_tokens=16384)
+        self.assertEqual(mock_post.call_args.kwargs["json"]["max_tokens"], 16384)
+
+
+class TestReasoningModelContent(unittest.TestCase):
+    """Day 9：推理模型（deepseek-flash）会先产出 thinking 块，正文在 text 块。"""
+
+    @staticmethod
+    def _resp(payload):
+        resp = mock.Mock()
+        resp.status_code = 200
+        resp.json.return_value = payload
+        return resp
+
+    def test_extracts_text_after_thinking_block(self):
+        payload = {
+            "content": [
+                {"type": "thinking", "thinking": "reasoning trace..."},
+                {"type": "text", "text": "the actual itinerary"},
+            ],
+            "stop_reason": "end_turn",
+        }
+        self.assertEqual(LLMClient._extract_text(self._resp(payload)), "the actual itinerary")
+
+    def test_thinking_only_truncation_raises_clear_error(self):
+        # max_tokens 被思考过程耗尽 -> 只有 thinking 块、无正文。
+        payload = {
+            "content": [{"type": "thinking", "thinking": "long reasoning..."}],
+            "stop_reason": "max_tokens",
+        }
+        with self.assertRaises(APIResponseError) as ctx:
+            LLMClient._extract_text(self._resp(payload))
+        self.assertIn("max_tokens", str(ctx.exception))
+
+    def test_thinking_only_without_truncation_raises_empty_error(self):
+        payload = {
+            "content": [{"type": "thinking", "thinking": "reasoning..."}],
+            "stop_reason": "end_turn",
+        }
+        with self.assertRaises(APIResponseError) as ctx:
+            LLMClient._extract_text(self._resp(payload))
+        self.assertEqual(str(ctx.exception), "API 返回内容为空")
+
+
 class TestGenerateGuideSuccess(unittest.TestCase):
     @mock.patch("requests.post")
     def test_generate_guide_returns_success_structure(self, mock_post):

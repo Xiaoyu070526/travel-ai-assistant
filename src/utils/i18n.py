@@ -278,7 +278,7 @@ UI_TEXT: dict[str, dict[str, str]] = {
     "card_guide_btn": {"zh": "📋 生成攻略", "en": "📋 Guide"},
     "card_yes": {"zh": "是", "en": "Yes"},
     "card_no": {"zh": "否", "en": "No"},
-    "card_city_hdr": {"zh": "🏙️ {name} ({name_en})", "en": "🏙️ {name} ({name_en})"},
+    "card_city_hdr": {"zh": "🏙️ {name}", "en": "🏙️ {name}"},
     "card_highlights": {"zh": "✨ 亮点", "en": "✨ Highlights"},
     "card_transport": {"zh": "🚆 交通", "en": "🚆 Transport"},
     "card_airport": {"zh": "机场", "en": "Airport"},
@@ -453,16 +453,76 @@ def output_language(lang: str | None) -> str:
     return _OUTPUT_LANGUAGE_NAMES[normalize_lang(lang)]
 
 
-def t(key: str, lang: str | None = LANG_EN, **kwargs) -> str:
-    """按语言取界面文案；fallback 顺序：zh/en -> en。缺失 key 返回 key 本身。"""
+def status_label(status: str, lang: str | None = LANG_EN) -> str:
+    """把景点的规范状态枚举（✅ 可订 / ⚠️ 需人工 / ❌ 不可）按语言转为展示标签。
+
+    状态枚举保留原始值用于配色映射，展示时用本函数取词。
+    """
     lang = normalize_lang(lang)
-    entry = UI_TEXT.get(key)
+    mapping = {
+        "✅ 可订": {"zh": "✅ 可订", "en": "✅ Bookable online", "ja": "✅ 予約可"},
+        "⚠️ 需人工": {"zh": "⚠️ 需人工", "en": "⚠️ Manual required", "ja": "⚠️ 要確認"},
+        "❌ 不可": {"zh": "❌ 不可", "en": "❌ Not available", "ja": "❌ 不可"},
+    }
+    entry = mapping.get(status)
     if not entry:
-        return key
-    if lang in _UI_FULL_LANGS and lang in entry and entry[lang]:
-        text = entry[lang]
+        return status
+    return entry.get(lang) or entry["en"]
+
+
+#: 高德天气常见词 -> 各语言文案（仅用于展示层，不改变高德原始返回数据）
+_WEATHER_TERMS: dict[str, dict[str, str]] = {
+    "晴": {"zh": "晴", "en": "Clear", "ja": "晴れ"},
+    "多云": {"zh": "多云", "en": "Cloudy", "ja": "曇り"},
+    "阴": {"zh": "阴", "en": "Overcast", "ja": "曇り"},
+    "小雨": {"zh": "小雨", "en": "Light rain", "ja": "小雨"},
+    "中雨": {"zh": "中雨", "en": "Moderate rain", "ja": "雨"},
+    "大雨": {"zh": "大雨", "en": "Heavy rain", "ja": "大雨"},
+    "暴雨": {"zh": "暴雨", "en": "Torrential rain", "ja": "豪雨"},
+    "雷阵雨": {"zh": "雷阵雨", "en": "Thunderstorms", "ja": "雷雨"},
+    "雨夹雪": {"zh": "雨夹雪", "en": "Sleet", "ja": "みぞれ"},
+    "小雪": {"zh": "小雪", "en": "Light snow", "ja": "小雪"},
+    "中雪": {"zh": "中雪", "en": "Moderate snow", "ja": "雪"},
+    "大雪": {"zh": "大雪", "en": "Heavy snow", "ja": "大雪"},
+    "雾": {"zh": "雾", "en": "Fog", "ja": "霧"},
+    "霾": {"zh": "霾", "en": "Haze", "ja": "スモッグ"},
+    "浮尘": {"zh": "浮尘", "en": "Dust", "ja": "砂塵"},
+    "北风": {"zh": "北风", "en": "North wind", "ja": "北風"},
+    "南风": {"zh": "南风", "en": "South wind", "ja": "南風"},
+    "东风": {"zh": "东风", "en": "East wind", "ja": "東風"},
+    "西风": {"zh": "西风", "en": "West wind", "ja": "西風"},
+    "东北风": {"zh": "东北风", "en": "Northeast wind", "ja": "北東の風"},
+    "西北风": {"zh": "西北风", "en": "Northwest wind", "ja": "北西の風"},
+    "东南风": {"zh": "东南风", "en": "Southeast wind", "ja": "南東の風"},
+    "西南风": {"zh": "西南风", "en": "Southwest wind", "ja": "南西の風"},
+}
+
+
+def weather_term(term: str, lang: str | None = LANG_EN) -> str:
+    """把高德天气词（晴/多云/北风等）按语言转为展示文案；未收录的词原样返回。"""
+    lang = normalize_lang(lang)
+    entry = _WEATHER_TERMS.get(term)
+    if not entry:
+        return term
+    return entry.get(lang) or entry.get("en", term)
+
+
+def t(key: str, lang: str | None = LANG_EN, **kwargs) -> str:
+    """按语言取界面文案；日文走 UI_TEXT_JA，其余 fallback 顺序：zh/en -> en。
+
+    缺失 key 返回 key 本身，绝不抛 KeyError。
+    """
+    lang = normalize_lang(lang)
+    if lang == LANG_JA and key in UI_TEXT_JA:
+        text = UI_TEXT_JA[key]
     else:
-        text = entry.get(LANG_EN) or entry.get(LANG_ZH) or key
+        entry = UI_TEXT.get(key)
+        if not entry:
+            return key
+        if lang in _UI_FULL_LANGS and lang in entry and entry[lang]:
+            text = entry[lang]
+        else:
+            text = entry.get(LANG_EN) or entry.get(LANG_ZH) or key
     if kwargs:
         try:
             return text.format(**kwargs)
@@ -475,11 +535,14 @@ def faq_answer(faq_id: str, lang: str | None = LANG_EN) -> str:
     """按语言取 FAQ 静态答案。
 
     - 中文（zh）：返回空串，由调用方直接使用 faq_kb 的中文 answer。
+    - 日文（ja）：返回 FAQ_ANSWER_JA 中的日文翻译；缺失回退英文。
     - 其他语言：返回 FAQ_ANSWER_EN 中的英文翻译；缺失回退空串（走 LLM 兜底）。
     """
     lang = normalize_lang(lang)
     if lang == LANG_ZH:
         return ""
+    if lang == LANG_JA:
+        return FAQ_ANSWER_JA.get(faq_id, FAQ_ANSWER_EN.get(faq_id, ""))
     return FAQ_ANSWER_EN.get(faq_id, "")
 
 
@@ -584,3 +647,353 @@ FAQ_ANSWER_EN: dict[str, str] = {
     ),
 }
 
+
+
+# --------------------------------------------------------------------------- #
+# Day 9 行程规划页（页面三）文案 —— feat/day9-trip-planner 分支新增
+# --------------------------------------------------------------------------- #
+UI_TEXT.update({
+    "sidebar_nav_planner": {"zh": "行程规划", "en": "Trip Planner"},
+    "planner_title": {"zh": "行程规划 · 天气与人流智能攻略", "en": "Trip Planner · Weather & Crowd-smart Itinerary"},
+    "planner_caption": {
+        "zh": "选日期、勾选景点，查看预估天气/人流/排队时间，一键生成按时间排列的一日或几日游玩攻略。",
+        "en": "Pick a date, select attractions, check estimated weather/crowd/queue times, then generate a time-ordered day-by-day plan.",
+    },
+    "planner_need_city": {"zh": "请先在「城市推荐」里选择一个城市。", "en": "Please choose a city on the City page first."},
+    "planner_go_city": {"zh": "去选择城市", "en": "Go to City page"},
+    "planner_date": {"zh": "出游日期", "en": "Visit date"},
+    "planner_days": {"zh": "行程天数", "en": "Number of days"},
+    "planner_select_title": {"zh": "勾选想去的景点", "en": "Select attractions"},
+    "planner_select_empty": {"zh": "至少勾选一个景点。", "en": "Select at least one attraction."},
+    "planner_weather_btn": {"zh": "查看天气与人流预估", "en": "Check weather & crowd estimates"},
+    "planner_weather_hint": {
+        "zh": "点击上方按钮加载高德天气预报（未来 4 天，真实数据）。",
+        "en": "Click the button above to load the Amap weather forecast (next 4 days, real data).",
+    },
+    "planner_weather_fail": {"zh": "天气查询失败，仅显示人流预估。", "en": "Weather lookup failed — showing crowd estimates only."},
+    "planner_forecast_title": {"zh": "天气预报（高德数据，未来 4 天）", "en": "Weather forecast (Amap, next 4 days)"},
+    "planner_weather_covered": {"zh": "✅ 你的出游日期在预报范围内，天气为真实预报。", "en": "✅ Your visit date is covered by the real forecast."},
+    "planner_weather_outofrange": {
+        "zh": "ℹ️ 出游日期超出 4 天预报范围，攻略中的天气将按当季气候常识估算。",
+        "en": "ℹ️ Your visit date is beyond the 4-day forecast window — weather in the plan will be estimated from seasonal norms.",
+    },
+    "planner_crowd_title": {"zh": "人流 / 排队 / 游玩时长预估", "en": "Estimated crowd / queue / visit duration"},
+    "planner_col_attr": {"zh": "景点", "en": "Attraction"},
+    "planner_col_duration": {"zh": "建议时长", "en": "Est. duration"},
+    "planner_col_crowd": {"zh": "人流", "en": "Crowd"},
+    "planner_col_queue": {"zh": "预估排队", "en": "Est. queue"},
+    "planner_col_window": {"zh": "建议时段", "en": "Best window"},
+    "planner_estimate_note": {
+        "zh": "⚠️ 人流/排队为按日期类型（节假日/周末/工作日）与景点热度的启发式预估，非实时数据。",
+        "en": "⚠️ Crowd/queue values are heuristic estimates based on date type (holiday/weekend/weekday) and attraction popularity — not real-time data.",
+    },
+    "planner_gen_btn": {"zh": "生成一日/多日游玩攻略", "en": "Generate day-by-day itinerary"},
+    "planner_gen_spinner": {"zh": "正在生成攻略...", "en": "Generating your itinerary..."},
+    "planner_gen_done": {"zh": "✅ 攻略生成完成！", "en": "✅ Itinerary ready!"},
+    "planner_group_note": {
+        "zh": "已按「每天游玩约 6.5 小时」自动把景点分配到各天，顺序可在攻略中微调。",
+        "en": "Attractions are grouped into days at ~6.5 hours of visiting per day; the order can be fine-tuned in the itinerary.",
+    },
+})
+
+# --------------------------------------------------------------------------- #
+# 补充词条：修复此前「写死中文/英文」的 UI 文案（Day 9 多语言整改）
+# --------------------------------------------------------------------------- #
+UI_TEXT.update({
+    "city_load_failed": {
+        "zh": "无法加载 {city} 的数据。",
+        "en": "Failed to load data for {city}.",
+    },
+    "guide_ready": {"zh": "✅ 攻略已生成！", "en": "✅ Guide ready!"},
+    "guide_gen_failed": {
+        "zh": "攻略生成失败，请检查 API 配置。",
+        "en": "Guide generation failed. Check API config.",
+    },
+    "ai_label": {"zh": "**AI：**", "en": "**AI:**"},
+    "status_unknown": {"zh": "未知", "en": "Unknown"},
+    "identity_nationality": {"zh": "国籍", "en": "Nationality"},
+    "identity_arrival": {"zh": "到达日期", "en": "Arrival date"},
+    "identity_chinese_level": {"zh": "中文水平", "en": "Chinese level"},
+    "identity_purpose": {"zh": "旅行目的", "en": "Purpose"},
+    "identity_language": {"zh": "界面语言", "en": "Language"},
+    "card_essentials_caption": {
+        "zh": "基于《外国游客来华旅行痛点调研》：SIM卡 4.27 / 支付 4.20 / 酒店 4.17 / 护照购票 4.17 / 打车 4.17 / 公安登记 3.93",
+        "en": "Based on the Foreign Visitors Pain-Point Survey: SIM 4.27 / Payment 4.20 / Hotel 4.17 / Passport ticket 4.17 / Taxi 4.17 / Police registration 3.93",
+    },
+})
+
+
+# --------------------------------------------------------------------------- #
+# 日文 UI 文案（key -> 日本語）。t() 在 lang=="ja" 时优先取此表。
+# fr/ko 仍按项目既有设计回退英文，不在本次改动范围内。
+# --------------------------------------------------------------------------- #
+UI_TEXT_JA: dict[str, str] = {
+    # ---- 顶部与应用 ----
+    "app_title": "🧳 AI中国旅行アシスタント",
+    "app_slogan": "スマート旅行プランナー",
+    # ---- 身份采集页 ----
+    "identity_greeting": "👋 ようこそ！あなたの旅行プランについて教えてください",
+    "identity_sub": "あなた専用の中国旅行プランを作るために、いくつか質問に答えてください：",
+    "identity_lang_label": "🌐 画面・回答の言語",
+    "identity_q_nationality": "1. 国籍は？",
+    "identity_q_nationality_ph": "例：アメリカ、イギリス、日本",
+    "identity_q_arrival": "2. 到着予定日は？",
+    "identity_q_arrival_ph": "例：来週の月曜日、2026-10-01",
+    "identity_q_chinese": "3. 中国語レベルは？",
+    "identity_q_purpose": "4. 旅行の目的は？",
+    "identity_submit": "✅ 確認して旅程作成を開始",
+    "identity_warning": "続行するにはすべての必須項目を入力してください。",
+    "cl_none": "なし",
+    "cl_basic": "基礎（簡単な単語）",
+    "cl_conversational": "会話レベル",
+    "cl_fluent": "流暢",
+    "purpose_tourism": "観光",
+    "purpose_business": "ビジネス",
+    "purpose_visit": "親族・友人訪問",
+    "purpose_study": "留学/学習",
+    "purpose_other": "その他",
+    # ---- 城市推荐页 ----
+    "city_header_fmt": "🗺️ {nationality}さん、どこへ行きますか？",
+    "city_caption_fmt": "到着：{arrival} | 中国語レベル：{level}",
+    "city_select": "都市を選択",
+    "city_no_data": "都市データがありません。管理者にナレッジベースの追加を依頼してください。",
+    "city_checklist_btn": "🧳 出発前チェックリストを作成",
+    "city_checklist_spinner": "チェックリストを作成中...",
+    "city_checklist_done": "出発前チェックリストができました：",
+    "city_checklist_empty": "AIがコンテンツを返しませんでした。もう一度お試しください。",
+    "city_attractions_title": "🏛️ おすすめ観光地",
+    "city_attractions_info": "各観光地にパスポート可否タグを表示：✅予約可 / ⚠️要確認 / ❌不可",
+    "city_faq_title": "💬 質問はありますか？いつでも聞いてください",
+    "city_faq_ph": "質問を入力",
+    # ---- 攻略页 ----
+    "guide_header_fmt": "📍 {name} 詳細ガイド",
+    "guide_bookability": "🔍 予約可否診断",
+    "guide_phone_checkbox": "中国の携帯番号を持っている（SMS認証用）",
+    "guide_passport_info": "🛂 パスポート予約情報",
+    "guide_entry_info": "📍 入場情報",
+    "guide_tips": "**お役立ち情報：**",
+    "guide_alternatives": "🔄 代替観光地",
+    "guide_sources": "📚 **情報源：** ",
+    "guide_updated_fmt": "🕒 最終更新：{time}（参考情報です。公式情報を必ずご確認ください）",
+    "guide_ai_section": "🤖 AIガイド生成",
+    "guide_deepseek_btn": "🧠 DeepSeekで構造化ガイドを生成",
+    "guide_deepseek_card_btn": "🈯 DeepSeekでガイドカードを生成",
+    "guide_back_btn": "← 観光地一覧に戻る",
+    "guide_section_booking": "### 🎫 チケット/予約",
+    "guide_section_transport": "### 🚇 交通",
+    "guide_section_alternatives": "### 🔄 代替観光地",
+    "guide_section_emergency": "### 🆘 緊急時の助け",
+    "guide_source_official": "公式情報源：",
+    "guide_eta_fmt": "所要時間：{time}",
+    "guide_no_alternatives": "代替観光地はありません。",
+    "guide_basis": "判断根拠：{reason}",
+    "guide_action": "推奨操作：{action}",
+    "guide_online": "オンライン予約",
+    "guide_passport_ok": "パスポート可",
+    "guide_cn_phone": "中国の携帯番号が必要",
+    "guide_ticket_price": "チケット",
+    "guide_platform_fmt": "**予約プラットフォーム：** {platform}",
+    "guide_advance_fmt": "**事前予約：** {days}日前",
+    "guide_price_notes_fmt": "**価格：** {notes}",
+    "guide_address_fmt": "**住所：** {addr}",
+    "guide_metro_fmt": "**最寄り地下鉄：** {metro}",
+    "guide_hours_fmt": "**営業時間：** {hours}",
+    "guide_entry_fmt": "**入場方法：** {entry}",
+    # ---- 景点卡片 ----
+    "card_ticket": "チケット",
+    "card_passport_ok": "パスポート可",
+    "card_phone_req": "中国の携帯番号が必要",
+    "card_advance_days_fmt": "{days}日前",
+    "card_advance_booking": "事前予約",
+    "card_guide_btn": "📋 ガイド",
+    "card_yes": "はい",
+    "card_no": "いいえ",
+    "card_city_hdr": "🏙️ {name}",
+    "card_essentials_caption": "『外国人来中旅行の痛点調査』に基づく：SIM 4.27 / 支払い 4.20 / ホテル 4.17 / パスポート購入 4.17 / タクシー 4.17 / 警察登録 3.93",
+    "card_highlights": "✨ ハイライト",
+    "card_transport": "🚆 交通",
+    "card_airport": "空港",
+    "card_airport_to_city": "空港→市内",
+    "card_city_transport": "市内交通",
+    "card_tips_fmt": "💡 **ヒント：** {tips}",
+    "card_notes": "⚠️ 注意事項",
+    "card_apps": "📱 おすすめアプリ",
+    "card_required": "🔴 必須",
+    "card_optional": "⚪ 任意",
+    "card_essentials_title": "📶 到着後必須ガイド",
+    "card_essentials_expander": "クリックして到着後ガイドをすべて表示",
+    "card_quick_questions": "💬 よくある質問（タップして質問）",
+    "card_sim": "📶 SIM / ネットワーク",
+    "card_payment": "💰 支払い",
+    "card_hotel": "🏨 ホテル予約",
+    "card_ride": "🚕 配車/タクシー",
+    "card_registration": "🛂 警察登録",
+    "card_public_transport": "🚇 公共交通のチケット",
+    "card_guide_fallback_title": "完全なガイドを一時的に生成できません",
+    "card_guide_fallback_msg": "AIサービスが一時的に利用できません。後でもう一度お試しください。",
+    "card_destination": "**目的地**：{text}",
+    # ---- 快捷问题 ----
+    "quickq_hotel_refuse": "ホテルが外国パスポートを拒否",
+    "quickq_metro_ticket": "パスポートでの地下鉄チケット購入",
+    "quickq_network_down": "ネットワークなし / SIM問題",
+    "quickq_payment_fail": "Alipayのカード紐付け失敗",
+    "quickq_police_registration": "警察登録",
+    "quickq_train_ticket": "パスポートでの電車チケット購入",
+    # ---- 途中求助页 ----
+    "chat_title": "🆘 旅行中のヘルプ",
+    "chat_caption": "旅行中のどんな問題（支払い失敗 / ホテルが外国人を拒否 / 道に迷った / ネットワーク不調）でもいつでも質問できます。静的なガイドではなく、リアルタイムの対話です。",
+    "chat_quick_title": "💬 旅行中のよくある質問（タップして質問）",
+    "chat_input": "質問を入力してください。例：Alipayのカード紐付けに失敗したら？",
+    "chat_llm_fail": "⚠️ AI呼び出し失敗：{error}。後でもう一度お試しください。またはホテル/プラットフォームのサポートに直接お問い合わせください。",
+    # ---- 页面底部 ----
+    "footer_disclaimer_title": "🛡️ コンプライアンスと免責事項",
+    "footer_disclaimer_body": "本ツールの情報は参考用であり、いかなる約束や法的助言を構成するものではありません。チケット・予約・入場・支払いなどの重要な情報は、必ず公式の最新情報をご確認ください。AI生成コンテンツには誤りが含まれる場合があります。公式チャネルでご確認ください。",
+    "footer_source_note": "情報源：各ナレッジベース項目に出典リンクと更新日が記載されています。各ページの「情報源」をご覧ください。",
+    "footer_privacy": "🔒 プライバシー：入力された身元情報は、本セッション内でパーソナライズされたコンテンツ生成にのみ使用され、保存・他用途利用はされません。",
+    # ---- 侧边栏 ----
+    "sidebar_identity": "**現在の旅行者情報：**",
+    "sidebar_api_ready": "✅ 設定済み",
+    "sidebar_api_missing": "⚠️ .env未設定",
+    "sidebar_nav_identity": "🏠 プロフィール",
+    "sidebar_nav_city": "🗺️ 都市",
+    "sidebar_nav_chat": "🆘 旅行中のヘルプ",
+    "sidebar_nav_team": "👥 チーム",
+    "sidebar_nav_planner": "🗓️ 旅程プランナー",
+    # ---- 补充词条 ----
+    "city_load_failed": "{city} のデータを読み込めませんでした。",
+    "guide_ready": "✅ ガイドの準備ができました！",
+    "guide_gen_failed": "ガイドの生成に失敗しました。API設定を確認してください。",
+    "ai_label": "**AI：**",
+    "status_unknown": "不明",
+    "identity_nationality": "国籍",
+    "identity_arrival": "到着日",
+    "identity_chinese_level": "中国語レベル",
+    "identity_purpose": "目的",
+    "identity_language": "言語",
+    # ---- 行程规划页 ----
+    "planner_title": "🗓️ 旅程プランナー · 天気と混雑を考慮したスマート旅程",
+    "planner_caption": "日付を選び、観光地をチェックして、天気・混雑・待ち時間の予測を確認し、時間順の日別プランをワンクリックで生成します。",
+    "planner_need_city": "まず「都市」ページで都市を選択してください。",
+    "planner_go_city": "都市ページへ",
+    "planner_date": "訪問日",
+    "planner_days": "日数",
+    "planner_select_title": "行きたい観光地を選択",
+    "planner_select_empty": "少なくとも1つの観光地を選択してください。",
+    "planner_weather_btn": "天気と混雑予測を見る",
+    "planner_weather_hint": "上のボタンをクリックして高徳天気予報（今後4日間、実データ）を読み込みます。",
+    "planner_weather_fail": "天気情報の取得に失敗しました。混雑予測のみ表示します。",
+    "planner_forecast_title": "天気予報（高徳データ、今後4日間）",
+    "planner_weather_covered": "✅ 訪問日は予報範囲内です。実際の予報です。",
+    "planner_weather_outofrange": "ℹ️ 訪問日が4日間の予報範囲外です。旅程の天気は季節の平年値で推定します。",
+    "planner_crowd_title": "混雑 / 待ち時間 / 滞在時間の予測",
+    "planner_col_attr": "観光地",
+    "planner_col_duration": "所要時間",
+    "planner_col_crowd": "混雑",
+    "planner_col_queue": "待ち時間",
+    "planner_col_window": "おすすめ時間帯",
+    "planner_estimate_note": "⚠️ 混雑/待ち時間は日付タイプ（祝日/週末/平日）と観光地の人気度によるヒューリスティックな推定であり、リアルタイムデータではありません。",
+    "planner_gen_btn": "日ごとの旅程を生成",
+    "planner_gen_spinner": "旅程を生成中...",
+    "planner_gen_done": "✅ 旅程の準備ができました！",
+    "planner_group_note": "1日約6.5時間の観光に自動で振り分けました。順序は旅程内で調整できます。",
+}
+
+
+# --------------------------------------------------------------------------- #
+# 本地 FAQ 答案日文翻译（用于「不会中文」的日文游客）
+# --------------------------------------------------------------------------- #
+FAQ_ANSWER_JA: dict[str, str] = {
+    "hotel_refuse": (
+        "1) まず、そのホテルが外国人の宿泊を受け入れる資格を持っているか確認してください"
+        "——一部の民宿・小規模ホテルには外国人受入資格がありません。\n"
+        "2) 携程/Bookingで「外国人受入可」フィルターを使い、再予約してください"
+        "（国際チェーンホテルは一般的に全パスポートを受け入れます）。\n"
+        "3) 予約が拒否された、または履行できない場合は、予約プラットフォームのサポートに"
+        "連絡するか、12345市民ホットラインに電話して助けを求めてください。\n"
+        "出典：ホテルの外国人宿泊規制（2026-09確認）"
+    ),
+    "metro_ticket": (
+        "1) 多くの地下鉄駅の自動券売機はパスポートでの購入に対応しています"
+        "（身分証タイプで「パスポート」を選択）。\n"
+        "2) 「億通行 / 北京一卡通」などの現地アプリをダウンロードし、国際カードを"
+        "紐付けてQRコードで入場することもできます。\n"
+        "3) 主要駅には有人窓口があります。機械が見つからない場合は駅員に尋ねてください"
+        "（このページの中国語の表示を見せるとスムーズです）。\n"
+        "出典：北京/上海/西安の地下鉄駅情報（2026-09確認）"
+    ),
+    "network_down": (
+        "1) 出発前に中国のeSIM（Airalo / Holafly）を購入しておけば、到着後すぐに"
+        "インターネットに接続できます。\n"
+        "2) または到着ロビーで現地SIMを購入します（パスポートが必要）。\n"
+        "3) 一時的な通信障害の場合は、店舗のWiFiを利用してください（SMS認証が"
+        "必要な場合もあり、パスポート登録済みのSIMなら受信できます）。\n"
+        "4) 重要なオフライン情報（ガイドカード、緊急フレーズ）を出発前に"
+        "写真アルバムに保存しておきましょう。\n"
+        "出典：旅行サービスプロバイダー情報（2026-09確認）"
+    ),
+    "payment_fail": (
+        "1) 原因の切り分け：カードの「海外オンライン決済」が有効か、カード名義と"
+        "身分証が一致しているか、ネットワークが干渉されていないかを確認。\n"
+        "2) Visa/Mastercardで再試行するか、Alipay Tour Pass（海外カードを"
+        "プリペイドウォレットに紐付け。パスポート＋顔認証、上限約¥2000）を有効化。\n"
+        "3) 回避策：海外カード対応のコンビニ / スターバックス / 大型スーパーで決済、"
+        "空港ATMで現金を引き出す。現金は今も多くの店舗で使えます。\n"
+        "出典：Alipay/WeChatの海外カードポリシー（2026-09確認）"
+    ),
+    "police_registration": (
+        "1) 通常のホテルでは、フロントがパスポートで自動的に登録してくれるため、"
+        "派出所に行く必要はありません。\n"
+        "2) 民宿・短期賃貸の場合は、まず宿泊先が外国人受入ライセンスと"
+        "登録能力を持っているか確認してください。\n"
+        "3) 誰も代行できない場合は、地域の社区派出所またはホテルのフロントに相談し、"
+        "黙って登録を省くことは絶対にやめてください。\n"
+        "出典：宿泊登記の規定（2026-09確認）"
+    ),
+    "attraction_reserve": (
+        "1) ナレッジベースで✅とマークされたプラットフォーム（公式サイト / 携程）で"
+        "パスポートによるオンライン予約を優先してください。\n"
+        "2) 多くの観光地はパスポートでの実名予約に対応しています。身分証タイプで"
+        "「パスポート」を選択してください。\n"
+        "3) 満席の場合は、ガイドカードの「代替観光地」から、予約不要または"
+        "パスポート対応の場所を選んでください。\n"
+        "4) 最終手段として、現地の有人窓口に行ってください（当日券を残している"
+        "観光地もあります）。\n"
+        "出典：各観光地のチケットポリシー（2026-09確認）"
+    ),
+    "taxi_ride": (
+        "1) 滴滴には英語インターフェースがあり、海外カードを紐付ければ配車できます。"
+        "高徳地図も配車に対応しています。\n"
+        "2) 流しのタクシーは現金またはQR決済が可能です（オンライン配車のほうが"
+        "キャンセルの心配が少ない）。\n"
+        "3) 配車できない場合は、地下鉄が最も確実な代替手段です。アプリでルートを"
+        "確認して乗り換えてください。\n"
+        "出典：配車プラットフォーム情報（2026-09確認）"
+    ),
+    "train_ticket": (
+        "1) 12306アプリ/サイトはパスポートでの登録・購入に対応しています"
+        "（身分証タイプで「パスポート」を選択）。\n"
+        "2) チケットは駅の有人窓口で受け取ってください（パスポート原本が必要）。"
+        "一部の自動券売機も対応しています。\n"
+        "3) 国内線はパスポートで予約・搭乗が可能です。国際/有人カウンターのほうが"
+        "確実です。\n"
+        "出典：12306および航空会社のポリシー（2026-09確認）"
+    ),
+    "diet": (
+        "1) 大衆点評 / 小紅書で「halal / vegetarian」などのキーワードを検索し、"
+        "最近の現地レビューを読んでください。\n"
+        "2) 洋食チェーン（KFC / マクドナルド）や国際ホテルのレストランが最も"
+        "安全な代替手段です。\n"
+        "3) アレルギー：「私はXにアレルギーがあります、避けてください」という"
+        "中国語をスマホに保存し、注文時に見せてください。\n"
+        "出典：レビュープラットフォーム情報（2026-09確認）"
+    ),
+    "translation": (
+        "1) 百度翻訳 / 有道翻訳をダウンロードすれば、メニューや標識の写真翻訳が"
+        "使えます。\n"
+        "2) ガイドカードの「緊急フレーズ」をスクリーンショットして、そのまま"
+        "スタッフに見せてください。\n"
+        "3) 主要な観光地と地下鉄駅には英語の標識があり、地下鉄のアナウンスにも"
+        "英語が含まれています。\n"
+        "出典：翻訳ツールと都市の標識（2026-09確認）"
+    ),
+}

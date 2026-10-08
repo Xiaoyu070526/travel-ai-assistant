@@ -172,6 +172,13 @@ class LLMClient:
 
         text = text.strip()
         if not text:
+            # 推理模型（如 deepseek-flash）可能只返回 thinking 块而未产出正文，
+            # 通常是 max_tokens 被思考过程耗尽（stop_reason == "max_tokens"）。
+            if payload.get("stop_reason") == "max_tokens":
+                raise APIResponseError(
+                    "API 返回内容为空（推理过程耗尽 max_tokens，正文未生成）；"
+                    "请增大 max_tokens 后重试"
+                )
             raise APIResponseError("API 返回内容为空")
         return text
 
@@ -179,9 +186,12 @@ class LLMClient:
     # 低层：请求 / 重试 / 错误映射
     # ------------------------------------------------------------------ #
 
-    def complete(self, system: str, user: str) -> str:
+    def complete(self, system: str, user: str, max_tokens: int | None = None) -> str:
         """调用 Messages 接口并返回模型生成的文本，失败时抛对应异常。
 
+        :param max_tokens: 本次请求的输出 token 上限；默认 :data:`MAX_TOKENS`。
+            推理模型（如 deepseek-flash）会先产出 ``thinking`` 块，复杂任务
+            （如多日行程规划）需要更大的上限，否则正文会被思考过程耗尽。
         :raises ConfigurationError: API Key 缺失
         :raises APITimeoutError: 请求超时（重试耗尽后）
         :raises APIAuthenticationError: 401/403
@@ -192,7 +202,7 @@ class LLMClient:
 
         payload = {
             "model": self.model,
-            "max_tokens": MAX_TOKENS,
+            "max_tokens": max_tokens if max_tokens is not None else MAX_TOKENS,
             "system": system,
             "messages": [{"role": "user", "content": user}],
         }

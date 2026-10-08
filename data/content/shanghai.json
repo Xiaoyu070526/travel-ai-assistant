@@ -61,6 +61,117 @@
       "ride_hailing": "滴滴 / 高德打车均支持外卡绑定的英文界面；出租车可现金或扫码。浦东机场→市区约 45-60 分钟，深夜航班建议提前预约接机。",
       "police_registration": "酒店前台凭护照代办公安住宿登记；民宿 / 公寓须确认经营者有外宾登记资质。",
       "public_transport": "地铁：支付宝「出行」扫码或自助机护照购票；磁悬浮（浦东机场→龙阳路）支持护照购票、8 分钟直达。高铁：12306 护照购票、人工窗口取票。"
+    },
+    "name_ja": "上海",
+    "description_en": "China's largest economic center and most international metropolis. The Bund's colonial architecture faces Lujiazui's futuristic skyline across the Huangpu River, where traditional Shikumen lanes meet contemporary art districts.",
+    "highlights_en": [
+      "Most international city in China with highest foreign-language friendliness",
+      "The Bund + Lujiazui skyline is a globally iconic landscape",
+      "Metro covers entire city; supports Alipay and WeChat Pay",
+      "Dual-airport hub: Pudong (PVG) + Hongqiao (SHA)"
+    ],
+    "transport_en": {
+      "airport": "Pudong International Airport (PVG) / Hongqiao International Airport (SHA)",
+      "airport_to_city": "Maglev (Pudong): 8 min to city center / Metro Line 2 direct",
+      "city_transport": "Metro + bus full coverage; Alipay transit code supported",
+      "tips": [
+        "Hongqiao is closer to city center; choose if possible",
+        "Maglev (Pudong) offers discount with same-day flight ticket",
+        "Metro supports Alipay/WeChat QR; no physical card needed",
+        "Metro Lines 1/2 extremely crowded during rush hours"
+      ]
+    },
+    "notes_en": [
+      "Most attractions don't require booking, but Shanghai Museum does",
+      "Bund light show: summer 19:00, winter 18:00",
+      "Some restaurants only accept WeChat/Alipay; credit card coverage is low",
+      "Spring (Mar-May) and autumn (Sep-Nov) have best weather",
+      "Pudong Airport is far from city center; allow extra time"
+    ],
+    "apps_en": [
+      {
+        "name": "Alipay",
+        "purpose": "QR payment, transit code, attraction booking"
+      },
+      {
+        "name": "Amap (Gaode)",
+        "purpose": "Navigation, metro queries"
+      },
+      {
+        "name": "Trip.com (Ctrip)",
+        "purpose": "Attraction tickets, hotel booking"
+      },
+      {
+        "name": "Dianping",
+        "purpose": "Restaurant reviews, queue numbers"
+      }
+    ],
+    "description_ja": "中国最大の経済センターで、最も国際的な大都市。黄浦江を挟んで、外灘の植民地風建築と陸家嘴の未来主義的なスカイラインが対をなし、伝統的な石庫門通りと現代芸術地区が交差している。",
+    "highlights_ja": [
+      "中国で最も国際的な都市で、外国語への親しみやすさが最高",
+      "外灘＋陸家嘴のスカイラインは世界的に有名な風景",
+      "メトロが市全体をカバーしており、AlipayとWeChat Payをサポート",
+      "二つの空港ハブ：浦東（PVG）＋虹橋（SHA）"
+    ],
+    "notes_ja": [
+      "ほとんどの観光スポットは予約が必要ありませんが、上海博物館は予約が必要です。",
+      "外灘のライトショー：夏は19:00、冬は18:00",
+      "一部のレストランではWeChat/Alipayのみが利用可能であり、クレジットカードの利用は限られている。",
+      "春（3月〜5月）と秋（9月〜11月）が最も過ごしやすい時期です。",
+      "浦東空港は市街地から遠いので、余裕を持って行動してください。"
+    ],
+    "transport_ja": {
+      "airport": "浦東国際空港（PVG）/ 虹橋国際空港（SHA）",
+      "airport_to_city": "リニア（浦東）8分で市内へ / 地下鉄2号線直通",
+      "city_transport": "地下鉄＋バスで全域をカバー、Alipay乗車コード対応",
+      "tips": [
+        "虹橋空港は市内中心部に近いので優先しましょう",
+        "リニア（浦東）は当日の航空券提示で割引あり",
+        "地下鉄はAlipay/WeChat QR対応で、物理カード不要",
+        "ラッシュ時の地下鉄1/2号線は非常に混雑"
+      ]
+    },
+    "apps_ja": [
+      {
+        "name": "Alipay（支付宝）",
+        "purpose": "QR決済、乗車コード、観光地予約",
+        "download": "https://www.alipay.com",
+        "required": true
+      },
+      {
+        "name": "高徳地図（Amap）",
+        "purpose": "ナビ、地下鉄検索",
+        "download": "https://mobile.amap.com",
+        "required": true
+      },
+      {
+        "name": "携程（Trip.com）",
+        "purpose": "観光地チケット、ホテル予約",
+        "download": "https://www.ctrip.com",
+        "required": false
+      },
+      {
+        "name": "大衆点評（Dianping）",
+        "purpose": "レストラン情報、行列の整理券",
+        "download": "https://www.dianping.com",
+        "required": false
+      }
+    ],
+    "essentials_en": {
+      "sim_data": "Before departure, buy a China eSIM on Airalo / Holafly; or buy a local SIM (passport registration required) at the Pudong/Hongqiao airport arrivals hall. Free WiFi is available at airports and in the metro (some need a phone-number verification code).",
+      "payment": "After binding a Visa/Mastercard foreign card to Alipay/WeChat you can pay by scanning QR codes; the metro supports the Alipay \"Transit\" code. If card binding fails, fall back to the Alipay Tour Pass prepaid card; airport ATMs dispense cash, and cash works citywide.",
+      "hotel_booking": "Downtown has a dense cluster of international hotel chains with mature foreign-guest reception. On Ctrip/Booking, filter by \"accepts foreign guests\". During peak periods (CIIE, holidays) foreign-guest rooms are tight — book 7+ days ahead.",
+      "ride_hailing": "Didi and Amap ride-hailing both support English interfaces with foreign cards; taxis accept cash or QR payment. Pudong Airport → city center takes about 45-60 min; book an airport pickup in advance for late-night flights.",
+      "police_registration": "The hotel front desk handles public-security accommodation registration with your passport; for guesthouses/apartments, confirm the operator has foreign-guest registration credentials.",
+      "public_transport": "Metro: scan the Alipay \"Transit\" code or buy a passport ticket at self-service machines. The maglev (Pudong Airport → Longyang Road) accepts passport tickets and takes 8 minutes. High-speed rail: buy with a passport on 12306, collect at the manual window."
+    },
+    "essentials_ja": {
+      "sim_data": "出発前にAiralo / Holaflyで中国のeSIMを購入するか、到着後に浦東/虹橋空港の到着ロビーで現地SIM（パスポートによる本人確認が必要）を購入します。空港と地下鉄内には無料WiFiがあります（一部は電話番号の確認コードが必要）。",
+      "payment": "Alipay / WeChatにVisa/Mastercardの海外カードを紐付ければQRコード決済が可能。地下鉄はAlipay「出行」乗車コードが使えます。紐付けに失敗した場合はAlipay Tour Passプリペイドカードで回避。空港ATMで現金を引き出せ、現金は市内全域で使えます。",
+      "hotel_booking": "中心部には国際チェーンホテルが密集し、外国人受入が成熟しています。携程 / Bookingで「外国人受入可」で絞り込んで予約。繁忙期（輸入博覧会、祝日）は外国人向け客室が逼迫するため、7日以上前の予約をおすすめします。",
+      "ride_hailing": "滴滴 / 高徳の配車はいずれも海外カード対応の英語インターフェース。タクシーは現金またはQR決済可。浦東空港→市内中心部は約45〜60分。深夜便は事前に空港送迎を予約しましょう。",
+      "police_registration": "ホテルのフロントがパスポートで公安宿泊登記を代行。民宿/マンションは経営者が外国人登記資格を持つか確認してください。",
+      "public_transport": "地下鉄：Alipay「出行」QRコード、または自動券売機でパスポート購入。リニア（浦東空港→龍陽路）はパスポート購入可で8分。高速鉄道：12306でパスポート購入、有人窓口で受け取り。"
     }
   },
   "attractions": [
@@ -77,7 +188,11 @@
         "requires_chinese_phone": false,
         "advance_booking_days": 0,
         "price_cny": 0,
-        "price_notes": "免费"
+        "price_notes": "免费",
+        "platform_en": "No reservation needed",
+        "platform_ja": "予約不要",
+        "price_notes_en": "Free",
+        "price_notes_ja": "無料"
       },
       "entry": {
         "location": "上海市黄浦区中山东一路",
@@ -105,7 +220,58 @@
         "https://www.shanghai.gov.cn"
       ],
       "status": "✅ 可订",
-      "updated_at": "2026-09-27"
+      "updated_at": "2026-09-27",
+      "name_ja": "外灘",
+      "category_en": "Landmark / Sightseeing",
+      "category_ja": "ランドマーク/観光",
+      "description_en": "Shanghai's iconic landscape — the Bund's colonial buildings face Lujiazui's skyscrapers across the Huangpu River.",
+      "description_ja": "上海を象徴する景観。外灘の植民地風建築と陸家嘴の高層ビルが黄浦江を挟んで向かい合う。",
+      "status_en": "✅ Bookable online",
+      "status_ja": "✅ 予約可",
+      "entry_en": {
+        "location": "Zhongshan East 1st Road, Huangpu District, Shanghai",
+        "nearest_metro": "East Nanjing Road Station (Line 2/10) / The Bund Station",
+        "hours": "Open all day",
+        "entry_method": "Walk in directly; no ticket needed",
+        "tips": [
+          "Go in the late afternoon to see the day view then wait for the lights",
+          "Lighting times: 19:00 in summer / 18:00 in winter",
+          "The riverside promenade is long — about 2 km from Waibaidu Bridge to Shiliupu Wharf",
+          "River cruises depart from the Bund pier; the night view is stunning"
+        ]
+      },
+      "entry_ja": {
+        "location": "上海市黄浦区中山東一路",
+        "nearest_metro": "南京東路駅（2/10号線）/ 外灘駅",
+        "hours": "終日開放",
+        "entry_method": "直接徒歩で入場。チケット不要",
+        "tips": [
+          "夕方に行き、日中の景色を見てからライトアップを待つのがおすすめ",
+          "ライトアップ：夏19:00 / 冬18:00",
+          "川沿いの遊歩道は長く、外白渡橋から十六鋪埠頭まで約2km",
+          "遊覧船は外灘埠頭から出航し、夜景が素晴らしい"
+        ]
+      },
+      "alternatives_en": [
+        {
+          "name": "North Bund",
+          "reason": "Fewer people with the same Lujiazui panorama; great for photos"
+        },
+        {
+          "name": "Lujiazui Riverside Avenue",
+          "reason": "See the Bund buildings from the opposite bank; unique view, free"
+        }
+      ],
+      "alternatives_ja": [
+        {
+          "name": "北外灘",
+          "reason": "人が少なく、同じ陸家嘴のパノラマを楽しめる。写真撮影に最適"
+        },
+        {
+          "name": "陸家嘴浜江大道",
+          "reason": "対岸から外灘の建築群を見られる。ユニークな眺めで無料"
+        }
+      ]
     },
     {
       "id": "dongfangmingzhu",
@@ -120,7 +286,11 @@
         "requires_chinese_phone": false,
         "advance_booking_days": 1,
         "price_cny": 199,
-        "price_notes": "二球联票199元，三球联票220元"
+        "price_notes": "二球联票199元，三球联票220元",
+        "platform_en": "Ctrip / Meituan / official mini-program",
+        "platform_ja": "携程 / 美団 / 公式ミニプログラム",
+        "price_notes_en": "Two-sphere combined ticket ¥199; three-sphere ¥220",
+        "price_notes_ja": "二球共通券199元、三球共通券220元"
       },
       "entry": {
         "location": "上海市浦东新区世纪大道1号",
@@ -148,7 +318,58 @@
         "https://www.orientalpearltower.com"
       ],
       "status": "✅ 可订",
-      "updated_at": "2026-09-27"
+      "updated_at": "2026-09-27",
+      "name_ja": "東方明珠",
+      "category_en": "Landmark / Sightseeing",
+      "category_ja": "ランドマーク/観光",
+      "description_en": "Shanghai's iconic 468-meter TV tower with observation decks overlooking the whole city.",
+      "description_ja": "上海のシンボルである高さ468mのテレビ塔。展望台から市内全体を見渡せる。",
+      "status_en": "✅ Bookable online",
+      "status_ja": "✅ 予約可",
+      "entry_en": {
+        "location": "No. 1 Century Avenue, Pudong New Area, Shanghai",
+        "nearest_metro": "Lujiazui Station (Line 2), Exit 1",
+        "hours": "08:30-21:30",
+        "entry_method": "Enter with original passport + reservation/ticket voucher",
+        "tips": [
+          "Go at dusk to see both day and night views",
+          "The transparent observation corridor (259 m) is a popular photo spot",
+          "The Shanghai History Museum under the tower is worth a visit",
+          "Lines are extreme on holidays — go on a weekday"
+        ]
+      },
+      "entry_ja": {
+        "location": "上海市浦東新区世紀大道1号",
+        "nearest_metro": "陸家嘴駅（2号線）1番出口",
+        "hours": "08:30～21:30",
+        "entry_method": "パスポート原本＋予約コード/購入証明で入場",
+        "tips": [
+          "夕暮れ時に登ると、日中と夜景の両方を楽しめる",
+          "透明観光回廊（259m）は人気の写真スポット",
+          "塔の下にある上海都市歴史発展陳列館も見る価値あり",
+          "祝日は大行列のため、平日の訪問をおすすめ"
+        ]
+      },
+      "alternatives_en": [
+        {
+          "name": "Shanghai Tower",
+          "reason": "China's tallest building (632 m); higher and better observation deck"
+        },
+        {
+          "name": "SWFC (Shanghai World Financial Center)",
+          "reason": "100th-floor observatory with the famous \"bottle opener\" shape"
+        }
+      ],
+      "alternatives_ja": [
+        {
+          "name": "上海中心大厦",
+          "reason": "中国一の高さ（632m）。より高い展望台で眺めも良い"
+        },
+        {
+          "name": "環球金融中心",
+          "reason": "100階の展望台。有名な「栓抜き」形のビル"
+        }
+      ]
     },
     {
       "id": "chenghuangmiao",
@@ -163,7 +384,11 @@
         "requires_chinese_phone": false,
         "advance_booking_days": 0,
         "price_cny": 40,
-        "price_notes": "豫园40元，城隍庙10元"
+        "price_notes": "豫园40元，城隍庙10元",
+        "platform_en": "Yuyuan official / Ctrip / on-site tickets",
+        "platform_ja": "豫園公式 / 携程 / 現地購入",
+        "price_notes_en": "Yu Garden ¥40; City God Temple ¥10",
+        "price_notes_ja": "豫園40元、城隍廟10元"
       },
       "entry": {
         "location": "上海市黄浦区安仁街137号",
@@ -191,7 +416,58 @@
         "https://www.yugarden.com.cn"
       ],
       "status": "✅ 可订",
-      "updated_at": "2026-09-27"
+      "updated_at": "2026-09-27",
+      "name_ja": "城隍廟/豫園",
+      "category_en": "Historic site / Garden",
+      "category_ja": "史跡/庭園",
+      "description_en": "A Ming-dynasty private garden and a representative Jiangnan classical garden, surrounded by a famous snack street and shopping area.",
+      "description_ja": "明代の私家庭園で、江南古典庭園の代表。周辺は有名な小吃街とショッピングエリア。",
+      "status_en": "✅ Bookable online",
+      "status_ja": "✅ 予約可",
+      "entry_en": {
+        "location": "No. 137 Anren Street, Huangpu District, Shanghai",
+        "nearest_metro": "Yuyuan Station (Line 10/14)",
+        "hours": "09:00-16:30 (Yu Garden) / 08:30-16:30 (City God Temple)",
+        "entry_method": "Buy a passport ticket on site or reserve online",
+        "tips": [
+          "Yu Garden and City God Temple are two separate sights; a combined ticket is available",
+          "The Nine-Turn Bridge is a classic photo spot but very crowded on holidays",
+          "The surrounding snack street (e.g., Nanxiang steamed buns) is famous",
+          "Visit the garden in the morning and eat nearby at noon"
+        ]
+      },
+      "entry_ja": {
+        "location": "上海市黄浦区安仁街137号",
+        "nearest_metro": "豫園駅（10/14号線）",
+        "hours": "09:00～16:30（豫園）/ 08:30～16:30（城隍廟）",
+        "entry_method": "現地でパスポート購入、またはオンライン予約",
+        "tips": [
+          "豫園と城隍廟は別々の施設。共通券あり",
+          "九曲橋は定番の写真スポットだが、祝日は大混雑",
+          "周辺の小吃街（南翔饅頭店など）が有名",
+          "午前中に庭園を観光し、昼に周辺で食事するのがおすすめ"
+        ]
+      },
+      "alternatives_en": [
+        {
+          "name": "Tianzifang",
+          "reason": "A creative Shikumen-lane district, free, great for walking and photos"
+        },
+        {
+          "name": "Xintiandi",
+          "reason": "A trendy leisure district converted from Shikumen buildings, with dining and bars"
+        }
+      ],
+      "alternatives_ja": [
+        {
+          "name": "田子坊",
+          "reason": "石庫門の路地を活かしたクリエイティブ街区。無料で散策と写真撮影に最適"
+        },
+        {
+          "name": "新天地",
+          "reason": "石庫門建築を改装したおしゃれなエリア。飲食店やバーが集まる"
+        }
+      ]
     },
     {
       "id": "disney",
@@ -206,7 +482,11 @@
         "requires_chinese_phone": true,
         "advance_booking_days": 3,
         "price_cny": 475,
-        "price_notes": "常规日475元，高峰日719元，假期日799元"
+        "price_notes": "常规日475元，高峰日719元，假期日799元",
+        "platform_en": "Disney official app / Ctrip / Fliggy",
+        "platform_ja": "ディズニー公式アプリ / 携程 / 飛猪（Fliggy）",
+        "price_notes_en": "Regular day ¥475; peak day ¥719; holiday ¥799",
+        "price_notes_ja": "通常日475元、ピーク日719元、休暇日799元"
       },
       "entry": {
         "location": "上海市浦东新区川沙新镇",
@@ -234,7 +514,58 @@
         "https://www.shanghaidisneyresort.com"
       ],
       "status": "⚠️ 需人工",
-      "updated_at": "2026-09-27"
+      "updated_at": "2026-09-27",
+      "name_ja": "上海ディズニー",
+      "category_en": "Theme park",
+      "category_ja": "テーマパーク",
+      "description_en": "Mainland China's first Disney theme park, with seven themed lands.",
+      "description_ja": "中国本土初のディズニーテーマパーク。7つのテーマランドで構成される。",
+      "status_en": "⚠️ Manual required",
+      "status_ja": "⚠️ 要確認",
+      "entry_en": {
+        "location": "Chuansha New Town, Pudong New Area, Shanghai",
+        "nearest_metro": "Disney Resort Station (Line 11), terminus",
+        "hours": "08:30-21:30 (subject to official announcement)",
+        "entry_method": "Enter with original passport + reservation/ticket voucher + facial recognition",
+        "tips": [
+          "Download the official Disney app to check queue and show times",
+          "Arrive 30 minutes before opening",
+          "Popular rides (Soaring, TRON) have 2h+ queues; consider Early Access",
+          "Fireworks show at 20:00/21:15; grab a spot an hour early"
+        ]
+      },
+      "entry_ja": {
+        "location": "上海市浦東新区川沙新鎮",
+        "nearest_metro": "迪士尼駅（11号線）終点",
+        "hours": "08:30～21:30（公式発表を基準とする）",
+        "entry_method": "パスポート原本＋予約コード/購入証明＋顔認証で入園",
+        "tips": [
+          "公式ディズニーアプリで待ち時間とショーの時間を確認必須",
+          "開園30分前には到着して並びましょう",
+          "人気アトラクション（ソアリン、トロン）は2時間以上待ち。アーリーアクセスの購入を検討",
+          "花火は20:00/21:15。1時間前に場所取りを"
+        ]
+      },
+      "alternatives_en": [
+        {
+          "name": "Happy Valley",
+          "reason": "A large theme park with many thrilling roller coasters and cheaper tickets"
+        },
+        {
+          "name": "Haichang Ocean Park",
+          "reason": "Ocean-themed, family-friendly, with a killer whale show"
+        }
+      ],
+      "alternatives_ja": [
+        {
+          "name": "歓楽谷",
+          "reason": "大型テーマパークで、スリル満点のジェットコースターが多く、チケットも安い"
+        },
+        {
+          "name": "海昌海洋公園",
+          "reason": "海洋テーマで家族向け。シャチのショーあり"
+        }
+      ]
     },
     {
       "id": "shibohui",
@@ -249,7 +580,11 @@
         "requires_chinese_phone": false,
         "advance_booking_days": 0,
         "price_cny": 0,
-        "price_notes": "免费（特展收费，清明上河图动态版20元）"
+        "price_notes": "免费（特展收费，清明上河图动态版20元）",
+        "platform_en": "Official WeChat account / Ctrip / on-site",
+        "platform_ja": "公式WeChatアカウント / 携程 / 現地",
+        "price_notes_en": "Free (special exhibitions charged; dynamic Qingming Scroll ¥20)",
+        "price_notes_ja": "無料（特別展は有料。清明上河図動態版20元）"
       },
       "entry": {
         "location": "上海市浦东新区上南路205号",
@@ -277,7 +612,58 @@
         "https://www.cnam.org.cn"
       ],
       "status": "✅ 可订",
-      "updated_at": "2026-09-27"
+      "updated_at": "2026-09-27",
+      "name_ja": "中華芸術宮",
+      "category_en": "Museum / Art",
+      "category_ja": "博物館/芸術",
+      "description_en": "Converted from the China Pavilion of Expo 2010, housing modern Chinese art treasures; the dynamic \"Along the River During the Qingming Festival\" is the centerpiece.",
+      "description_ja": "2010年上海万博の中国館を改装。近現代中国美術の至宝を収蔵し、目玉は動態版「清明上河図」。",
+      "status_en": "✅ Bookable online",
+      "status_ja": "✅ 予約可",
+      "entry_en": {
+        "location": "No. 205 Shangnan Road, Pudong New Area, Shanghai",
+        "nearest_metro": "China Art Museum Station (Line 8)",
+        "hours": "10:00-18:00 (closed Mondays; last entry 17:00)",
+        "entry_method": "Enter with passport on site; no reservation needed",
+        "tips": [
+          "The dynamic \"Along the River During the Qingming Festival\" is a must-see — well worth ¥20",
+          "The building itself (a large red inverted-trapezoid) is a photo spot",
+          "Exhibits focus on modern Chinese painting; allow 2 hours",
+          "The nearby Expo Source shopping mall has dining options"
+        ]
+      },
+      "entry_ja": {
+        "location": "上海市浦東新区上南路205号",
+        "nearest_metro": "中華芸術宮駅（8号線）",
+        "hours": "10:00～18:00（月曜休館、17:00入場締切）",
+        "entry_method": "現地でパスポート提示して入場。予約不要",
+        "tips": [
+          "動態版「清明上河図」は必見で、20元の価値あり",
+          "建物自体（大きな赤い逆台形）が写真スポット",
+          "展示は近現代中国画が中心。2時間を確保",
+          "近くの世博源ショッピングセンターで食事ができる"
+        ]
+      },
+      "alternatives_en": [
+        {
+          "name": "Shanghai Museum",
+          "reason": "Ancient Chinese art treasures; free but requires reservation"
+        },
+        {
+          "name": "Long Museum",
+          "reason": "Contemporary art in a building converted from an abandoned wharf; very design-forward"
+        }
+      ],
+      "alternatives_ja": [
+        {
+          "name": "上海博物館",
+          "reason": "中国古代美術の至宝。無料だが予約が必要"
+        },
+        {
+          "name": "龍美術館",
+          "reason": "現代アート。廃埠頭を改装した建物自体がデザイン性に富む"
+        }
+      ]
     }
   ]
 }

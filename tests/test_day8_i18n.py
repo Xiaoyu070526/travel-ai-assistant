@@ -27,10 +27,15 @@ def test_t_zh_and_en_full():
     assert t("app_title", "en") == "🧳 AI China Travel Buddy"
 
 
-def test_t_fallback_to_en_for_fr_ja_ko():
-    # fr/ja/ko 未单独维护 UI 文案，必须回退英文，不能抛 KeyError
-    for lang in ("fr", "ja", "ko"):
+def test_t_fallback_to_en_for_fr_ko():
+    # fr/ko 未单独维护 UI 文案，必须回退英文，不能抛 KeyError
+    for lang in ("fr", "ko"):
         assert t("app_title", lang).startswith("🧳 AI China")
+
+
+def test_t_ja_has_own_text():
+    # ja 已提供真实日文词条，不再回退英文
+    assert t("app_title", "ja").startswith("🧳 AI中国")
 
 
 def test_t_format_kwargs():

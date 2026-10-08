@@ -61,6 +61,119 @@
       "ride_hailing": "滴滴 / 高德打车支持外卡；回民街等老城区部分路段车流受限，建议走到主路叫车。出租车起步价低，现金或扫码均可。",
       "police_registration": "酒店前台凭护照代办公安住宿登记；民宿须确认经营者登记资质。",
       "public_transport": "地铁：自助售票机多数支持护照购票；高铁：12306 护照购票、人工窗口取票。机场大巴 25 元直达钟楼，比打车划算。"
+    },
+    "name_ja": "西安",
+    "description_en": "One of China's four great ancient capitals and capital of 13 dynasties. The starting point of the Silk Road, home to the Terracotta Warriors, Giant Wild Goose Pagoda, and intact Ming Dynasty city walls spanning 5,000 years of civilization.",
+    "highlights_en": [
+      "Terracotta Warriors: recognized as the Eighth Wonder of the World, must-see",
+      "Intact Ming Dynasty city wall: bike the full 14km loop around the old city",
+      "Muslim Quarter: authentic northwestern Chinese street food hub",
+      "Grand Tang Everbright City: spectacular night light show and viral photo spot"
+    ],
+    "transport_en": {
+      "airport": "Xi'an Xianyang International Airport (XIY)",
+      "airport_to_city": "Airport bus: ~60 min / Metro Line 14: ~50 min / Taxi: ~¥120",
+      "city_transport": "Metro + bus + shared bikes; Alipay transit code supported",
+      "tips": [
+        "Airport is ~40km from city; Metro Line 14 is recommended",
+        "Metro supports Alipay QR-code entry",
+        "Roads inside the old city wall are narrow; heavy traffic during rush hours",
+        "To Terracotta Warriors: take Bus 306 (Tour 5) from east square of railway station"
+      ]
+    },
+    "notes_en": [
+      "Terracotta Warriors MUST be booked in advance; tickets sell out fast in peak season",
+      "South Gate (Yongning Gate) is the main entrance and best preserved section",
+      "Shaanxi History Museum is free but requires advance booking (very difficult)",
+      "Main Muslim Quarter street is commercialized; explore nearby Dapiyuan and Sajinqiao alleys instead",
+      "Summer is extremely hot; Terracotta Museum has no air conditioning; bring drinking water"
+    ],
+    "apps_en": [
+      {
+        "name": "Alipay",
+        "purpose": "Payment, transit code, attraction booking"
+      },
+      {
+        "name": "Amap (Gaode)",
+        "purpose": "Navigation, transit queries"
+      },
+      {
+        "name": "Trip.com (Ctrip)",
+        "purpose": "Terracotta Warriors / museum booking"
+      },
+      {
+        "name": "Xi'an Metro",
+        "purpose": "Xi'an metro route queries",
+        "download": "App Store",
+        "required": false
+      }
+    ],
+    "description_ja": "中国の4大古都の一つで、13王朝の首都であった。シルクロードの出発点であり、兵馬俑、大雁塔、5000年にわたる文明を象徴する完全な明代の城壁がある。",
+    "highlights_ja": [
+      "兵馬俑：世界八番目の不思議として認定され、見逃せない",
+      "明代の城壁：古い街を一周する14kmの自転車ルート",
+      "回民街：本格的な西北中国料理の街",
+      "大唐不夜城：豪華な夜間ライトアップと話題の写真スポット"
+    ],
+    "notes_ja": [
+      "兵馬俑は事前予約が必要です。ピークシーズンにはチケットがすぐに売り切れてしまいます。",
+      "南門（永寧門）は主要な入り口で、最もよく保存されている区間です。",
+      "陝西歴史博物館は無料ですが、事前予約が必要です（非常に難しい場合があります）。",
+      "回民街のメイン通りは商業化されています。近くの大皮院や洒金橋の小路を訪れるのがおすすめです。",
+      "夏は非常に暑く、兵馬俑博物館にはエアコンがありません。飲み物を持ってきてください。"
+    ],
+    "transport_ja": {
+      "airport": "西安咸陽国際空港（XIY）",
+      "airport_to_city": "空港バス約60分 / 地下鉄14号線約50分 / タクシー約120元",
+      "city_transport": "地下鉄＋バス＋シェアサイクル、Alipay乗車コード利用可",
+      "tips": [
+        "空港は市内から遠い（約40km）。地下鉄14号線がおすすめ",
+        "地下鉄はAlipay QRコード対応",
+        "城壁内の道路は狭く、ラッシュ時は渋滞しやすい",
+        "兵馬俑へは駅東広場から遊5路（306路）バスがおすすめ"
+      ]
+    },
+    "apps_ja": [
+      {
+        "name": "Alipay（支付宝）",
+        "purpose": "決済、乗車コード、観光地予約",
+        "download": "https://www.alipay.com",
+        "required": true
+      },
+      {
+        "name": "高徳地図（Amap）",
+        "purpose": "ナビ、バス検索",
+        "download": "https://mobile.amap.com",
+        "required": true
+      },
+      {
+        "name": "携程（Trip.com）",
+        "purpose": "兵馬俑/博物館の予約",
+        "download": "https://www.ctrip.com",
+        "required": false
+      },
+      {
+        "name": "西安地下鉄",
+        "purpose": "西安地下鉄の路線検索",
+        "download": "App Store",
+        "required": false
+      }
+    ],
+    "essentials_en": {
+      "sim_data": "You can buy a local SIM (passport registration required) at Xi'an Xianyang Airport arrivals; it's better to buy a China eSIM (Airalo / Holafly) before departure so it works immediately on landing.",
+      "payment": "Alipay/WeChat work after binding a foreign card; metro and buses support the Alipay transit code. On-site ticket purchase at attractions like the Terracotta Army accepts cash and QR payment. If card binding fails, fall back to Tour Pass or cash.",
+      "hotel_booking": "The old town (Bell Tower / Muslim Quarter) has many guesthouses — always confirm foreign-guest reception credentials; international chains cluster in the Hi-tech and Qujiang areas. Book on Ctrip/Booking with the \"accepts foreign guests\" filter.",
+      "ride_hailing": "Didi and Amap ride-hailing support foreign cards; some roads in the old town (e.g., Muslim Quarter) restrict traffic, so walk to a main road to hail. Taxi flagfall is low; cash or QR payment both work.",
+      "police_registration": "The hotel front desk handles public-security accommodation registration with your passport; for guesthouses, confirm the operator has registration credentials.",
+      "public_transport": "Metro: most self-service machines accept passports for tickets. High-speed rail: buy with a passport on 12306, collect at the manual window. The airport bus to the Bell Tower costs ¥25 and is cheaper than a taxi."
+    },
+    "essentials_ja": {
+      "sim_data": "西安咸陽国際空港の到着ロビーで現地SIM（パスポートによる本人確認が必要）を購入できます。出発前に中国のeSIM（Airalo / Holafly）を購入しておけば、到着後すぐ使えるのでおすすめです。",
+      "payment": "Alipay / WeChatは海外カードを紐付ければ利用可能。地下鉄・バスはAlipay乗車コード対応。兵馬俑などの現地チケット購入は現金とQR決済に対応。紐付けに失敗した場合はTour Passか現金で回避。",
+      "hotel_booking": "旧市街（鐘楼 / 回民街）は民宿が多く、外国人受入資格の確認が必須。国際チェーンホテルは高新・曲江エリアに集中。携程 / Bookingで「外国人受入可」タグで予約しましょう。",
+      "ride_hailing": "滴滴 / 高徳の配車は海外カード対応。回民街など旧市街の一部道路は車両通行が制限されるため、大通りまで歩いて配車を。タクシー初乗り料金は安く、現金・QRどちらも可。",
+      "police_registration": "ホテルのフロントがパスポートで公安宿泊登記を代行。民宿は経営者の登記資格を確認してください。",
+      "public_transport": "地下鉄：自動券売機の多くはパスポート購入に対応。高速鉄道：12306でパスポート購入、有人窓口で受け取り。空港バスは25元で鐘楼まで直行し、タクシーよりお得。"
     }
   },
   "attractions": [
@@ -77,7 +190,11 @@
         "requires_chinese_phone": false,
         "advance_booking_days": 3,
         "price_cny": 120,
-        "price_notes": "旺季120元/淡季80元，16岁以下免费"
+        "price_notes": "旺季120元/淡季80元，16岁以下免费",
+        "platform_en": "Terracotta Army official / Emperor Qinshihuang's Mausoleum Museum account / Ctrip / Meituan",
+        "platform_ja": "兵馬俑公式 / 秦始皇帝陵博物院アカウント / 携程 / 美団",
+        "price_notes_en": "¥120 peak / ¥80 off-peak; free for under-16s",
+        "price_notes_ja": "ピーク120元/オフ80元、16歳未満は無料"
       },
       "entry": {
         "location": "西安市临潼区秦陵北路",
@@ -106,7 +223,58 @@
         "https://www.qinlingmuseum.com"
       ],
       "status": "✅ 可订",
-      "updated_at": "2026-09-27"
+      "updated_at": "2026-09-27",
+      "name_ja": "兵馬俑",
+      "category_en": "World Heritage / Museum",
+      "category_ja": "世界遺産/博物館",
+      "description_en": "Burial pits of the First Emperor's mausoleum, the Eighth Wonder of the World and a UNESCO World Heritage Site with over 8,000 unearthed terracotta figures.",
+      "description_ja": "秦の始皇帝陵の副葬坑で、世界八番目の不思議。ユネスコ世界遺産で、出土した陶俑は8000体以上。",
+      "status_en": "✅ Bookable online",
+      "status_ja": "✅ 予約可",
+      "entry_en": {
+        "location": "Qinling North Road, Lintong District, Xi'an",
+        "nearest_metro": "No direct metro; take Metro Line 9 to Huaqingchi Station, then bus/taxi",
+        "hours": "08:30-17:00 (peak) / 08:30-16:30 (off-peak)",
+        "entry_method": "Enter with original passport + reservation/ticket voucher",
+        "tips": [
+          "Visit in order Pit 1 → Pit 3 → Pit 2; no backtracking",
+          "Hire an official guide (¥90) or rent an audio guide (¥30)",
+          "No air conditioning inside — very hot in summer",
+          "Avoid weekends and holidays; extremely crowded"
+        ]
+      },
+      "entry_ja": {
+        "location": "西安市臨潼区秦陵北路",
+        "nearest_metro": "直通地下鉄なし。地下鉄9号線華清池駅からバス/タクシー",
+        "hours": "08:30～17:00（ピーク）/ 08:30～16:30（オフ）",
+        "entry_method": "パスポート原本＋予約コード/購入証明で入園",
+        "tips": [
+          "1号坑→3号坑→2号坑の順に見学（戻らず一方通行）",
+          "公式ガイド（90元）または電子ガイド（30元）の利用がおすすめ",
+          "館内にエアコンはなく、夏は非常に蒸し暑い",
+          "週末と祝日は避けること。非常に混雑する"
+        ]
+      },
+      "alternatives_en": [
+        {
+          "name": "Huaqing Palace",
+          "reason": "Same route as the Terracotta Army; Tang-dynasty royal hot springs; the \"Song of Everlasting Sorrow\" show is worth seeing"
+        },
+        {
+          "name": "Shaanxi History Museum",
+          "reason": "Free, with 370,000 artifacts, but reservations are extremely hard"
+        }
+      ],
+      "alternatives_ja": [
+        {
+          "name": "華清池",
+          "reason": "兵馬俑と同ルート。唐代の皇室温泉で、「長恨歌」のショーが一見の価値あり"
+        },
+        {
+          "name": "陝西歴史博物館",
+          "reason": "無料で37万点の文物を収蔵するが、予約が非常に難しい"
+        }
+      ]
     },
     {
       "id": "guchengqiang",
@@ -121,7 +289,11 @@
         "requires_chinese_phone": false,
         "advance_booking_days": 0,
         "price_cny": 54,
-        "price_notes": "成人54元，自行车租赁45元/3小时"
+        "price_notes": "成人54元，自行车租赁45元/3小时",
+        "platform_en": "Xi'an City Wall official account / Ctrip / on-site tickets",
+        "platform_ja": "西安城壁公式アカウント / 携程 / 現地購入",
+        "price_notes_en": "Adult ¥54; bike rental ¥45/3 hours",
+        "price_notes_ja": "大人54元、自転車レンタル45元/3時間"
       },
       "entry": {
         "location": "西安市碑林区南大街2号（永宁门）",
@@ -149,7 +321,58 @@
         "https://www.xacitywall.com"
       ],
       "status": "✅ 可订",
-      "updated_at": "2026-09-27"
+      "updated_at": "2026-09-27",
+      "name_ja": "古城壁",
+      "category_en": "Historic site / Outdoor",
+      "category_ja": "史跡/アウトドア",
+      "description_en": "China's best-preserved ancient city wall, a Ming-dynasty structure 13.7 km in circumference that can be cycled around.",
+      "description_ja": "中国で最も保存状態の良い古代城壁。明代の建築で周長13.7km、自転車で一周できる。",
+      "status_en": "✅ Bookable online",
+      "status_ja": "✅ 予約可",
+      "entry_en": {
+        "location": "No. 2 South Street, Beilin District, Xi'an (Yongning Gate)",
+        "nearest_metro": "Yongningmen Station (Line 2) directly at the South Gate",
+        "hours": "08:00-22:00 (South Gate) / 08:00-18:00 (other gates)",
+        "entry_method": "Enter via any gate with original passport + ticket voucher",
+        "tips": [
+          "The South Gate (Yongning Gate) is the most impressive, with a drawbridge and gate tower",
+          "Rent a bike and ride the full 13.7 km loop (about 1.5 h)",
+          "Go up at dusk for sunset + night views — the most beautiful",
+          "No shade on the wall; protect against the sun in summer"
+        ]
+      },
+      "entry_ja": {
+        "location": "西安市碑林区南大街2号（永寧門）",
+        "nearest_metro": "永寧門駅（2号線）南門直結",
+        "hours": "08:00～22:00（南門）/ 08:00～18:00（その他の門）",
+        "entry_method": "パスポート原本＋購入証明で任意の城門から登城",
+        "tips": [
+          "南門（永寧門）が最も壮観で、吊り橋と門楼がある",
+          "自転車を借りて13.7kmを一周（約1.5時間）",
+          "夕暮れに登ると夕日＋夜景が見られ、最も美しい",
+          "城壁上は日陰がないため、夏は日焼け対策を"
+        ]
+      },
+      "alternatives_en": [
+        {
+          "name": "Bell Tower / Drum Tower",
+          "reason": "Landmarks in the wall's center; combined ticket ¥50, better night view"
+        },
+        {
+          "name": "Daming Palace Ruins Park",
+          "reason": "Tang-dynasty palace ruins; a large free area, good for walking"
+        }
+      ],
+      "alternatives_ja": [
+        {
+          "name": "鐘楼/鼓楼",
+          "reason": "城壁中心のランドマーク。共通券50元で夜景がより美しい"
+        },
+        {
+          "name": "大明宮遺跡公園",
+          "reason": "唐代の宮殿跡。無料エリアが広く、散策に最適"
+        }
+      ]
     },
     {
       "id": "dayanta",
@@ -164,7 +387,11 @@
         "requires_chinese_phone": false,
         "advance_booking_days": 0,
         "price_cny": 40,
-        "price_notes": "大慈恩寺40元，登大雁塔另收25元"
+        "price_notes": "大慈恩寺40元，登大雁塔另收25元",
+        "platform_en": "Daci'en Temple official / Ctrip / on-site",
+        "platform_ja": "大慈恩寺公式 / 携程 / 現地",
+        "price_notes_en": "Daci'en Temple ¥40; pagoda ascent ¥25 extra",
+        "price_notes_ja": "大慈恩寺40元、大雁塔への登塔は別途25元"
       },
       "entry": {
         "location": "西安市雁塔区雁塔路南段11号",
@@ -192,7 +419,58 @@
         "https://www.xadayanta.com"
       ],
       "status": "✅ 可订",
-      "updated_at": "2026-09-27"
+      "updated_at": "2026-09-27",
+      "name_ja": "大雁塔",
+      "category_en": "Historic site / Buddhist",
+      "category_ja": "史跡/仏教",
+      "description_en": "Where the Tang-dynasty monk Xuanzang translated scriptures; an iconic Xi'an landmark, with the Grand Tang Everbright City nightlife district nearby.",
+      "description_ja": "唐代の僧・玄奘が経典を訳した地。西安を象徴する建築で、周辺の大唐不夜城は夜の人気エリア。",
+      "status_en": "✅ Bookable online",
+      "status_ja": "✅ 予約可",
+      "entry_en": {
+        "location": "No. 11 South Section of Yanta Road, Yanta District, Xi'an",
+        "nearest_metro": "Dayanta Station (Line 3/4)",
+        "hours": "08:00-17:00 (Daci'en Temple) / 08:00-16:30 (pagoda ascent)",
+        "entry_method": "Enter with original passport + ticket voucher",
+        "tips": [
+          "Visit Daci'en Temple in the afternoon and stroll Grand Tang Everbright City at dusk",
+          "The Everbright City has a music fountain (19:00/21:00) and street performances at night",
+          "The North Square is the best spot to photograph the full pagoda",
+          "Nearby malls (Grand Joy City, Westin) have dining"
+        ]
+      },
+      "entry_ja": {
+        "location": "西安市雁塔区雁塔路南段11号",
+        "nearest_metro": "大雁塔駅（3/4号線）",
+        "hours": "08:00～17:00（大慈恩寺）/ 08:00～16:30（登塔）",
+        "entry_method": "パスポート原本＋購入証明で入園",
+        "tips": [
+          "午後に大慈恩寺を観光し、夕暮れに大唐不夜城を散策するのがおすすめ",
+          "大唐不夜城では夜に音楽噴水（19:00/21:00）と大道芸がある",
+          "大雁塔の全景撮影には北広場が最適",
+          "周辺の大悦城、ウェスティンなどの商業施設で食事ができる"
+        ]
+      },
+      "alternatives_en": [
+        {
+          "name": "Small Wild Goose Pagoda",
+          "reason": "Another Tang-dynasty pagoda, free admission, next to the Xi'an Museum"
+        },
+        {
+          "name": "Tang Paradise",
+          "reason": "A Tang-style royal garden; the night show \"Dream Back to Tang\" is worth seeing"
+        }
+      ],
+      "alternatives_ja": [
+        {
+          "name": "小雁塔",
+          "reason": "同じ唐代の古塔で入場無料。隣に西安博物院がある"
+        },
+        {
+          "name": "大唐芙蓉園",
+          "reason": "唐風の皇室庭園。夜のショー「夢回大唐」は一見の価値あり"
+        }
+      ]
     },
     {
       "id": "huiminjie",
@@ -207,7 +485,11 @@
         "requires_chinese_phone": false,
         "advance_booking_days": 0,
         "price_cny": 0,
-        "price_notes": "免费（餐饮自费）"
+        "price_notes": "免费（餐饮自费）",
+        "platform_en": "No reservation needed",
+        "platform_ja": "予約不要",
+        "price_notes_en": "Free (dining at your own expense)",
+        "price_notes_ja": "無料（飲食は自己負担）"
       },
       "entry": {
         "location": "西安市莲湖区北院门",
@@ -235,7 +517,58 @@
         "https://www.xiantravel.cn"
       ],
       "status": "✅ 可订",
-      "updated_at": "2026-09-27"
+      "updated_at": "2026-09-27",
+      "name_ja": "回民街",
+      "category_en": "Food / Culture",
+      "category_ja": "グルメ/文化",
+      "description_en": "Xi'an's most famous food-and-culture street, gathering northwestern specialties like roujiamo, yangrou paomo and liangpi.",
+      "description_ja": "西安で最も有名なグルメ文化ストリート。肉夹馍、羊肉泡馍、涼皮など西北の名物料理が集まる。",
+      "status_en": "✅ Bookable online",
+      "status_ja": "✅ 予約可",
+      "entry_en": {
+        "location": "Beiyuanmen, Lianhu District, Xi'an",
+        "nearest_metro": "Zhonglou Station (Line 2), 5-minute walk",
+        "hours": "Open all day (shops generally open until 23:00)",
+        "entry_method": "Walk in directly",
+        "tips": [
+          "The main street (Beiyuanmen) is commercialized; try nearby Dapiyuan and Sajinqiao instead",
+          "Must-try: roujiamo, yangrou paomo, liangpi, biangbiang noodles, persimmon cakes",
+          "Lao Mi Jia and Lao Sun Jia are famous for paomo",
+          "Note: no pork on the Muslim Quarter — respect local customs"
+        ]
+      },
+      "entry_ja": {
+        "location": "西安市蓮湖区北院門",
+        "nearest_metro": "鐘楼駅（2号線）徒歩5分",
+        "hours": "終日開放（店舗は通常23:00まで営業）",
+        "entry_method": "直接徒歩で入場",
+        "tips": [
+          "メイン通り（北院門）は商業化されているため、近くの大皮院・洒金橋がおすすめ",
+          "必食：肉夹馍、羊肉泡馍、涼皮、ビャンビャン麺、柿餅",
+          "老米家、老孫家の泡馍が有名",
+          "注意：回民街では豚肉を扱わない。現地の習慣を尊重しましょう"
+        ]
+      },
+      "alternatives_en": [
+        {
+          "name": "Yongxingfang",
+          "reason": "An intangible-heritage food street, tidier, with the viral bowl-smashing wine"
+        },
+        {
+          "name": "Sajinqiao",
+          "reason": "More locals, cheaper than the main Muslim Quarter street"
+        }
+      ],
+      "alternatives_ja": [
+        {
+          "name": "永興坊",
+          "reason": "無形文化遺産のグルメストリート。より清潔で、話題の「碗割り酒」がある"
+        },
+        {
+          "name": "洒金橋",
+          "reason": "地元の人が多く、回民街のメイン通りより安い"
+        }
+      ]
     },
     {
       "id": "shanxi",
@@ -250,7 +583,11 @@
         "requires_chinese_phone": true,
         "advance_booking_days": 7,
         "price_cny": 0,
-        "price_notes": "免费（特展收费）"
+        "price_notes": "免费（特展收费）",
+        "platform_en": "Shaanxi History Museum official account / Ctrip (reservation proxy)",
+        "platform_ja": "陝西歴史博物館公式アカウント / 携程（予約代行）",
+        "price_notes_en": "Free (special exhibitions charged)",
+        "price_notes_ja": "無料（特別展は有料）"
       },
       "entry": {
         "location": "西安市雁塔区小寨东路91号",
@@ -278,7 +615,58 @@
         "https://www.sxhm.com"
       ],
       "status": "⚠️ 需人工",
-      "updated_at": "2026-09-27"
+      "updated_at": "2026-09-27",
+      "name_ja": "陝西歴史博物館",
+      "category_en": "Museum",
+      "category_ja": "博物館",
+      "description_en": "China's first modern national-level museum, with 370,000 artifacts including many national treasures.",
+      "description_ja": "中国初の現代的な国家級博物館。37万点の文物を収蔵し、国宝級の文物も多い。",
+      "status_en": "⚠️ Manual required",
+      "status_ja": "⚠️ 要確認",
+      "entry_en": {
+        "location": "No. 91 Xiaozhai East Road, Yanta District, Xi'an",
+        "nearest_metro": "Xiaozhai Station (Line 2/3), 10-minute walk",
+        "hours": "08:30-18:00 (peak) / 09:00-17:30 (off-peak); closed Mondays",
+        "entry_method": "Enter with original passport + reservation code",
+        "tips": [
+          "Reservations are extremely hard! Wait online 7 days ahead when tickets are released",
+          "If you can't reserve, buy a special-exhibition ticket (¥30) to enter",
+          "Rent an audio guide (¥30) or hire a guide",
+          "Must-see: the gilt beast-head agate cup and the gilt dancing-horse silver flask"
+        ]
+      },
+      "entry_ja": {
+        "location": "西安市雁塔区小寨東路91号",
+        "nearest_metro": "小寨駅（2/3号線）徒歩10分",
+        "hours": "08:30～18:00（ピーク）/ 09:00～17:30（オフ）、月曜休館",
+        "entry_method": "パスポート原本＋予約コードで入場",
+        "tips": [
+          "予約は非常に困難！7日前のチケット発売の夜に待機しましょう",
+          "予約できなくても、特別展チケット（30元）で入館可能",
+          "音声ガイド（30元）のレンタルまたはガイドの依頼がおすすめ",
+          "必見の文物：金獣首瑪瑙杯、鎏金舞馬銜杯紋銀壺"
+        ]
+      },
+      "alternatives_en": [
+        {
+          "name": "Xi'an Museum",
+          "reason": "Free, includes the Small Wild Goose Pagoda, and far fewer visitors"
+        },
+        {
+          "name": "Forest of Stone Steles Museum",
+          "reason": "A must for calligraphy lovers, with steles from all dynasties; ¥65 ticket"
+        }
+      ],
+      "alternatives_ja": [
+        {
+          "name": "西安博物院",
+          "reason": "無料で小雁塔もあり、人もはるかに少ない"
+        },
+        {
+          "name": "碑林博物館",
+          "reason": "書道好きには必見。歴代の石碑を収蔵、チケット65元"
+        }
+      ]
     }
   ]
 }

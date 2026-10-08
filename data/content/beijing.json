@@ -66,6 +66,127 @@
       "ride_hailing": "滴滴 App（含英文界面）绑定外卡后可叫车；高德地图也支持打车。为防司机中途取消，建议线上叫车而非路边招手。",
       "police_registration": "入住常规酒店时，前台会凭护照代为办理公安住宿登记，无需自行前往派出所；住民宿时需确认经营者具备外宾接待与登记资质。",
       "public_transport": "地铁：站内自助售票机多数支持护照购单程票；或下载「亿通行 / 北京一卡通」App 绑定国际卡扫码进站。高铁 / 火车：用护照在 12306 或车站窗口购票，取票走人工窗口（问卷痛点均值 4.17/5）。"
+    },
+    "name_ja": "北京",
+    "description_en": "Capital of China with over 3,000 years of history and 800+ years as a capital. Home to UNESCO World Heritage Sites including the Forbidden City, Great Wall, and Temple of Heaven. A vibrant international metropolis blending ancient traditions with modern innovation.",
+    "highlights_en": [
+      "One of the highest densities of UNESCO World Heritage Sites globally",
+      "7 UNESCO sites: Forbidden City, Great Wall, Temple of Heaven, Summer Palace, etc.",
+      "High internationalization with English services at major attractions",
+      "Extensive metro network with airport express links"
+    ],
+    "transport_en": {
+      "airport": "Capital International Airport (PEK) / Daxing International Airport (PKX)",
+      "airport_to_city": "Airport Express/Metro: 30-60 min; Taxi: ¥120-200",
+      "city_transport": "Metro + bus cover entire city; use Alipay transit code or transport card",
+      "tips": [
+        "Airports have English signage and staffed help desks",
+        "Metro supports Alipay QR-code entry",
+        "Rush hours (7:30-9:30, 17:30-19:30) are extremely crowded"
+      ]
+    },
+    "notes_en": [
+      "Most attractions require advance booking; peak season (Apr-Oct) book 3-7 days ahead",
+      "Passport is accepted as valid ID at all sites",
+      "Some attractions only accept China mobile numbers for verification codes; prepare in advance",
+      "Air quality fluctuates occasionally; sensitive travelers should carry masks",
+      "Winter (Nov-Mar) is cold; bring heavy coats"
+    ],
+    "apps_en": [
+      {
+        "name": "Alipay",
+        "purpose": "QR payment, transit code, attraction booking"
+      },
+      {
+        "name": "Amap (Gaode)",
+        "purpose": "Navigation, transit queries, POI locations"
+      },
+      {
+        "name": "Trip.com (Ctrip)",
+        "purpose": "Attraction tickets, hotel booking"
+      },
+      {
+        "name": "Baidu Translate",
+        "purpose": "Chinese translation, photo-translate menus"
+      },
+      {
+        "name": "MetroMan",
+        "purpose": "Metro route queries (English)",
+        "download": "App Store / Google Play",
+        "required": false
+      }
+    ],
+    "description_ja": "中国の首都で、3,000年以上の歴史を持ち、800年以上にわたり都として機能した。紫禁城、万里の長城、天壇などユネスコ世界遺産が点在する。古き文化と現代の革新が融合した活気ある国際都市。",
+    "highlights_ja": [
+      "世界遺産の数が世界一高い地域の一つ",
+      "7か所の世界遺産：紫禁城、万里の長城、天壇、頤和園など",
+      "主な観光地で英語サービスが利用できる国際化された都市",
+      "空港アクセスがある広範な地下鉄ネットワーク"
+    ],
+    "notes_ja": [
+      "ほとんどの観光スポットでは事前予約が必要です。ピークシーズン（4月〜10月）は、3〜7日前までに予約してください。",
+      "パスポートはすべてのサイトで有効な身分証明書として受け入れられます。",
+      "一部の観光地では、確認コードの受け取りに中国の携帯番号が必要です。事前に準備してください。",
+      "空気質は時折変動するため、敏感な旅行者はマスクを持参することをおすすめします。",
+      "冬（11月～3月）は寒いので、厚手のコートを着てください。"
+    ],
+    "transport_ja": {
+      "airport": "首都国際空港（PEK）/ 大興国際空港（PKX）",
+      "airport_to_city": "空港急行・地下鉄で約30〜60分、タクシーで約120〜200元",
+      "city_transport": "地下鉄＋バスで市内全域をカバー。交通カードまたはAlipay乗車コードを利用",
+      "tips": [
+        "空港には英語の案内表示と有人サービス窓口がある",
+        "地下鉄はAlipay QRコードでの入場に対応",
+        "ラッシュ時（7:30-9:30、17:30-19:30）の地下鉄は非常に混雑する"
+      ]
+    },
+    "apps_ja": [
+      {
+        "name": "Alipay（支付宝）",
+        "purpose": "QR決済、乗車コード、観光地予約",
+        "download": "https://www.alipay.com",
+        "required": true
+      },
+      {
+        "name": "高徳地図（Amap）",
+        "purpose": "ナビ、バス検索、観光地の場所",
+        "download": "https://mobile.amap.com",
+        "required": true
+      },
+      {
+        "name": "携程旅行（Trip.com）",
+        "purpose": "観光地チケット予約、ホテル予約",
+        "download": "https://www.ctrip.com",
+        "required": false
+      },
+      {
+        "name": "百度翻訳",
+        "purpose": "中国語翻訳、メニューの写真翻訳",
+        "download": "https://fanyi.baidu.com",
+        "required": false
+      },
+      {
+        "name": "MetroMan",
+        "purpose": "地下鉄路線検索（英語）",
+        "download": "App Store / Google Play",
+        "required": false
+      }
+    ],
+    "essentials_en": {
+      "sim_data": "Before departure, buy a China eSIM on Airalo / Holafly and install it (you'll be online the moment you land); or buy a local SIM (passport registration required) at the Capital/Daxing airport arrivals hall after landing. Roaming data is expensive and unstable, so don't rely on it.",
+      "payment": "Both Alipay and WeChat support binding a Visa/Mastercard foreign card — bind and test before arrival. If card binding fails, see the fallback on the On-the-Go Help page (Alipay Tour Pass prepaid card / cash / airport ATM withdrawal). Convenience stores, Starbucks and large supermarkets generally accept foreign cards or cash.",
+      "hotel_booking": "On Ctrip / Booking, filter by the \"accepts foreign guests\" tag; international hotel chains generally accept foreign guests. Some guesthouses/small hotels have no foreign-guest license — always confirm before booking (this is a top pain point in the survey: hotel refusal, mean 4.17/5).",
+      "ride_hailing": "The Didi app (with English interface) supports hailing a ride after binding a foreign card; Amap also supports ride-hailing. To avoid mid-ride cancellation, book online rather than hailing on the street.",
+      "police_registration": "At regular hotels, the front desk handles the public-security accommodation registration with your passport automatically — no need to visit a police station. For guesthouses, confirm the operator has foreign-guest reception and registration credentials.",
+      "public_transport": "Metro: most self-service ticket machines accept passports for single-journey tickets; or download the \"Yitongxing / Beijing Yikatong\" app and bind an international card to scan in. High-speed rail: buy tickets with your passport on 12306 or at station windows; collect at the manual window (survey pain point mean 4.17/5)."
+    },
+    "essentials_ja": {
+      "sim_data": "出発前にAiralo / Holaflyで中国のeSIMを購入してインストールしておきましょう（到着後すぐに接続できます）。または到着後に首都/大興空港の到着ロビーで現地SIM（パスポートによる本人確認が必要）を購入します。海外ローミングは高額で不安定なため、依存は避けてください。",
+      "payment": "Alipay / WeChatはいずれもVisa/Mastercardの海外カードを紐付けられます。入国前に紐付けてテストしておきましょう。紐付けに失敗した場合は「旅行中のヘルプ」ページの回避策（Alipay Tour Passプリペイドカード / 現金 / 空港ATMでの引き出し）をご覧ください。コンビニ、スターバックス、大型スーパーでは一般的に海外カードや現金が使えます。",
+      "hotel_booking": "携程 / Bookingで「外国人受入可」タグで絞り込みましょう。国際チェーンホテルは一般的に外国人を受け入れます。一部の民宿・小規模ホテルは外国人受入資格がありません。予約前に必ず確認してください（アンケートでも高頻度の痛点：ホテルが外国人を拒否、平均4.17/5）。",
+      "ride_hailing": "滴滴アプリ（英語インターフェース）は海外カードを紐付ければ配車できます。高徳地図も配車に対応。途中キャンセルを防ぐため、路上で拾うよりオンライン配車をおすすめします。",
+      "police_registration": "通常のホテルでは、フロントがパスポートで公安宿泊登記を代行してくれるため、自分で派出所に行く必要はありません。民宿の場合は経営者が外国人受入と登記の資格を持つか確認してください。",
+      "public_transport": "地下鉄：駅の自動券売機の多くはパスポートでの片道券購入に対応。または「億通行 / 北京一卡通」アプリをダウンロードし、国際カードを紐付けてQRコードで入場。高速鉄道/列車：パスポートで12306または駅窓口で購入し、有人窓口で受け取ります（アンケート痛点平均4.17/5）。"
     }
   },
   "attractions": [
@@ -82,7 +203,11 @@
         "requires_chinese_phone": true,
         "advance_booking_days": 7,
         "price_cny": 60,
-        "price_notes": "旺季60元/淡季40元，珍宝馆/钟表馆另收10元"
+        "price_notes": "旺季60元/淡季40元，珍宝馆/钟表馆另收10元",
+        "platform_en": "Forbidden City official site / Ctrip / Alipay mini-program",
+        "platform_ja": "故宮公式サイト / 携程（Ctrip）/ Alipayミニプログラム",
+        "price_notes_en": "¥60 peak / ¥40 off-peak; Treasure Gallery & Clock Gallery ¥10 extra",
+        "price_notes_ja": "ピーク60元/オフ40元、珍宝館・鐘表館は別途10元"
       },
       "entry": {
         "location": "北京市东城区景山前街4号",
@@ -111,7 +236,58 @@
         "https://www.ctrip.com (携程预订)"
       ],
       "status": "✅ 可订",
-      "updated_at": "2026-09-27"
+      "updated_at": "2026-09-27",
+      "name_ja": "故宮",
+      "category_en": "Palace / Museum",
+      "category_ja": "宮殿/博物館",
+      "description_en": "Imperial palace of the Ming and Qing dynasties; the world's largest surviving timber architectural complex and a UNESCO World Heritage Site.",
+      "description_ja": "明清時代の皇宮。世界最大級の現存木造建築群で、ユネスコ世界遺産。",
+      "status_en": "✅ Bookable online",
+      "status_ja": "✅ 予約可",
+      "entry_en": {
+        "location": "No. 4 Jingshan Front Street, Dongcheng District, Beijing",
+        "nearest_metro": "Tian'anmen East Station (Line 1) / Tian'anmen West Station (Line 1)",
+        "hours": "08:30-17:00 (peak) / 08:30-16:30 (off-peak); closed Mondays",
+        "entry_method": "Enter through the Meridian Gate (south gate) with original passport + reservation QR code",
+        "tips": [
+          "Enter via the Meridian Gate and exit via the Gate of Divine Prowess (north gate) — one-way route",
+          "Allow 3-4 hours",
+          "The Treasure Gallery and Clock Gallery are worth the extra ticket",
+          "Audio guide costs ¥20 and supports multiple languages"
+        ]
+      },
+      "entry_ja": {
+        "location": "北京市東城区景山前街4号",
+        "nearest_metro": "天安門東駅（1号線）/ 天安門西駅（1号線）",
+        "hours": "08:30～17:00（ピーク）/ 08:30～16:30（オフ）、月曜休館",
+        "entry_method": "パスポート原本＋予約QRコードで午門（南門）から入場",
+        "tips": [
+          "午門から入り、神武門（北門）から出る一方通行の見学",
+          "3〜4時間を確保しましょう",
+          "珍宝館と鐘表館は追加チケットの価値あり",
+          "音声ガイドは20元、多言語対応"
+        ]
+      },
+      "alternatives_en": [
+        {
+          "name": "Jingshan Park",
+          "reason": "Directly opposite the north gate, overlooks the whole Forbidden City; ticket only ¥2, no reservation needed"
+        },
+        {
+          "name": "Imperial Ancestral Temple (Working People's Cultural Palace)",
+          "reason": "Right next to the Forbidden City; Ming-dynasty architecture, quiet, ¥2 ticket"
+        }
+      ],
+      "alternatives_ja": [
+        {
+          "name": "景山公園",
+          "reason": "故宮の北門の真正面にあり、故宮全景を見渡せる。チケットはわずか2元で予約不要"
+        },
+        {
+          "name": "太廟（労働人民文化宮）",
+          "reason": "故宮と壁ひとつ隔てた明代建築。人が少なく静かで、チケット2元"
+        }
+      ]
     },
     {
       "id": "badaling",
@@ -126,7 +302,11 @@
         "requires_chinese_phone": false,
         "advance_booking_days": 1,
         "price_cny": 40,
-        "price_notes": "旺季40元/淡季35元，缆车往返140元"
+        "price_notes": "旺季40元/淡季35元，缆车往返140元",
+        "platform_en": "Badaling official site / Ctrip / Alipay",
+        "platform_ja": "八達嶺公式サイト / 携程 / Alipay",
+        "price_notes_en": "¥40 peak / ¥35 off-peak; round-trip cable car ¥140",
+        "price_notes_ja": "ピーク40元/オフ35元、ケーブルカー往復140元"
       },
       "entry": {
         "location": "北京市延庆区G6京藏高速58号出口",
@@ -155,7 +335,58 @@
         "https://www.12306.cn (高铁订票)"
       ],
       "status": "✅ 可订",
-      "updated_at": "2026-09-27"
+      "updated_at": "2026-09-27",
+      "name_ja": "八達嶺長城",
+      "category_en": "Historic site / Outdoor",
+      "category_ja": "史跡/アウトドア",
+      "description_en": "The most iconic section of the Great Wall, a World Heritage Site about 70 km from the city center.",
+      "description_ja": "万里の長城を代表する区間。世界遺産で、市内中心部から約70km。",
+      "status_en": "✅ Bookable online",
+      "status_ja": "✅ 予約可",
+      "entry_en": {
+        "location": "Exit 58 of G6 Jingzang Expressway, Yanqing District, Beijing",
+        "nearest_metro": "No direct metro; take high-speed rail (Qinghe Station → Badaling Great Wall Station, ~20 min)",
+        "hours": "06:30-16:30 (peak) / 07:00-16:00 (off-peak)",
+        "entry_method": "Enter at the ascent gate with original passport + reservation code",
+        "tips": [
+          "High-speed rail is the most convenient option, with frequent departures",
+          "The north route (North Tower 8) is steeper and more spectacular; the south route is gentler",
+          "Arrive before 7:30 to avoid the crowds",
+          "Cable car and slide can save energy"
+        ]
+      },
+      "entry_ja": {
+        "location": "北京市延慶区G6京蔵高速道路58号出口",
+        "nearest_metro": "直通地下鉄なし。高速鉄道（清河駅→八達嶺長城駅、約20分）がおすすめ",
+        "hours": "06:30～16:30（ピーク）/ 07:00～16:00（オフ）",
+        "entry_method": "パスポート原本＋予約コードで登城口から入場",
+        "tips": [
+          "高速鉄道が最も便利で、本数も多い",
+          "北ルート（北八楼）はより急で壮観、南ルートは比較的緩やか",
+          "混雑を避けるため7:30前に到着しましょう",
+          "ケーブルカーとスライダーで体力を温存できる"
+        ]
+      },
+      "alternatives_en": [
+        {
+          "name": "Mutianyu Great Wall",
+          "reason": "More popular with foreign visitors; mature facilities, cable car, fewer crowds, great scenery"
+        },
+        {
+          "name": "Juyongguan Great Wall",
+          "reason": "Closer to the city, fewer tourists, good for a half-day trip"
+        }
+      ],
+      "alternatives_ja": [
+        {
+          "name": "慕田峪長城",
+          "reason": "外国人に人気で、施設が整いケーブルカーあり。人が少なく景色も良い"
+        },
+        {
+          "name": "居庸関長城",
+          "reason": "市内に近く、観光客が少ない。半日観光に最適"
+        }
+      ]
     },
     {
       "id": "tiantan",
@@ -170,7 +401,11 @@
         "requires_chinese_phone": false,
         "advance_booking_days": 1,
         "price_cny": 34,
-        "price_notes": "联票34元（含祈年殿、回音壁、圜丘），大门票10元"
+        "price_notes": "联票34元（含祈年殿、回音壁、圜丘），大门票10元",
+        "platform_en": "Temple of Heaven official site / Changyou Park official account / Ctrip",
+        "platform_ja": "天壇公園公式サイト / 暢游公園公式アカウント / 携程",
+        "price_notes_en": "Combined ticket ¥34 (Hall of Prayer, Echo Wall, Circular Mound); basic gate ticket ¥10",
+        "price_notes_ja": "共通券34元（祈年殿・回音壁・圜丘）、入場券10元"
       },
       "entry": {
         "location": "北京市东城区天坛东里甲1号",
@@ -199,7 +434,58 @@
         "https://www.beijing.gov.cn"
       ],
       "status": "✅ 可订",
-      "updated_at": "2026-09-27"
+      "updated_at": "2026-09-27",
+      "name_ja": "天壇",
+      "category_en": "Historic site / Religious",
+      "category_ja": "史跡/宗教",
+      "description_en": "Where Ming and Qing emperors offered sacrifices to heaven; a World Heritage Site and an architectural acoustic wonder.",
+      "description_ja": "明清時代の皇帝が天を祀った場所。世界遺産であり、建築音響の奇跡。",
+      "status_en": "✅ Bookable online",
+      "status_ja": "✅ 予約可",
+      "entry_en": {
+        "location": "No. 1 Tiantan Dongli, Dongcheng District, Beijing",
+        "nearest_metro": "Tiantan East Gate Station (Line 5) / Qiaowan Station (Line 7)",
+        "hours": "06:00-22:00 (park) / 08:00-17:30 (attractions, closed Mondays)",
+        "entry_method": "Enter with original passport + reservation code",
+        "tips": [
+          "Buy the combined ticket — the basic gate ticket misses the core buildings",
+          "The Hall of Prayer for Good Harvests is illuminated on Fri/Sat evenings and holidays — the night view is stunning",
+          "Try the Echo Wall acoustic wonder (needs two people)",
+          "Mornings are lively with local residents exercising — a unique atmosphere"
+        ]
+      },
+      "entry_ja": {
+        "location": "北京市東城区天壇東里甲1号",
+        "nearest_metro": "天壇東門駅（5号線）/ 橋湾駅（7号線）",
+        "hours": "06:00～22:00（公園）/ 08:00～17:30（施設、月曜休館）",
+        "entry_method": "パスポート原本＋予約コードで入園",
+        "tips": [
+          "共通チケットの購入をおすすめ。入場券のみでは主要建築を見逃す",
+          "祈年殿は金土の夜と祝日にライトアップされ、夜景が素晴らしい",
+          "回音壁の音響の不思議を体験（2人必要）",
+          "朝は地元の人の朝練で賑わい、独特の雰囲気"
+        ]
+      },
+      "alternatives_en": [
+        {
+          "name": "Ditan Park",
+          "reason": "The \"Earth\" counterpart of the Temple of Heaven, a Qing-era earth-worship site; ticket only ¥2"
+        },
+        {
+          "name": "Ritan / Yuetan",
+          "reason": "Quieter ritual sites, free or low-cost, good for a peaceful walk"
+        }
+      ],
+      "alternatives_ja": [
+        {
+          "name": "地壇公園",
+          "reason": "天壇の「地」版で、清代の地を祀る場所。チケットはわずか2元"
+        },
+        {
+          "name": "日壇/月壇",
+          "reason": "よりマイナーな祭祀遺跡。無料または低料金で、静かな散策に最適"
+        }
+      ]
     },
     {
       "id": "yiheyuan",
@@ -214,7 +500,11 @@
         "requires_chinese_phone": false,
         "advance_booking_days": 1,
         "price_cny": 30,
-        "price_notes": "旺季30元/淡季20元，联票60元（含德和园、文昌院等）"
+        "price_notes": "旺季30元/淡季20元，联票60元（含德和园、文昌院等）",
+        "platform_en": "Summer Palace official site / Changyou Park / Ctrip",
+        "platform_ja": "頤和園公式サイト / 暢游公園 / 携程",
+        "price_notes_en": "¥30 peak / ¥20 off-peak; combined ticket ¥60 (Dehe Garden, Wenchang Gallery, etc.)",
+        "price_notes_ja": "ピーク30元/オフ20元、共通券60元（徳和園・文昌院など）"
       },
       "entry": {
         "location": "北京市海淀区新建宫门路19号",
@@ -243,7 +533,58 @@
         "https://www.beijing.gov.cn"
       ],
       "status": "✅ 可订",
-      "updated_at": "2026-09-27"
+      "updated_at": "2026-09-27",
+      "name_ja": "頤和園",
+      "category_en": "Garden / Lake",
+      "category_ja": "庭園/湖",
+      "description_en": "China's largest surviving imperial garden, a World Heritage Site; Kunming Lake and Longevity Hill form a classic landscape.",
+      "description_ja": "中国最大級の現存する皇室庭園で、世界遺産。昆明湖と万寿山が織りなす古典的な景観。",
+      "status_en": "✅ Bookable online",
+      "status_ja": "✅ 予約可",
+      "entry_en": {
+        "location": "No. 19 Xinjiangongmen Road, Haidian District, Beijing",
+        "nearest_metro": "Beigongmen Station (Line 4) / Xiyuan Station (Line 4)",
+        "hours": "06:00-20:00 (peak) / 06:30-19:00 (off-peak)",
+        "entry_method": "Enter with original passport + reservation code",
+        "tips": [
+          "Recommended route: North Palace Gate → Longevity Hill → Kunming Lake → East Palace Gate exit",
+          "A boat ride is the best way to see Kunming Lake",
+          "The 728-m Long Corridor has over 14,000 painted scenes worth a close look",
+          "The Tower of Buddhist Incense requires an extra ticket and overlooks the whole park"
+        ]
+      },
+      "entry_ja": {
+        "location": "北京市海淀区新建宮門路19号",
+        "nearest_metro": "北宮門駅（4号線）/ 西苑駅（4号線）",
+        "hours": "06:00～20:00（ピーク）/ 06:30～19:00（オフ）",
+        "entry_method": "パスポート原本＋予約コードで入園",
+        "tips": [
+          "北宮門から入り→万寿山→昆明湖→東宮門から出るルートがおすすめ",
+          "遊覧船は昆明湖を巡る最良の方法",
+          "長廊（728m）には1万4000点以上の彩色画があり、じっくり見る価値あり",
+          "仏香閣は別途チケットが必要で、園内全体を見渡せる"
+        ]
+      },
+      "alternatives_en": [
+        {
+          "name": "Yuanmingyuan",
+          "reason": "Adjacent to the Summer Palace, famous for the Western-style ruins; ticket only ¥10"
+        },
+        {
+          "name": "Beihai Park",
+          "reason": "Beijing's oldest imperial garden in the city center; ¥5 ticket, White Dagoba is the landmark"
+        }
+      ],
+      "alternatives_ja": [
+        {
+          "name": "円明園",
+          "reason": "頤和園に隣接し、西洋楼跡地で有名。チケットはわずか10元"
+        },
+        {
+          "name": "北海公園",
+          "reason": "北京市中心部で最も古い皇室庭園。チケット5元、白塔がランドマーク"
+        }
+      ]
     },
     {
       "id": "yuanmingyuan",
@@ -258,7 +599,11 @@
         "requires_chinese_phone": false,
         "advance_booking_days": 0,
         "price_cny": 25,
-        "price_notes": "大门票10元，西洋楼遗址区15元，联票25元"
+        "price_notes": "大门票10元，西洋楼遗址区15元，联票25元",
+        "platform_en": "Yuanmingyuan Park official site / Changyou Park / on-site tickets",
+        "platform_ja": "円明園遺跡公園公式サイト / 暢游公園 / 現地購入",
+        "price_notes_en": "Basic gate ticket ¥10, Western-style ruins area ¥15, combined ¥25",
+        "price_notes_ja": "入場券10元、西洋楼跡地エリア15元、共通券25元"
       },
       "entry": {
         "location": "北京市海淀区清华西路28号",
@@ -287,7 +632,58 @@
         "https://www.beijing.gov.cn"
       ],
       "status": "✅ 可订",
-      "updated_at": "2026-09-27"
+      "updated_at": "2026-09-27",
+      "name_ja": "円明園",
+      "category_en": "Ruins / Garden",
+      "category_ja": "遺跡/庭園",
+      "description_en": "A Qing-dynasty imperial garden known as the \"Garden of Gardens\"; the Western-style ruins bear witness to history.",
+      "description_ja": "「万園の園」と称された清代の皇室庭園。西洋楼跡地が歴史を物語る。",
+      "status_en": "✅ Bookable online",
+      "status_ja": "✅ 予約可",
+      "entry_en": {
+        "location": "No. 28 Qinghua West Road, Haidian District, Beijing",
+        "nearest_metro": "Yuanmingyuan Station (Line 4) / Peking University East Gate Station (Line 4)",
+        "hours": "07:00-19:00 (peak) / 07:00-17:30 (off-peak)",
+        "entry_method": "Buy a passport ticket on site or reserve online to enter",
+        "tips": [
+          "The Western-style ruins area is the core sight and needs a separate ticket check",
+          "Rent an audio guide (¥20) for the historical background",
+          "Can be combined with the Summer Palace on the same day (about 2 km apart)",
+          "The Great Fountain ruins are a photo spot"
+        ]
+      },
+      "entry_ja": {
+        "location": "北京市海淀区清華西路28号",
+        "nearest_metro": "円明園駅（4号線）/ 北京大学東門駅（4号線）",
+        "hours": "07:00～19:00（ピーク）/ 07:00～17:30（オフ）",
+        "entry_method": "現地でパスポート購入、またはオンライン予約して入園",
+        "tips": [
+          "西洋楼跡地エリアが核心の見どころで、別途改札が必要",
+          "歴史背景を知るために音声ガイド（20元）のレンタルをおすすめ",
+          "頤和園と同日に回れる（約2kmの距離）",
+          "大水法遺跡は写真スポット"
+        ]
+      },
+      "alternatives_en": [
+        {
+          "name": "Summer Palace",
+          "reason": "A well-preserved imperial garden with richer natural scenery"
+        },
+        {
+          "name": "Prince Gong's Mansion",
+          "reason": "The largest Qing-dynasty prince's mansion; \"one mansion, half of Qing history\"; ¥40 ticket"
+        }
+      ],
+      "alternatives_ja": [
+        {
+          "name": "頤和園",
+          "reason": "保存状態の良い皇室庭園で、自然景観がより豊か"
+        },
+        {
+          "name": "恭王府",
+          "reason": "清代最大の王府。「恭王府ひとつで清代史の半分」、チケット40元"
+        }
+      ]
     }
   ]
 }

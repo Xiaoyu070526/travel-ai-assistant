@@ -18,11 +18,13 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 import os
+from datetime import date, datetime, timedelta
 
 from dotenv import load_dotenv
 import streamlit as st
 from src.utils.config import load_config
-from src.utils.content_loader import load_city_data, list_cities
+from src.utils import logging_config
+from src.utils.content_loader import display_name, load_city_data, list_cities
 from src.components.cards import (
     render_attraction_card,
     render_city_overview,
@@ -31,25 +33,36 @@ from src.components.cards import (
     render_quick_questions,
 )
 from src.api.llm_client import LLMClient, generate_guide
+from src.api.amap import AmapError, get_weather
+from src.utils.crowd import best_window_for, estimate_visit, crowd_label_for
 from src.utils.passport_check import check_passport_bookability
-from src.utils.faq_kb import match_faq
+from src.utils.faq_kb import match_faq, question_label
 from src.utils.errors import APIResponseError
 from src.utils.i18n import (
     SUPPORTED_LANGUAGES,
     language_display_name,
     output_language,
     faq_answer,
+    status_label,
     t,
+    weather_term,
 )
 from src.prompts.templates import (
     ARRIVAL_CHECKLIST_PROMPT,
     GUIDE_GENERATION_PROMPT,
     FALLBACK_PROMPT,
+    TRIP_PLANNER_PROMPT,
     format_attraction_data,
     format_city_data,
 )
 
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
+
+logger = logging_config.get_logger("src.app")
+
+#: 行程规划攻略需要较大输出 token：deepseek-flash 是推理模型，多日行程这类复杂任务
+#: 若 max_tokens 过小，思考（thinking）过程会耗尽预算导致正文为空，因此这里给足余量。
+TRIP_PLANNER_MAX_TOKENS = 16384
 
 
 # =============================================================================
@@ -75,13 +88,16 @@ def _get_lang() -> str:
     return (st.session_state.identity or {}).get("language", "en")
 
 
-def _deepseek_text(prompt: str) -> str:
-    """调用 DeepSeek 生成自由文本（FAQ 兜底 / 行前 Checklist / 文字攻略）。
+def _deepseek_text(prompt: str, max_tokens: int | None = None) -> str:
+    """调用 DeepSeek 生成自由文本（FAQ 兜底 / 行前 Checklist / 文字攻略 / 行程规划）。
 
     替代原通义千问 ``chat``。失败时抛出底层异常，由调用方 try/except 统一兜底。
+
+    :param max_tokens: 可选，传给 :meth:`LLMClient.complete` 的输出 token 上限；
+        行程规划这类复杂任务需传较大值（见 TRIP_PLANNER_MAX_TOKENS）。
     """
     system = "你是一名专业、谨慎的中国入境旅游助手，请用简洁、清晰、可执行的语言回答。"
-    return LLMClient().complete(system=system, user=prompt)
+    return LLMClient().complete(system=system, user=prompt, max_tokens=max_tokens)
 
 
 # =============================================================================
@@ -180,9 +196,9 @@ def page_city():
 
     st.session_state.selected_city = city_choice
 
-    city_data = load_city_data(city_choice)
+    city_data = load_city_data(city_choice, lang=lang)
     if not city_data:
-        st.error(f"无法加载 {city_choice} 的数据。")
+        st.error(t("city_load_failed", lang, city=city_choice))
         return
 
     # 城市概览
@@ -226,17 +242,17 @@ def page_guide():
         st.rerun()
         return
 
-    st.header(t("guide_header_fmt", lang, name=attr["name"]))
+    st.header(t("guide_header_fmt", lang, name=display_name(attr, lang)))
 
     # 基础信息卡片
     cols = st.columns([2, 1])
     with cols[0]:
-        st.subheader(f"{attr['name']} ({attr['name_en']})")
+        st.subheader(display_name(attr, lang))
         st.write(attr["description"])
     with cols[1]:
-        status = attr.get("status", "未知")
+        status = attr.get("status", "")
         status_color = {"✅ 可订": "green", "⚠️ 需人工": "orange", "❌ 不可": "red"}.get(status, "gray")
-        st.markdown(f"<h2 style='color:{status_color};text-align:center;'>{status}</h2>", unsafe_allow_html=True)
+        st.markdown(f"<h2 style='color:{status_color};text-align:center;'>{status_label(status, lang)}</h2>", unsafe_allow_html=True)
 
     # 护照校验动态判断
     st.subheader(t("guide_bookability", lang))
@@ -250,7 +266,8 @@ def page_guide():
     city_choice = st.session_state.selected_city
     check_result = check_passport_bookability(
         city_choice, attr["id"],
-        has_chinese_phone=identity.get("has_chinese_phone", False)
+        has_chinese_phone=identity.get("has_chinese_phone", False),
+        lang=lang,
     )
 
     # 显示动态校验结果
@@ -258,7 +275,7 @@ def page_guide():
     with check_cols[0]:
         check_status = check_result["status"]
         check_color = {"✅ 可订": "green", "⚠️ 需人工": "orange", "❌ 不可": "red"}.get(check_status, "gray")
-        st.markdown(f"<h1 style='color:{check_color};text-align:center;'>{check_status}</h1>", unsafe_allow_html=True)
+        st.markdown(f"<h1 style='color:{check_color};text-align:center;'>{check_result['status_label']}</h1>", unsafe_allow_html=True)
     with check_cols[1]:
         st.write(t("guide_basis", lang, reason=check_result['reason']))
         st.info(t("guide_action", lang, action=check_result['action']))
@@ -268,9 +285,9 @@ def page_guide():
     st.subheader(t("guide_passport_info", lang))
     p = attr["passport"]
     info_cols = st.columns(4)
-    info_cols[0].metric(t("guide_online", lang), "✅ 是" if p["bookable_online"] else "❌ 否")
-    info_cols[1].metric(t("guide_passport_ok", lang), "✅ 是" if p["passport_accepted"] else "❌ 否")
-    info_cols[2].metric(t("guide_cn_phone", lang), "是" if p["requires_chinese_phone"] else "否")
+    info_cols[0].metric(t("guide_online", lang), "✅ " + t("card_yes", lang) if p["bookable_online"] else "❌ " + t("card_no", lang))
+    info_cols[1].metric(t("guide_passport_ok", lang), "✅ " + t("card_yes", lang) if p["passport_accepted"] else "❌ " + t("card_no", lang))
+    info_cols[2].metric(t("guide_cn_phone", lang), t("card_yes", lang) if p["requires_chinese_phone"] else t("card_no", lang))
     info_cols[3].metric(t("guide_ticket_price", lang), f"¥{p['price_cny']}")
 
     st.write(t("guide_platform_fmt", lang, platform=p['platform']))
@@ -314,16 +331,237 @@ def page_guide():
         with st.spinner("Generating..."):
             guide = _generate_guide(attr, identity)
             if guide:
-                st.success("Guide ready!")
+                st.success(t("guide_ready", lang))
                 st.markdown(guide)
             else:
-                st.error("Guide generation failed. Check API config.")
+                st.error(t("guide_gen_failed", lang))
 
     # 返回按钮
     if st.button(t("guide_back_btn", lang)):
         st.session_state.selected_attraction = None
         st.session_state.page = "city"
         st.rerun()
+
+
+# =============================================================================
+# 页面 3.5：行程规划（页面三：天气/人流/排队 + 勾选景点 → 一日或几日攻略）
+# =============================================================================
+
+def _parse_arrival_date(value) -> date:
+    """把身份采集的到达日期文本转 date；解析失败默认一周后。"""
+    if isinstance(value, datetime):
+        return value.date()
+    if isinstance(value, date):
+        return value
+    if isinstance(value, str):
+        text = value.strip()
+        for fmt in ("%Y.%m.%d", "%Y-%m-%d", "%Y/%m/%d", "%Y年%m月%d日"):
+            try:
+                return datetime.strptime(text, fmt).date()
+            except ValueError:
+                continue
+    return date.today() + timedelta(days=7)
+
+
+def _fetch_weather_safe(city_key: str, lang: str) -> dict | None:
+    """拉取高德天气预报；失败只降级提示，不中断页面，人流预估照常展示。
+
+    高德天气失败会按「未配置 Key / 网络请求失败 / 高德错误码 / 数据解析失败」
+    给出具体原因（见 :mod:`src.api.amap`），这里不泄露任何 Key，也不让页面崩溃。
+    """
+    try:
+        return get_weather(city_key, extensions="all")
+    except AmapError as exc:
+        logger.warning("高德天气查询失败：%s", exc)
+        st.warning(f"{t('planner_weather_fail', lang)}\n\n{exc}")
+        return None
+    except Exception as exc:  # noqa: BLE001 —— 兜底，绝不因天气失败中断页面
+        logger.exception("高德天气查询发生未预期异常")
+        st.warning(t("planner_weather_fail", lang))
+        return None
+
+
+def _render_weather(forecast: dict | None, visit_date: date, days: int, lang: str) -> None:
+    """渲染高德天气预报表格，并标注出游日期是否在预报范围内。"""
+    casts = (forecast or {}).get("casts", [])
+    if not casts:
+        st.info(t("planner_weather_outofrange", lang))
+        return
+    rows = []
+    for c in casts:
+        rows.append({
+            "Date": c.get("date", ""),
+            "Day": weather_term(c.get("dayweather", ""), lang),
+            "Night": weather_term(c.get("nightweather", ""), lang),
+            "Temp": f"{c.get('nighttemp', '?')}~{c.get('daytemp', '?')}°C",
+            "Wind": f"{weather_term(c.get('daywind', ''), lang)} {c.get('daypower', '')}",
+        })
+    st.dataframe(rows, hide_index=True, use_container_width=True)
+    covered = any(
+        c.get("date") == (visit_date + timedelta(days=i)).strftime("%Y-%m-%d")
+        for i in range(days)
+        for c in casts
+    )
+    if covered:
+        st.success(t("planner_weather_covered", lang))
+    else:
+        st.info(t("planner_weather_outofrange", lang))
+
+
+def _group_by_days(selected: list, visit_date: date, days: int, max_hours: float = 6.5) -> list:
+    """按「每天约 6.5 小时游玩」把勾选景点贪心分配到各天。"""
+    groups, cur, used = [], [], 0.0
+    for attr in selected:
+        hours = estimate_visit(attr, visit_date)["duration_hours"]
+        if cur and used + hours > max_hours:
+            groups.append(cur)
+            cur, used = [], 0.0
+        cur.append(attr)
+        used += hours
+    if cur:
+        groups.append(cur)
+    if len(groups) > days and groups:
+        # 天数超限时并入最后一天，避免丢弃用户勾选的景点
+        groups[days - 1].extend([a for g in groups[days:] for a in g])
+        groups = groups[:days]
+    return groups
+
+
+def page_planner():
+    identity = st.session_state.identity
+    lang = _get_lang()
+    st.header(t("planner_title", lang))
+    st.caption(t("planner_caption", lang))
+
+    city_choice = st.session_state.selected_city
+    if not city_choice:
+        st.warning(t("planner_need_city", lang))
+        if st.button(t("planner_go_city", lang)):
+            st.session_state.page = "city"
+            st.rerun()
+        return
+
+    city_data = load_city_data(city_choice, lang=lang)
+    if not city_data:
+        st.error(t("city_no_data", lang))
+        return
+    attractions = city_data["attractions"]
+
+    # 1) 日期与天数
+    default_date = _parse_arrival_date(identity.get("arrival_date"))
+    if default_date < date.today():
+        default_date = date.today() + timedelta(days=7)
+    visit_date = st.date_input(
+        t("planner_date", lang),
+        value=default_date,
+        min_value=date.today(),
+    )
+    days = st.slider(t("planner_days", lang), 1, 3, 1)
+
+    # 2) 勾选景点
+    st.subheader(t("planner_select_title", lang))
+    selected = []
+    for i, attr in enumerate(attractions):
+        label = display_name(attr, lang)
+        if st.checkbox(label, value=(i < 3), key=f"planner_chk_{attr['id']}"):
+            selected.append(attr)
+    if not selected:
+        st.info(t("planner_select_empty", lang))
+        return
+
+    # 3) 天气（高德真实预报）+ 人流/排队/时长（启发式预估）
+    if st.button(t("planner_weather_btn", lang), type="secondary"):
+        st.session_state["planner_weather"] = _fetch_weather_safe(city_choice, lang)
+
+    st.subheader(t("planner_forecast_title", lang))
+    weather = st.session_state.get("planner_weather")
+    if weather:
+        _render_weather(weather, visit_date, days, lang)
+    else:
+        st.info(t("planner_weather_hint", lang))
+
+    st.subheader(t("planner_crowd_title", lang))
+    rows = []
+    for attr in selected:
+        est = estimate_visit(attr, visit_date)
+        rows.append({
+            t("planner_col_attr", lang): display_name(attr, lang),
+            t("planner_col_duration", lang): f"≈{est['duration_hours']}h",
+            t("planner_col_crowd", lang): crowd_label_for(est, lang),
+            t("planner_col_queue", lang): f"≈{est['queue_minutes']} min",
+            t("planner_col_window", lang): best_window_for(est, lang),
+        })
+    st.dataframe(rows, hide_index=True, use_container_width=True)
+    st.caption(t("planner_estimate_note", lang))
+
+    # 4) 生成一日/几日攻略
+    st.divider()
+    if st.button(t("planner_gen_btn", lang), type="primary"):
+        with st.spinner(t("planner_gen_spinner", lang)):
+            _generate_trip_plan(city_data, selected, visit_date, days, weather, identity, lang)
+
+
+def _generate_trip_plan(city_data: dict, selected: list, visit_date: date,
+                        days: int, weather: dict | None, identity: dict, lang: str) -> None:
+    """按天分组勾选景点，注入天气/人流/排队数据，调 DeepSeek 生成时间排列的攻略。"""
+    groups = _group_by_days(selected, visit_date, days)
+    if len(groups) > 1:
+        st.caption(t("planner_group_note", lang))
+
+    # 天气摘要（预报内用真实数据，超出则提示按季节估算）
+    casts = (weather or {}).get("casts", [])
+    weather_lines = []
+    for i in range(days):
+        d = visit_date + timedelta(days=i)
+        cast = next((c for c in casts if c.get("date") == d.strftime("%Y-%m-%d")), None)
+        if cast:
+            weather_lines.append(
+                f"- {d.strftime('%Y-%m-%d')}: {weather_term(cast.get('dayweather'), 'en')} / {weather_term(cast.get('nightweather'), 'en')}, "
+                f"{cast.get('nighttemp')}~{cast.get('daytemp')}°C, wind {weather_term(cast.get('daywind'), 'en')} {cast.get('daypower')}"
+            )
+        else:
+            weather_lines.append(
+                f"- {d.strftime('%Y-%m-%d')}: beyond forecast window — use seasonal norms and say so"
+            )
+
+    # 景点数据块（含预估 crowd/queue/duration 与预订状态）
+    attr_lines = []
+    for gi, group in enumerate(groups, start=1):
+        attr_lines.append(f"[Day {gi}]")
+        for attr in group:
+            est = estimate_visit(attr, visit_date)
+            booking = attr.get("passport", {}).get("bookable_online")
+            attr_lines.append(
+                f"- {display_name(attr, 'en')} | duration ≈{est['duration_hours']}h | "
+                f"crowd {est['crowd_label_en']} | queue ≈{est['queue_minutes']}min | "
+                f"best: {best_window_for(est, 'en')} | hours: {attr.get('entry', {}).get('hours', 'unknown')} | "
+                f"booking: {'online-OK' if booking else 'manual/unknown'}"
+            )
+
+    city_name = city_data["city"].get("name_en") or city_data["city"]["name"]
+    date_range = (
+        f"{visit_date.strftime('%Y-%m-%d')} ~ "
+        f"{(visit_date + timedelta(days=days - 1)).strftime('%Y-%m-%d')}"
+    )
+    prompt = TRIP_PLANNER_PROMPT.format(
+        days=days,
+        nationality=identity.get("nationality", "unknown"),
+        city=city_name,
+        date_range=date_range,
+        weather_summary="\n".join(weather_lines),
+        attractions_block="\n".join(attr_lines),
+        output_language=output_language(lang),
+    )
+
+    try:
+        plan = _deepseek_text(prompt, max_tokens=TRIP_PLANNER_MAX_TOKENS)
+        if plan.strip():
+            st.success(t("planner_gen_done", lang))
+            st.markdown(plan)
+        else:
+            st.warning(t("city_checklist_empty", lang))
+    except Exception as e:
+        st.error(t("chat_llm_fail", lang, error=e))
 
 
 # =============================================================================
@@ -364,9 +602,9 @@ def _ask_faq(question: str, identity: dict) -> None:
     if hit:
         en_answer = faq_answer(hit["id"], lang)
         if en_answer:
-            answer = f"🤖 **{hit['question']}**\n\n{en_answer}"
+            answer = f"🤖 **{question_label(hit, lang)}**\n\n{en_answer}"
         else:
-            answer = f"🤖 **{hit['question']}**\n\n{hit['answer']}"
+            answer = f"🤖 **{question_label(hit, lang)}**\n\n{hit['answer']}"
         st.session_state.chat_history.append({"role": "assistant", "content": answer})
         return
 
@@ -494,7 +732,7 @@ def _build_guide_context(attr: dict, identity: dict, city_choice: str) -> dict:
 
     # 城市中文名（load_city_data 里是 city.name）
     city_name = city_choice
-    city_data = load_city_data(city_choice)
+    city_data = load_city_data(city_choice, lang=identity.get("language") or "en")
     if city_data and city_data.get("city", {}).get("name"):
         city_name = city_data["city"]["name"]
 
@@ -538,11 +776,11 @@ def _handle_faq(question: str, identity: dict) -> None:
     if hit:
         en_answer = faq_answer(hit["id"], lang)
         if en_answer:
-            st.write("**AI：**")
-            st.markdown(f"**{hit['question']}**\n\n{en_answer}")
+            st.write(t("ai_label", lang))
+            st.markdown(f"**{question_label(hit, lang)}**\n\n{en_answer}")
         else:
-            st.write("**AI：**")
-            st.markdown(f"**{hit['question']}**\n\n{hit['answer']}")
+            st.write(t("ai_label", lang))
+            st.markdown(f"**{question_label(hit, lang)}**\n\n{hit['answer']}")
         return
     try:
         prompt = FALLBACK_PROMPT.format(
@@ -554,7 +792,7 @@ def _handle_faq(question: str, identity: dict) -> None:
             faq_reference="（暂无本地知识库命中，请基于常识给出稳妥建议，不编造具体政策）",
         )
         answer = _deepseek_text(prompt)
-        st.write("**AI：**")
+        st.write(t("ai_label", lang))
         st.write(answer)
     except Exception as e:
         st.error(t("chat_llm_fail", lang, error=e))
@@ -600,6 +838,9 @@ def main():
     if st.sidebar.button(t("sidebar_nav_city", lang)):
         st.session_state.page = "city"
         st.rerun()
+    if st.sidebar.button(t("sidebar_nav_planner", lang)):
+        st.session_state.page = "planner"
+        st.rerun()
     if st.sidebar.button(t("sidebar_nav_chat", lang)):
         st.session_state.page = "chat"
         st.rerun()
@@ -608,8 +849,21 @@ def main():
     if st.session_state.identity:
         st.sidebar.divider()
         st.sidebar.write(t("sidebar_identity", lang))
+        _level_keys = {
+            "完全不会": "cl_none", "基础（能听懂简单词汇）": "cl_basic",
+            "会话级（日常交流）": "cl_conversational", "流利": "cl_fluent",
+        }
+        _purpose_keys = {
+            "旅游": "purpose_tourism", "商务": "purpose_business",
+            "探亲访友": "purpose_visit", "留学/学习": "purpose_study", "其他": "purpose_other",
+        }
         for k, v in st.session_state.identity.items():
-            st.sidebar.write(f"- {k}: {v}")
+            label = t(f"identity_{k}", lang)
+            if k == "chinese_level":
+                v = t(_level_keys.get(v, "cl_none"), lang)
+            elif k == "purpose":
+                v = t(_purpose_keys.get(v, "purpose_other"), lang)
+            st.sidebar.write(f"- {label}: {v}")
 
     # 页面路由
     page = st.session_state.page
@@ -617,6 +871,8 @@ def main():
         page_identity()
     elif page == "city":
         page_city()
+    elif page == "planner":
+        page_planner()
     elif page == "guide":
         page_guide()
     elif page == "chat":

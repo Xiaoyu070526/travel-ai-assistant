@@ -190,7 +190,7 @@ def format_city_data(city_dict: dict[str, Any]) -> str:
         "推荐 App：",
     ]
     for app in city_dict['city']['apps']:
-        req = " (必需)" if app['required'] else " (可选)"
+        req = " (必需)" if app.get("required", False) else " (可选)"
         lines.append(f"  - {app['name']}{req}：{app['purpose']}")
 
     # 落地必备（调研驱动：SIM/支付/酒店/打车/登记/交通）
@@ -250,3 +250,24 @@ def format_attraction_data(attr: dict[str, Any]) -> str:
             lines.append(f"  - {alt['name']}：{alt['reason']}")
 
     return "\n".join(lines)
+
+
+TRIP_PLANNER_PROMPT = """You are a professional China inbound-travel planner.
+
+Create a {days}-day itinerary for a traveler from {nationality} visiting {city} during {date_range}.
+
+Weather forecast (from Amap; beyond the forecast window use seasonal norms and say so):
+{weather_summary}
+
+Selected attractions (name / estimated visit duration / estimated crowd / estimated queue / best visit window / opening hours / booking status):
+{attractions_block}
+
+Requirements:
+1. Arrange attractions day by day with SPECIFIC TIME SLOTS (e.g., 08:30-11:30), ordered to minimize backtracking between districts.
+2. Use the estimated crowd levels, queue times and best visit windows to justify the ordering (e.g., busiest attraction at opening time).
+3. Include lunch/dinner suggestions near the stops and brief transit hints between them.
+4. Respect opening hours and reservation requirements from the booking status.
+5. Do NOT simply list attractions one by one — produce a time-ordered, readable plan that flows like a schedule.
+6. Add one practical tip per day (weather-aware clothing, ticket booking, crowd avoidance).
+7. Write EVERYTHING in {output_language}.
+"""

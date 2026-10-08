@@ -139,12 +139,16 @@ FAQ_KB: list[dict] = [
 
 
 def match_faq(question: str) -> Optional[dict]:
-    """关键词匹配本地 FAQ，命中返回条目，未命中返回 None"""
+    """关键词匹配本地 FAQ，命中返回条目，未命中返回 None。
+
+    中文/英文关键词来自 ``keywords``，日文关键词来自 ``FAQ_KEYWORDS_JA``。
+    """
     q = question.lower()
     best: Optional[dict] = None
     best_score = 0
     for item in FAQ_KB:
-        score = sum(1 for kw in item["keywords"] if kw.lower() in q)
+        keywords = list(item["keywords"]) + FAQ_KEYWORDS_JA.get(item["id"], [])
+        score = sum(1 for kw in keywords if kw.lower() in q)
         if score > best_score:
             best_score = score
             best = item
@@ -154,26 +158,73 @@ def match_faq(question: str) -> Optional[dict]:
     return None
 
 
+def question_label(item: dict, lang: str = "zh") -> str:
+    """按界面语言返回 FAQ 条目的问题标题。"""
+    if lang == "ja":
+        return FAQ_QUESTION_JA.get(item["id"], item["question"])
+    if lang == "en":
+        return FAQ_QUESTION_EN.get(item["id"], item["question"])
+    return item["question"]
+
+
+#: 快捷提问按钮固定展示的 6 个条目（顺序与界面一致）
+_QUICK_IDS = [
+    "hotel_refuse", "metro_ticket", "network_down",
+    "payment_fail", "police_registration", "train_ticket",
+]
+
+#: FAQ id -> 英文问题标题
+FAQ_QUESTION_EN: dict[str, str] = {
+    "hotel_refuse": "Hotel refuses foreign passport, what to do?",
+    "metro_ticket": "How to buy metro ticket with passport?",
+    "network_down": "No network / SIM card issues?",
+    "payment_fail": "Alipay card binding failed?",
+    "police_registration": "Police registration for accommodation?",
+    "attraction_reserve": "How to book attractions on Chinese-only platforms?",
+    "taxi_ride": "How to hail a taxi / ride-hailing?",
+    "train_ticket": "How to buy train ticket with passport?",
+    "diet": "How to find food that meets dietary needs?",
+    "translation": "Language barrier / can't read signs?",
+}
+
+#: FAQ id -> 日文问题标题
+FAQ_QUESTION_JA: dict[str, str] = {
+    "hotel_refuse": "ホテルが外国パスポートを拒否したらどうする？",
+    "metro_ticket": "パスポートで地下鉄のチケットを買うには？",
+    "network_down": "ネットワークがない / SIMカードの問題？",
+    "payment_fail": "Alipayのカード紐付けに失敗したら？",
+    "police_registration": "宿泊の警察登録は？",
+    "attraction_reserve": "中国語のみのプラットフォームで観光地を予約するには？",
+    "taxi_ride": "タクシー/配車を呼ぶには？",
+    "train_ticket": "パスポートで電車のチケットを買うには？",
+    "diet": "食事制限に合う食べ物を見つけるには？",
+    "translation": "言葉の壁 / 標識が読めない？",
+}
+
+#: FAQ id -> 日文命中关键词（用于 match_faq 的日文匹配）
+FAQ_KEYWORDS_JA: dict[str, list[str]] = {
+    "hotel_refuse": ["ホテル", "拒否"],
+    "metro_ticket": ["地下鉄"],
+    "network_down": ["ネットワーク"],
+    "payment_fail": ["紐付け"],
+    "police_registration": ["警察", "登録"],
+    "attraction_reserve": ["観光地"],
+    "taxi_ride": ["タクシー", "配車"],
+    "train_ticket": ["電車"],
+    "diet": ["食事", "アレルギー"],
+    "translation": ["翻訳", "言葉"],
+}
+
+
 def quick_questions(lang: str = "zh") -> list[str]:
     """返回快捷提问列表（用于 UI 展示）
 
     Args:
-        lang: 界面语言（en 时返回英文问题；其余返回中文问题）。
+        lang: 界面语言（zh / en / ja；其它语言回退英文问题）。
     """
+    by_id = {item["id"]: item for item in FAQ_KB}
+    if lang == "ja":
+        return [FAQ_QUESTION_JA.get(i, by_id[i]["question"]) for i in _QUICK_IDS]
     if lang == "en":
-        return [
-            "Hotel refuses foreign passport, what to do?",
-            "How to buy metro ticket with passport?",
-            "No network / SIM card issues?",
-            "Alipay card binding failed?",
-            "Police registration for accommodation?",
-            "How to buy train ticket with passport?",
-        ]
-    return [
-        "酒店说不能接外籍护照怎么办",
-        "地铁怎么用护照买票",
-        "网络断了怎么办",
-        "支付宝绑卡失败了怎么办",
-        "公安住宿登记怎么办",
-        "高铁票怎么用护照买",
-    ]
+        return [FAQ_QUESTION_EN.get(i, by_id[i]["question"]) for i in _QUICK_IDS]
+    return [by_id[i]["question"] for i in _QUICK_IDS]
